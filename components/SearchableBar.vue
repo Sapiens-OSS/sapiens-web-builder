@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-1 items-stretch overflow-hidden">
-        <aside class="hidden w-96 overflow-y-auto border-r border-gray-200 lg:block">
+        <aside class="hidden w-96 overflow-y-auto border-r border-gray-200 dark:border-gray-700 lg:block">
             <div class="m-4">
                 <div class="relative mt-1 flex items-center">
                     <input type="text" name="search" id="search" v-model="search" placeholder="Search items..."
-                        class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm" />
+                        class="block w-full rounded-md background text-tinted border-gray-300 dark:border-slate-600 pr-12 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm" />
                     <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
                         <MagnifyingGlassIcon
                             class="inline-flex items-center font-sans text-sm font-medium text-gray-400 w-6 h-6" />
@@ -14,13 +14,13 @@
             <nav class="overflow-y-auto" aria-label="Directory">
                 <div v-for="letter in Object.keys(directory)" :key="letter" class="relative">
                     <div
-                        class="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
-                        <h3>{{ letter }}</h3>
+                        class="sticky top-0 z-10 border-t border-b border-gray-200 dark:border-gray-700 background-tinted px-6 py-1 text-sm font-medium text-gray-500">
+                        <h3 class="text">{{ letter }}</h3>
                     </div>
                     <ul role="list" class="relative z-0 divide-y divide-gray-200">
-                        <li v-for="item in directory[letter]" :key="item.index" class="bg-white">
+                        <li v-for="item in directory[letter]" :key="item.index" class="background">
                             <div
-                                :class="[selected == item.index ? 'bg-gray-200' : 'hover:bg-gray-100', 'relative flex items-center space-x-3 px-6 py-5 ']">
+                                :class="[selected == item.index ? 'background-tinted' : 'hover:bg-gray-100 dark:hover:bg-gray-800', 'relative flex items-center space-x-3 px-6 py-5 ']">
                                 <div class="flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full" :src="item.icon" alt="" />
                                 </div>
@@ -29,8 +29,8 @@
                                         @click="selected == item.index ? selected = -1 : selected = item.index">
                                         <!-- Extend touch target to entire panel -->
                                         <span class="absolute inset-0" aria-hidden="true" />
-                                        <p class="text-sm font-medium text-gray-900">{{ item.name }}</p>
-                                        <p class="truncate text-sm text-gray-500">{{ item.tag }}</p>
+                                        <p class="text-sm font-medium text">{{ item.name }}</p>
+                                        <p class="truncate text-sm text-tinted">{{ item.tag }}</p>
                                     </button>
                                 </div>
                             </div>
@@ -99,6 +99,4 @@ function sortOnKeys(dict) {
 
     return tempDict;
 }
-
-console.log(directory.value);
 </script>

@@ -11,6 +11,16 @@ export const useMod = () => useState('mod', () => [
     },
     [
         // Materials
+        {
+            name: "An Example Material",
+            icon: "",
+            tag: "A tag for this material",
+        },
+        {
+            name: "Yet Another Example Material",
+            icon: "",
+            tag: "Another tag for a material",
+        },
     ],
     [
         // Objects

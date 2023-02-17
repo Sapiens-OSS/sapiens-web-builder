@@ -1,6 +1,6 @@
 <template>
   <LoadingIndictator />
-  <div class="flex h-screen">
+  <div class="flex h-screen background">
     <!-- Narrow sidebar -->
     <div class="hidden w-28 overflow-y-auto bg-slate-700 md:block">
       <div class="flex w-full flex-col items-center py-6">
@@ -8,7 +8,7 @@
           <img
             class="h-8 w-auto"
             src="@/assets/img/logo.png"
-            alt="Your Company"
+            alt="Sapiens Web Builder"
           />
         </div>
         <div class="mt-6 w-full flex-1 space-y-1 px-2">
@@ -95,8 +95,8 @@
               <div class="flex flex-shrink-0 items-center px-4">
                 <img
                   class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=white"
-                  alt="Your Company"
+                  src="@/assets/img/logo.png"
+                  alt="Sapiens Web Builder"
                 />
               </div>
               <div class="mt-5 h-0 flex-1 overflow-y-auto px-2">
@@ -139,10 +139,10 @@
     </TransitionRoot>
 
     <!-- Content area -->
-    <div class="flex flex-1 flex-col overflow-hidden bg-slate-50">
+    <div class="flex flex-1 flex-col overflow-hidden">
       <header class="w-full">
         <div
-          class="relative z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white shadow-sm"
+          class="relative z-10 flex h-16 flex-shrink-0 border-b border-gray-200 dark:border-gray-600 background-tinted shadow-sm"
         >
           <button
             type="button"
@@ -153,7 +153,7 @@
             <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
           </button>
           <div class="mx-auto flex items-center">
-            <h3 class="text-lg font-medium leading-6 text-gray-900">
+            <h3 class="text-lg font-medium leading-6 text">
               {{ sidebarNavigation[selectedTab].name }}
             </h3>
           </div>

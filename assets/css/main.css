@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.background {
+    background-color: #FFF;
+}
+
+.background-tinted {
+    background-color: #f3f4f6;
+}
+
+.text, .text::placeholder {
+    color: #1f2937;
+}
+
+.text-tinted, .text-tinted::placeholder {
+    color: #6b7280;
+}
+
+@media (prefers-color-scheme: dark) {
+    .background {
+        background-color: #111827;
+    }
+    .background-tinted {
+        background-color: #1f2937;
+    }
+    .text, .text::placeholder {
+        color: #FFF;
+    }
+    .text-tinted, .text-tinted::placeholder {
+        color: #9ca3af;
+    }
+}
