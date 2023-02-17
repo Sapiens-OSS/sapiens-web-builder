@@ -1,7 +1,11 @@
 <template>
-  <SearchableBar :values="materials" :structure="structure" v-slot="slotProps">
+  <SearchableLayout
+    :values="materials"
+    :structure="structure"
+    v-slot="slotProps"
+  >
     <h1>{{ slotProps.selected }}</h1>
-  </SearchableBar>
+  </SearchableLayout>
 </template>
 
 <script setup>

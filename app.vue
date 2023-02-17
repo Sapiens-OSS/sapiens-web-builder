@@ -2,7 +2,9 @@
   <LoadingIndictator />
   <div class="flex h-screen background">
     <!-- Narrow sidebar -->
-    <div class="hidden w-28 overflow-y-auto bg-slate-700 dark:bg-slate-900 dark:border-r dark:border-gray-700 md:block">
+    <div
+      class="hidden w-28 overflow-y-auto bg-slate-700 dark:bg-slate-900 dark:border-r dark:border-gray-700 md:block"
+    >
       <div class="flex w-full flex-col items-center py-6">
         <div class="flex flex-shrink-0 items-center">
           <img
@@ -56,7 +58,9 @@
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <div class="fixed inset-0 bg-gray-600 dark:bg-gray-900 bg-opacity-75" />
+          <div
+            class="fixed inset-0 bg-gray-600 dark:bg-gray-900 bg-opacity-75"
+          />
         </TransitionChild>
 
         <div class="fixed inset-0 z-40 flex">
@@ -102,17 +106,18 @@
               <div class="mt-5 h-0 flex-1 overflow-y-auto px-2">
                 <nav class="flex h-full flex-col">
                   <div class="space-y-1">
-                    <a
+                    <NuxtLink
                       v-for="(item, i) in sidebarNavigation"
                       :key="item.name"
-                      :href="item.href"
+                      :to="{ name: item.href }"
                       :class="[
                         selectedTab == i
-                          ? 'bg-slate-800 text-white'
+                          ? 'bg-slate-800 dark:bg-slate-900 text-white'
                           : 'text-slate-100 hover:bg-slate-800 hover:text-white',
                         'group py-2 px-3 rounded-md flex items-center text-sm font-medium',
                       ]"
                       :aria-current="selectedTab == i ? 'page' : undefined"
+                      @click="mobileMenuOpen = false"
                     >
                       <component
                         :is="item.icon"
@@ -125,7 +130,7 @@
                         aria-hidden="true"
                       />
                       <span>{{ item.name }}</span>
-                    </a>
+                    </NuxtLink>
                   </div>
                 </nav>
               </div>
