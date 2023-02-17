@@ -10,6 +10,10 @@
     background-color: #f3f4f6;
 }
 
+.background-selected {
+    background-color: #e5e7eb;
+}
+
 .text, .text::placeholder {
     color: #1f2937;
 }
@@ -24,6 +28,9 @@
     }
     .background-tinted {
         background-color: #1f2937;
+    }
+    .background-selected {
+        background-color: #374151;
     }
     .text, .text::placeholder {
         color: #FFF;

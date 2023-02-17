@@ -2,7 +2,7 @@
   <LoadingIndictator />
   <div class="flex h-screen background">
     <!-- Narrow sidebar -->
-    <div class="hidden w-28 overflow-y-auto bg-slate-700 md:block">
+    <div class="hidden w-28 overflow-y-auto bg-slate-700 dark:bg-slate-900 dark:border-r dark:border-gray-700 md:block">
       <div class="flex w-full flex-col items-center py-6">
         <div class="flex flex-shrink-0 items-center">
           <img
@@ -56,7 +56,7 @@
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <div class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          <div class="fixed inset-0 bg-gray-600 dark:bg-gray-900 bg-opacity-75" />
         </TransitionChild>
 
         <div class="fixed inset-0 z-40 flex">
@@ -70,7 +70,7 @@
             leave-to="-translate-x-full"
           >
             <DialogPanel
-              class="relative flex w-full max-w-xs flex-1 flex-col bg-slate-700 pt-5 pb-4"
+              class="relative flex w-full max-w-xs flex-1 flex-col bg-slate-700 dark:bg-slate-800 pt-5 pb-4"
             >
               <TransitionChild
                 as="template"
@@ -146,7 +146,7 @@
         >
           <button
             type="button"
-            class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
+            class="border-r border-gray-200 dark:border-gray-600 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
             @click="mobileMenuOpen = true"
           >
             <span class="sr-only">Open sidebar</span>

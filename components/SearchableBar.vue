@@ -20,7 +20,7 @@
                     <ul role="list" class="relative z-0 divide-y divide-gray-200">
                         <li v-for="item in directory[letter]" :key="item.index" class="background">
                             <div
-                                :class="[selected == item.index ? 'background-tinted' : 'hover:bg-gray-100 dark:hover:bg-gray-800', 'relative flex items-center space-x-3 px-6 py-5 ']">
+                                :class="[selected == item.index ? 'background-selected' : 'hover:bg-gray-100 dark:hover:bg-gray-800', 'relative flex items-center space-x-3 px-6 py-5 ']">
                                 <div class="flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full" :src="item.icon" alt="" />
                                 </div>
