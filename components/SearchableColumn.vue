@@ -30,7 +30,7 @@
       >
         <h3 class="text">{{ letter }}</h3>
       </div>
-      <ul role="list" class="relative z-0 divide-y divide-gray-200">
+      <ul role="list" class="relative z-0">
         <li
           v-for="item in props.directory[letter]"
           :key="item.index"

@@ -13,7 +13,8 @@ export default defineNuxtConfig({
                 { rel: 'stylesheet', href: 'https://rsms.me/inter/inter.css' },
                 { rel: 'icon', href: '/favicon.ico' }
             ],
-            title: "Sapiens Mod Web Builder",
+            title: "Hammerstone Web Builder",
         }
     },
+    ssr: false,
 })

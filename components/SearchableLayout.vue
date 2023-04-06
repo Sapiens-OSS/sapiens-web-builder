@@ -4,7 +4,6 @@
       class="hidden w-96 overflow-y-auto border-r border-gray-200 dark:border-gray-700 lg:block"
     >
       <SearchableColumn
-        class="mt-2"
         :directory="directory"
         :search="search"
         :selected="selected"
@@ -127,8 +126,8 @@ const directory = computed(() => {
         .includes(search.value.toLowerCase())
     )
       return;
-    dir[e[props.structure.name][0]] ??= [];
-    dir[e[props.structure.name][0]].push({
+    dir[e[props.structure.name][0].toUpperCase()] ??= [];
+    dir[e[props.structure.name][0].toUpperCase()].push({
       index: i,
       name: e[props.structure.name],
       tag: e[props.structure.tag],
