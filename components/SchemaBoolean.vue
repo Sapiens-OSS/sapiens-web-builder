@@ -4,14 +4,14 @@
       <span class="flex flex-grow flex-col">
         <SwitchLabel
           as="span"
-          class="text-sm font-medium leading-6 text"
+          class="text-sm font-medium leading-6 text-white"
           passive
         >
           {{
             props.schema.title || props.schema._key || "Error loading schema"
           }}
         </SwitchLabel>
-        <SwitchDescription as="span" class="text-sm text-tinted">
+        <SwitchDescription as="span" class="text-sm text-gray-400">
           {{ props.schema.description }}
         </SwitchDescription>
         <span
@@ -23,7 +23,7 @@
       <Switch
         v-model="boolean"
         :class="[
-          boolean ? 'bg-amber-600' : 'background-tinted',
+          boolean ? 'bg-amber-600' : 'bg-gray-800',
           'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out',
         ]"
       >

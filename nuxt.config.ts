@@ -1,12 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  css: ["~/assets/css/main.css"],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
+  modules: ['@nuxtjs/tailwindcss'],
   app: {
     head: {
       link: [
@@ -16,5 +10,5 @@ export default defineNuxtConfig({
       title: "Hammerstone Web Builder",
     },
   },
-  ssr: false,
+  // ssr: false,
 });

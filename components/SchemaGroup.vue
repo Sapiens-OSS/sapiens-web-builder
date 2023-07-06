@@ -7,9 +7,9 @@
   >
     <dt>
       <DisclosureButton
-        class="flex w-full items-start justify-between text-left text-gray-900 background-tinted px-4 py-2 rounded-lg"
+        class="flex w-full items-start justify-between text-left text-gray-900 bg-gray-800 px-4 py-2 rounded-lg"
       >
-        <span class="text-base font-semibold leading-7 text"
+        <span class="text-base font-semibold leading-7 text-white"
           >{{
             props.schema?.title || props.schema?._key || "Error loading schema"
           }}
@@ -20,8 +20,8 @@
           >
         </span>
         <span class="ml-6 flex h-7 items-center">
-          <PlusSmallIcon v-if="!open" class="h-6 w-6 text" aria-hidden="true" />
-          <MinusSmallIcon v-else class="h-6 w-6 text" aria-hidden="true" />
+          <PlusSmallIcon v-if="!open" class="h-6 w-6 text-white" aria-hidden="true" />
+          <MinusSmallIcon v-else class="h-6 w-6 text-white" aria-hidden="true" />
         </span>
       </DisclosureButton>
     </dt>

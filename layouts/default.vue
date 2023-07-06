@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen background">
+  <div class="flex h-screen bg-gray-900">
     <!-- Narrow sidebar -->
     <div
       class="hidden w-28 overflow-y-auto bg-gray-900 border-r-2 border-gray-800 md:block"
@@ -147,7 +147,7 @@
             <span class="sr-only">Open sidebar</span>
             <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
           </button>
-          <h3 class="text-lg font-medium leading-6 text px-4">
+          <h3 class="text-lg font-medium leading-6 text-white px-4">
             {{ pages[selectedTab]?.name || "Unknown Page" }}
           </h3>
         </div>

@@ -77,7 +77,7 @@
         >
           <DialogPanel class="pointer-events-auto w-screen max-w-md">
             <div
-              class="flex h-full flex-col overflow-y-scroll background shadow-xl"
+              class="flex h-full flex-col overflow-y-scroll bg-gray-900 shadow-xl"
             >
               <SearchableColumn
                 :directory="directory"

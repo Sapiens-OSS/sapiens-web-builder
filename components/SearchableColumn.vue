@@ -7,7 +7,7 @@
         id="search"
         v-model="search"
         placeholder="Search items..."
-        class="block w-full rounded-md background text-tinted border-slate-600 pr-12 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm"
+        class="block w-full rounded-md bg-gray-900 text-gray-400 border-slate-600 pr-12 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm"
       />
       <button
         type="button"
@@ -23,7 +23,7 @@
         @click="close"
         class="inline-flex items-center p-1"
       >
-        <XMarkIcon class="h-6 w-6 text" aria-hidden="true" />
+        <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
       </button>
     </div>
   </div>
@@ -34,15 +34,15 @@
       class="relative"
     >
       <div
-        class="sticky top-0 z-10 border-t border-b border-gray-700 background-tinted px-6 py-1 text-sm font-medium text-gray-500"
+        class="sticky top-0 z-10 border-t border-b border-gray-700 bg-gray-800 px-6 py-1 text-sm font-medium text-gray-500"
       >
-        <h3 class="text">{{ letter }}</h3>
+        <h3 class="text-white">{{ letter }}</h3>
       </div>
       <ul role="list" class="relative z-0">
         <li
           v-for="item in props.directory[letter]"
           :key="item.index"
-          class="background group"
+          class="bg-gray-900 group"
         >
           <div
             :class="[
@@ -65,7 +65,7 @@
                 >
                   {{ item.name }}<span class="text-gray-500">.json</span>
                 </p>
-                <p class="truncate text-sm text-tinted">{{ item.tag }}</p>
+                <p class="truncate text-sm text-gray-400">{{ item.tag }}</p>
               </button>
               <div class="flex flex-row space-x-1">
                 <button

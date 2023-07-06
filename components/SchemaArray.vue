@@ -2,7 +2,7 @@
   <div class="py-4 lg:px-4 px-2">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
-        <h1 class="text-base font-semibold leading-6 text">
+        <h1 class="text-base font-semibold leading-6 text-white">
           {{
             props.schema.title || props.schema._key || "Unable to load schema"
           }}
@@ -12,7 +12,7 @@
             >Required</span
           >
         </h1>
-        <p class="mt-2 text-sm text-tinted">
+        <p class="mt-2 text-sm text-gray-500">
           {{ props.schema.description || "No description provided." }}
         </p>
       </div>
