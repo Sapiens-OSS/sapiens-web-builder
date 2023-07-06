@@ -12,7 +12,7 @@
             >Required</span
           >
         </h1>
-        <p class="mt-2 text-sm text-gray-500">
+        <p class="mt-2 text-sm text-gray-400">
           {{ props.schema.description || "No description provided." }}
         </p>
       </div>
@@ -26,43 +26,47 @@
         </button>
       </div>
     </div>
-    <div class="space-y-2 py-4">
-      <div class="flex flex-col lg:flex-row" v-for="(item, itemIndex) in arr">
+    <div class="space-y-3 py-4">
+      <div
+        class="flex flex-col lg:flex-row"
+        v-for="(entry, entryIndex) in Array(parseInt(props.schema.maximum || '1'))
+          .fill(0)
+          .map((_, i) => {
+            return {
+              ...(Array.isArray(props.schema.items)
+                ? props.schema.items[0]
+                : props.schema.items),
+              _target: `${props.target}[${i}]`,
+              _key: `${i}`,
+              title: `${props.schema._key} #${i + 1}`,
+            };
+          })"
+        :key="entry._key"
+      >
         <div
-          class="grow flex flex-col lg:pl-2"
-          v-for="entry in Array(parseInt(props.schema.maximum || '1'))
-            .fill(0)
-            .map((_, i) => {
-              return {
-                ...(Array.isArray(props.schema.items)
-                  ? props.schema.items[0]
-                  : props.schema.items),
-                _target: `${props.target}[${itemIndex}]`,
-                _key: `${itemIndex}`,
-                title: `${props.schema._key} #${itemIndex + 1}`,
-              };
-            })"
-          :key="entry._key"
+          class="grow flex flex-col lg:ml-2 ring-1 ring-gray-800 shadow-md rounded-lg"
         >
-          <div
-            class="m-1 h-2 bg-red-600 rounded-lg cursor-pointer text-orange-600 hover:texy-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-            aria-hidden="true"
-            @click="() => remove(itemIndex)"
-          />
           <!-- Handle edge cases -->
           <SchemaGroup
-            v-if="props.schema.items?.properties"
-            :schema="entry"
-            :target="entry._target"
-            :level="1"
-          />
-          <SchemaGroup
-            v-else-if="props.schema.items?.[0]?.properties"
+            v-if="
+              props.schema.items?.properties ||
+              props.schema.items?.[0]?.properties
+            "
             :schema="entry"
             :target="entry._target"
             :level="1"
           />
           <SchemaGeneric v-else :element="entry" />
+          <div class="w-full flex flex-row justify-end">
+            <button
+              type="button"
+              @click="() => remove(entryIndex)"
+              class="inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+            >
+              Delete
+              <TrashIcon class="-mr-0.5 h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -73,26 +77,38 @@
 import { useMod } from "~/composables/shared";
 import { computed } from "vue";
 import dot from "dot-object";
+import { TrashIcon } from "@heroicons/vue/24/outline";
 
 const mod = useMod();
 const props = defineProps(["schema", "target"]);
 
+const minLength =
+  props.schema?.minimum ??
+  props.schema?.minLength ??
+  props.schema?.items?.minimum;
+const maxLength =
+  props.schema?.maximum ??
+  props.schema?.maxLength ??
+  props.schema?.items?.maximum;
+
 if (!dot.pick(props.target, mod.value)) {
-  dot.str(props.target, [], mod.value);
+  dot.str(props.target, Array(minLength || 0), mod.value);
 }
 // TODO: Watch only target prop
 watch(props, (n) => {
   if (!dot.pick(n.target, mod.value)) {
-    dot.str(n.target, [], mod.value);
+    dot.str(n.target, Array(minLength || 0), mod.value);
   }
 });
 const arr = computed(() => dot.pick(props.target, mod.value));
 
 function add(e) {
-  arr.value.push({});
+  if (maxLength && arr.value.length + 1 > maxLength) return;
+  arr.value.push(null);
 }
 
 function remove(i) {
+  if (minLength && arr.value.length - 1 < minLength) return;
   dot.delete(`${props.target}[${i}]`, mod.value);
 }
 </script>

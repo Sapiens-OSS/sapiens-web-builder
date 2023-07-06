@@ -12,6 +12,24 @@
     </label>
     <div class="mt-1">
       <input
+        v-if="minLength != null && maxLength != null"
+        type="range"
+        :name="props.schema?._key"
+        :id="props.schema._key"
+        :min="minLength"
+        :max="maxLength"
+        :step="(maxLength - minLength) / 1000"
+        v-model="number"
+        class="block w-full appearance-none rounded-full cursor-pointer bg-gray-800 h-2 my-2 text-orange-600 focus:bg-gray-700"
+        :placeholder="
+          props.schema.examples
+            ? `e.g. ${props.schema.examples.join(', ')}`
+            : ''
+        "
+        :aria-describedby="`${props.schema._key}-description`"
+      />
+      <input
+        v-else
         type="number"
         :name="props.schema?._key"
         :id="props.schema._key"
@@ -24,6 +42,11 @@
         "
         :aria-describedby="`${props.schema._key}-description`"
       />
+      <span
+        v-if="minLength != null && maxLength != null"
+        class="inline-flex items-center rounded-md bg-orange-400/10 px-2 py-1 text-xs font-medium text-orange-500 ring-1 ring-inset ring-orange-400/20"
+        >Value: {{ number }}</span
+      >
     </div>
     <p
       class="mt-1 text-sm text-gray-400 max-w-sm truncated"
@@ -48,7 +71,10 @@ const number = computed({
     dot.str(props.target, e, mod.value);
   },
 });
-if (!number) {
-  dot.str(props.target, 0, mod.value);
+if (!number.value) {
+  dot.str(props.target, props.schema?.default ?? 0, mod.value);
 }
+
+const minLength = props.schema?.minimum ?? props.schema?.minLength;
+const maxLength = props.schema?.maximum ?? props.schema?.maxLength;
 </script>

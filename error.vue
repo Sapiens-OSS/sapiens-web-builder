@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-gray-900">
-    <main class="mx-auto w-full max-w-7xl px-6 pb-16 pt-10 sm:pb-24 lg:px-8">
+  <div class="bg-gray-900 h-screen flex flex-col">
+    <main class="mx-auto grow w-full max-w-7xl px-6 pb-16 pt-10 sm:pb-24 lg:px-8">
       <img
         class="mx-auto h-10 w-auto sm:h-12"
-        src="https://tailwindui.com/img/logos/mark.svg?color=orange&shade=500"
+        src="@/assets/img/logo.png"
         alt="Your Company"
       />
       <div class="mx-auto mt-20 max-w-2xl text-center sm:mt-24">
@@ -59,10 +59,10 @@
           </li>
         </ul>
         <div class="mt-10 flex justify-center">
-          <a href="#" class="text-sm font-semibold leading-6 text-orange-500">
+          <NuxtLink to="/" class="text-sm font-semibold leading-6 text-orange-500">
             <span aria-hidden="true">&larr;</span>
             Back to home
-          </a>
+          </NuxtLink>
         </div>
       </div>
     </main>
@@ -81,7 +81,7 @@
 
 <script setup>
 import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/20/solid'
-import { BookmarkSquareIcon, QueueListIcon, RssIcon } from '@heroicons/vue/24/solid'
+import { BookOpenIcon, BookmarkSquareIcon, QueueListIcon, RssIcon } from '@heroicons/vue/24/solid'
 
 const links = [
   {
@@ -90,13 +90,6 @@ const links = [
     description: 'Get back to making awesome mods with our tools.',
     icon: HomeIcon,
   },
-  { name: 'API Reference', href: '#', description: 'A complete API reference for our libraries.', icon: QueueListIcon },
-  {
-    name: 'Guides',
-    href: '#',
-    description: 'Installation guides that cover popular setups.',
-    icon: BookmarkSquareIcon,
-  },
-  { name: 'Blog', href: '#', description: 'Read our latest news and articles.', icon: RssIcon },
+  { name: 'Documentation', href: 'https://wiki.sapiens.dev/', description: 'Community-maintained modding documentation for Sapiens.', icon: BookOpenIcon },
 ]
 </script>

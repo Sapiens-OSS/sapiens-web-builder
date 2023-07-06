@@ -60,7 +60,7 @@
                 <p
                   :class="[
                     selected == item.index ? 'font-semibold' : 'font-medium',
-                    'text-sm text',
+                    'text-sm text-white',
                   ]"
                 >
                   {{ item.name }}<span class="text-gray-500">.json</span>
