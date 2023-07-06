@@ -70,10 +70,10 @@ jobs:
             ${{ runner.os }}-nuxt-build-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Static HTML export with Nuxt
-        run: ${{ steps.detect-package-manager.outputs.manager }} run generate
+      - name: Build Nuxt
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
         env:
-          NUXT_APP_BASE_URL: "/sapiens-web-builder/"
+          NUXT_APP_BASE_URL: /sapiens-web-builder/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
