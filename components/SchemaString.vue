@@ -1,12 +1,15 @@
 <template>
-  <div class="mt-2 lg:px-4 px-2">
+  <div class="lg:px-4 px-2">
     <label
       :for="props.schema._key"
       class="block text-sm font-medium leading-6 text-gray-900 text"
-      >{{
-        props.schema.title || props.schema._key || "Error loading schema"
-      }}</label
-    >
+      >{{ props.schema.title || props.schema._key || "Error loading schema" }}
+      <span
+        v-if="props.schema._required"
+        class="text-xs bg-red-500/70 p-1 rounded-md text-white select-none"
+        >Required</span
+      >
+    </label>
     <div class="mt-1">
       <input
         type="text"
@@ -33,22 +36,19 @@
 
 <script setup>
 import { useMod } from "~/composables/shared";
-import { ref } from "vue";
 import dot from "dot-object";
-import merge from "deepmerge";
 
 const mod = useMod();
 const props = defineProps(["schema", "target"]);
 const text = computed({
   get() {
-    console.log('get');
     return dot.pick(props.target, mod.value);
   },
-  set(e){
+  set(e) {
     dot.str(props.target, e, mod.value);
-  }
+  },
 });
-if(!text){
+if (!text) {
   dot.str(props.target, "", mod.value);
 }
 </script>

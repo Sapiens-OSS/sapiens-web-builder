@@ -1,12 +1,13 @@
 <template>
   <div class="flex flex-1 items-stretch overflow-hidden">
     <aside
-      class="hidden w-96 overflow-y-auto border-r border-gray-200 dark:border-gray-700 lg:block"
+      class="hidden w-96 overflow-y-auto border-r border-gray-700 lg:block"
     >
       <SearchableColumn
         :directory="directory"
         :search="search"
         :selected="selected"
+        :new="props.new"
         @update:search="
           (v) => {
             search = v;
@@ -64,12 +65,13 @@
         >
           <DialogPanel class="pointer-events-auto w-screen max-w-md">
             <div
-              class="flex h-full flex-col overflow-y-scroll background-tinted shadow-xl"
+              class="flex h-full flex-col overflow-y-scroll background shadow-xl"
             >
               <SearchableColumn
                 :directory="directory"
                 :search="search"
                 :selected="selected"
+                :new="props.new"
                 :close="
                   () => {
                     open = false;
@@ -104,12 +106,11 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { Bars3Icon } from "@heroicons/vue/24/outline";
-const props = defineProps(["values", "structure"]);
+const props = defineProps(["values", "structure", "new"]);
 /*
 structure:
 {
     name: 'name_of_name_value',
-    icon: 'name_of_icon_value',
     tag: 'name_of_tag_value',
 }
 */

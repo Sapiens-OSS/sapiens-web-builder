@@ -3,10 +3,13 @@
     <label
       :for="props.schema._key"
       class="block text-sm font-medium leading-6 text-gray-900 text"
-      >{{
-        props.schema.title || props.schema._key || "Error loading schema"
-      }}</label
-    >
+      >{{ props.schema.title || props.schema._key || "Error loading schema" }}
+      <span
+        v-if="props.schema._required"
+        class="text-xs bg-red-500/70 p-1 rounded-md text-white select-none"
+        >Required</span
+      >
+    </label>
     <div class="mt-1">
       <input
         type="number"
@@ -33,9 +36,7 @@
 
 <script setup>
 import { useMod } from "~/composables/shared";
-import { ref } from "vue";
 import dot from "dot-object";
-import merge from "deepmerge";
 
 const mod = useMod();
 const props = defineProps(["schema", "target"]);

@@ -6,6 +6,11 @@
           {{
             props.schema.title || props.schema._key || "Unable to load schema"
           }}
+          <span
+            v-if="props.schema._required"
+            class="text-xs bg-red-500/70 p-1 rounded-md text-white select-none"
+            >Required</span
+          >
         </h1>
         <p class="mt-2 text-sm text-tinted">
           {{ props.schema.description || "No description provided." }}
@@ -21,43 +26,38 @@
         </button>
       </div>
     </div>
-    <div>
-      <div
-        class="flex flex-col lg:flex-row mt-4"
-        v-for="(item, itemIndex) in arr.map((e, i) => {
-          return { _value: e, _index: i };
-        })"
-        :key="item._index"
-      >
-        <MinusCircleIcon
-          class="h-5 w-5 self-center cursor-pointer text-orange-600 hover:texy-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-          aria-hidden="true"
-          @click="() => remove(item._index)"
-        />
+    <div class="space-y-2 py-4">
+      <div class="flex flex-col lg:flex-row" v-for="(item, itemIndex) in arr">
         <div
-          class="grow ml-2"
-          v-for="entry in Array(
-            parseInt(props.schema.maximum || '1')
-          )
+          class="grow flex flex-col lg:pl-2"
+          v-for="entry in Array(parseInt(props.schema.maximum || '1'))
             .fill(0)
-            .map((e, i) => {
+            .map((_, i) => {
               return {
-                ...(Array.isArray(props.schema.items) ? props.schema.items[0] : props.schema.items),
-                _target: `${props.target}[${item._index}][${i}]`,
-                _key: `${item._index}${i}`,
-                title: `${props.schema._key} #${i + 1}`,
+                ...(Array.isArray(props.schema.items)
+                  ? props.schema.items[0]
+                  : props.schema.items),
+                _target: `${props.target}[${itemIndex}]`,
+                _key: `${itemIndex}`,
+                title: `${props.schema._key} #${itemIndex + 1}`,
               };
             })"
           :key="entry._key"
         >
+          <div
+            class="m-1 h-2 bg-red-600 rounded-lg cursor-pointer text-orange-600 hover:texy-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+            aria-hidden="true"
+            @click="() => remove(itemIndex)"
+          />
+          <!-- Handle edge cases -->
           <SchemaGroup
-            v-if="props.schema.items.properties"
+            v-if="props.schema.items?.properties"
             :schema="entry"
             :target="entry._target"
             :level="1"
           />
           <SchemaGroup
-            v-else-if="props.schema.items[0]?.properties"
+            v-else-if="props.schema.items?.[0]?.properties"
             :schema="entry"
             :target="entry._target"
             :level="1"
@@ -73,20 +73,23 @@
 import { useMod } from "~/composables/shared";
 import { computed } from "vue";
 import dot from "dot-object";
-import merge from "deepmerge";
-import { MinusCircleIcon } from "@heroicons/vue/24/outline";
 
 const mod = useMod();
 const props = defineProps(["schema", "target"]);
-if (props.target) {
-  if (!mod.value[props.target]) {
-    dot.str(props.target, [], mod.value);
-  }
+
+if (!dot.pick(props.target, mod.value)) {
+  dot.str(props.target, [], mod.value);
 }
+// TODO: Watch only target prop
+watch(props, (n) => {
+  if (!dot.pick(n.target, mod.value)) {
+    dot.str(n.target, [], mod.value);
+  }
+});
 const arr = computed(() => dot.pick(props.target, mod.value));
 
 function add(e) {
-  arr.value.push([]);
+  arr.value.push({});
 }
 
 function remove(i) {

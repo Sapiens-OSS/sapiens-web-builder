@@ -1,4 +1,4 @@
-# Sapiens Web Builder
+# Hammerstone Web Builder
 This is a small web app that generates mod using the DDAPI from Hammerstone. 
 
 ## Contributing

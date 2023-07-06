@@ -1,5 +1,5 @@
 <template>
-<div class="rounded-md background-tinted px-4 py-2 mx-4 mt-3">
+<div class="rounded-md background-tinted px-4 py-2 mx-4">
     <div class="flex">
       <div class="flex">
         <ExclamationTriangleIcon class="flex self-center h-5 w-5 text-yellow-400" aria-hidden="true" />

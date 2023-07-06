@@ -2,7 +2,7 @@
   <div
     v-for="(item, itemIndex) in Array(5)
       .fill(0)
-      .map((e, i) => Object.assign(externalData, { _index: i }))"
+      .map((e, i) => Object.assign({}, externalData, { _index: i }))"
   >
     <component :is="`div-${itemIndex}`" />
   </div>

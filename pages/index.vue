@@ -1,74 +1,139 @@
 <template>
-  <div class="flex flex-1 items-stretch overflow-hidden">
-    <!-- Secondary column (hidden on smaller screens) -->
-    <aside class="hidden w-96 overflow-y-auto border-r border-gray-200 dark:border-gray-700 lg:block">
-      <!-- Your content -->
-      <div class="overflow-hidden sm:rounded-md">
-        <nav class="h-full overflow-y-auto" aria-label="Directory">
-          <div class="relative">
-            <li v-for="value in Object.entries(mod.index._schema)" :key="value" class="">
-              <div
-                class="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-slate-500 hover:bg-gray-100 dark:hover:bg-gray-800">
-                <div class="min-w-0 flex-1">
-                  <div class="focus:outline-none">
-                    <!-- Extend touch target to entire panel -->
-                    <span class="absolute inset-0" aria-hidden="true" />
-                    <p class="text-sm text font-medium">{{ value[0] }}</p>
-                    <p class="text-sm text-tinted">{{ value[1].description }}</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </div>
-        </nav>
-      </div>
-    </aside>
-
-    <main class="flex-1 overflow-y-auto">
-      <!-- Primary column -->
-      <section aria-labelledby="primary-heading" class="flex h-full min-w-0 flex-1 flex-col lg:order-last px-6 py-4">
-        <div class="space-y-6 sm:space-y-5">
-          <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4"
-            v-for="entry in Object.entries(mod.index._schema)" :key="entry[0]">
-            <label :for="entry[0]" class="block text-sm font-medium text sm:mt-px sm:pt-2">
-              {{ entry[0] }}
-            </label>
-            <div class="mt-1 sm:col-span-2 sm:mt-0" v-if="entry[1].type == 'short'">
-              <div class="mt-1 sm:col-span-2 sm:mt-0">
-                <div class="flex max-w-lg rounded-md shadow-sm">
-                  <input type="text" :name="entry[0]" :id="entry[0]" :placeholder="entry[1].placeholder"
-                    v-model="mod.index[entry[0]]"
-                    class="block w-full min-w-0 flex-1 rounded-md background-tinted text border-gray-300 dark:border-slate-500 focus:border-slate-500 focus:ring-slate-500 sm:text-sm" />
-                </div>
-              </div>
-            </div>
-            <div class="mt-1 sm:col-span-2 sm:mt-0" v-else-if="entry[1].type == 'long'">
-              <textarea :id="entry[0]" :name="entry[0]" rows="3" :placeholder="entry[1].placeholder"
-                v-model="mod.index[entry[0]]"
-                class="block w-full max-w-lg rounded-md background-tinted text border-gray-300 dark:border-slate-500 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm" />
-            </div>
-            <div class="mt-1 sm:col-span-2 sm:mt-0" v-else-if="entry[1].type == 'options'">
-              <select id="country" name="country" autocomplete="country-name" v-model="mod.index[entry[0]]"
-                class="block w-full max-w-lg text rounded-md background-tinted border-gray-300 dark:border-slate-500 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:max-w-xs sm:text-sm">
-                <option v-for="entry in entry[1].options">{{ entry }}</option>
-              </select>
-            </div>
-            <div v-else>
-              <p class="text-gray-500">
-                Unsupported type. This feature has probably
-                not been implemented yet, please check
-                back later.
-              </p>
-            </div>
-          </div>
+  <div class="relative isolate overflow-hidden bg-gray-900">
+    <svg
+      class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+      aria-hidden="true"
+    >
+      <defs>
+        <pattern
+          id="983e3e4c-de6d-4c3f-8d64-b9761d1534cc"
+          width="200"
+          height="200"
+          x="50%"
+          y="-1"
+          patternUnits="userSpaceOnUse"
+        >
+          <path d="M.5 200V.5H200" fill="none" />
+        </pattern>
+      </defs>
+      <svg x="50%" y="-1" class="overflow-visible fill-gray-800/20">
+        <path
+          d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
+          stroke-width="0"
+        />
+      </svg>
+      <rect
+        width="100%"
+        height="100%"
+        stroke-width="0"
+        fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)"
+      />
+    </svg>
+    <div
+      class="absolute left-[calc(50%-4rem)] top-10 -z-10 transform-gpu blur-3xl sm:left-[calc(50%-18rem)] lg:left-48 lg:top-[calc(50%-30rem)] xl:left-[calc(50%-24rem)]"
+      aria-hidden="true"
+    >
+      <div
+        class="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-orange-500 to-amber-100 opacity-20"
+        style="
+          clip-path: polygon(
+            73.6% 51.7%,
+            91.7% 11.8%,
+            100% 46.4%,
+            97.4% 82.2%,
+            92.5% 84.9%,
+            75.7% 64%,
+            55.3% 47.5%,
+            46.5% 49.4%,
+            45% 62.9%,
+            50.3% 87.2%,
+            21.3% 64.1%,
+            0.1% 100%,
+            5.4% 51.1%,
+            21.4% 63.9%,
+            58.9% 0.2%,
+            73.6% 51.7%
+          );
+        "
+      />
+    </div>
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40"
+    >
+      <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
+        <img
+          class="h-11"
+          src="https://tailwindui.com/img/logos/mark.svg?color=orange&amp;shade=500"
+          alt="Your Company"
+        />
+        <div class="mt-24 sm:mt-32 lg:mt-16">
+          <a
+            href="https://github.com/Sapiens-OSS/sapiens-web-builder"
+            target="_blank"
+            class="inline-flex content-center space-x-6"
+          >
+            <span
+              class="rounded-full inline-flex bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20"
+              >Open Source
+              <span class="block md:hidden ml-1" aria-hidden="true"
+                >→</span
+              ></span
+            >
+            <span
+              class="hidden md:flex items-center space-x-2 text-sm font-medium leading-6 text-gray-300"
+            >
+              Check out the source code <span aria-hidden="true" class="ml-1">→</span>
+            </span>
+          </a>
         </div>
-      </section>
-    </main>
+        <h1
+          class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl"
+        >
+          Create Sapiens mods, easily.
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-gray-300">
+          The Hammerstone Web Builder is an easy-to-use web app to create
+          Sapiens mods that use the Hammerstone Framework. Created and supported
+          by the Sapiens Modding Community.
+        </p>
+        <div class="mt-10 flex items-center gap-x-6">
+          <NuxtLink
+            to="/modinfo"
+            class="rounded-lg bg-orange-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+            >Get started <span aria-hidden="true">→</span></NuxtLink
+          >
+        </div>
+      </div>
+      <div
+        class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32"
+      >
+        <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
+          <img
+            src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+            alt="App screenshot"
+            width="2432"
+            height="1442"
+            class="w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10"
+          />
+        </div>
+      </div>
+    </div>
+    <footer class="border-t border-gray-800 py-6 sm:py-10">
+      <div
+        class="mx-auto flex max-w-7xl flex-col items-center justify-center gap-8 px-6 sm:flex-row lg:px-8"
+      >
+        <p class="text-sm leading-7 text-gray-500">
+          Created and supported with &#10084;&#65039; by the Sapiens Modding
+          Community.
+        </p>
+      </div>
+    </footer>
   </div>
+  
 </template>
 
 <script setup>
-import { useMod } from '~~/composables/shared';
-const props = defineProps(['page']);
-const mod = useMod();
+definePageMeta({
+  layout: false,
+});
 </script>

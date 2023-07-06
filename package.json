@@ -18,7 +18,8 @@
     "@heroicons/vue": "^2.0.15",
     "@json-editor/json-editor": "^2.9.0-beta.1",
     "@tailwindcss/forms": "^0.5.3",
-    "deepmerge": "^4.3.1",
-    "dot-object": "^2.1.4"
+    "dot-object": "^2.1.4",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1"
   }
 }

@@ -30,5 +30,5 @@
 
 <script setup>
 const props = defineProps(["element", "level"]);
-const element = props.element;
+const element = computed(() => props.element);
 </script>

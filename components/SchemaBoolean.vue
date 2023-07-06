@@ -14,6 +14,11 @@
         <SwitchDescription as="span" class="text-sm text-tinted">
           {{ props.schema.description }}
         </SwitchDescription>
+        <span
+          v-if="props.schema._required"
+          class="text-xs bg-red-500/70 p-1 rounded-md text-white select-none"
+          >Required</span
+        >
       </span>
       <Switch
         v-model="boolean"
@@ -35,11 +40,14 @@
 </template>
 
 <script setup>
-import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import {
+  Switch,
+  SwitchDescription,
+  SwitchGroup,
+  SwitchLabel,
+} from "@headlessui/vue";
 import { useMod } from "~/composables/shared";
-import { ref } from "vue";
 import dot from "dot-object";
-import merge from "deepmerge";
 
 const mod = useMod();
 const props = defineProps(["schema", "target"]);

@@ -3,39 +3,17 @@
 @tailwind utilities;
 
 .background {
-    background-color: #FFF;
+    background-color: #111827;
 }
-
 .background-tinted {
-    background-color: #f3f4f6;
+    background-color: #1f2937;
 }
-
 .background-selected {
-    background-color: #e5e7eb;
+    background-color: #374151;
 }
-
 .text, .text::placeholder {
-    color: #1f2937;
+    color: #FFF;
 }
-
 .text-tinted, .text-tinted::placeholder {
-    color: #6b7280;
-}
-
-@media (prefers-color-scheme: dark) {
-    .background {
-        background-color: #111827;
-    }
-    .background-tinted {
-        background-color: #1f2937;
-    }
-    .background-selected {
-        background-color: #374151;
-    }
-    .text, .text::placeholder {
-        color: #FFF;
-    }
-    .text-tinted, .text-tinted::placeholder {
-        color: #9ca3af;
-    }
+    color: #9ca3af;
 }
