@@ -1,6 +1,7 @@
 ![](./assets/img/logo.png)
 # Hammerstone Web Builder
 [![](https://dcbadge.vercel.app/api/server/WnN8hj2Fyg?style=flat)](https://discord.gg/WnN8hj2Fyg)
+
 The Hammerstone Web Builder (HWB) is a client-side web app to generate the JSON files that make up DDAPI mods. It uses a SSR-disabled Nuxt 3 frontend, and loads schemas from [Sapiens-OSS / hammerstone-schemas](https://github.com/Sapiens-OSS/hammerstone-schemas). 
 
 ## Use the app
