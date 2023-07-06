@@ -57,9 +57,9 @@
     <button
       type="button"
       @click="open = true"
-      class="absolute lg:hidden bottom-5 right-5 items-center rounded-full border border-transparent bg-slate-600 p-2 text-white shadow-sm hover:bg-slate-700"
+      class="absolute lg:hidden bottom-5 right-5 items-center rounded-full border border-transparent bg-orange-600 p-2 text-white shadow-sm hover:bg-orange-700"
     >
-      <Bars3Icon class="h-6 w-6" aria-hidden="true" />
+      <Bars3Icon class="h-7 w-7" aria-hidden="true" />
     </button>
   </div>
 

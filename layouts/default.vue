@@ -12,9 +12,9 @@
             :to="item.href"
             :class="[
               selectedTab == i
-                ? 'bg-orange-600/10 text-orange-400'
+                ? 'bg-orange-600/10 text-orange-300'
                 : 'text-slate-100 hover:bg-slate-800 hover:text-white',
-              'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium',
+              'group transition w-full p-3 rounded-md flex flex-col items-center text-xs font-medium',
             ]"
             :aria-current="selectedTab == i ? 'page' : undefined"
           >
@@ -22,7 +22,7 @@
               :is="item.icon"
               :class="[
                 selectedTab == i
-                  ? 'text-orange-400'
+                  ? 'text-orange-300'
                   : 'text-slate-300 group-hover:text-white',
                 'h-6 w-6',
               ]"
@@ -64,7 +64,7 @@
             leave-to="-translate-x-full"
           >
             <DialogPanel
-              class="relative flex w-full max-w-xs flex-1 flex-col bg-slate-800 pt-5 pb-4"
+              class="relative flex w-full max-w-xs flex-1 flex-col bg-gray-900 border-r border-gray-800 pt-5 pb-4"
             >
               <TransitionChild
                 as="template"
@@ -102,7 +102,7 @@
                       :to="item.href"
                       :class="[
                         selectedTab == i
-                          ? 'bg-orange-600/10 text-orange-400'
+                          ? 'bg-orange-600/10 text-orange-300'
                           : 'text-slate-100 hover:bg-slate-800 hover:text-white',
                         'group py-2 px-3 rounded-md flex items-center text-sm font-medium',
                       ]"
@@ -113,7 +113,7 @@
                         :is="item.icon"
                         :class="[
                           selectedTab == i
-                            ? 'text-orange-400'
+                            ? 'text-orange-300'
                             : 'text-slate-300 group-hover:text-white',
                           'mr-3 h-6 w-6',
                         ]"
@@ -137,19 +137,48 @@
     <div class="flex flex-1 flex-col overflow-hidden">
       <header class="w-full">
         <div
-          class="relative items-center flex h-16 flex-shrink-0 border-b-2 border-gray-800 bg-gray-900 shadow-sm"
+          class="relative items-center overflow-hidden flex h-16 flex-shrink-0 border-b-2 border-gray-800 bg-gray-900 shadow-sm"
         >
           <button
             type="button"
-            class="border-r h-full border-gray-600 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
+            class="border-r z-10 h-full border-gray-600 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
             @click="mobileMenuOpen = true"
           >
             <span class="sr-only">Open sidebar</span>
             <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
           </button>
-          <h3 class="text-lg font-medium leading-6 text-white px-4">
+          <h3 class="text-2xl z-10 font-medium leading-6 text-white px-4">
             {{ pages[selectedTab]?.name || "Unknown Page" }}
           </h3>
+
+          <div
+            class="absolute -bottom-32 transform-gpu blur-3xl lg:top-[calc(50%-40rem)] "
+            aria-hidden="true"
+          >
+            <div
+              class="aspect-[1108/632] w-[100rem] bg-gradient-to-b from-orange-600 to-amber-300 opacity-20"
+              style="
+                clip-path: polygon(
+                  73.6% 51.7%,
+                  91.7% 11.8%,
+                  100% 46.4%,
+                  97.4% 82.2%,
+                  92.5% 84.9%,
+                  75.7% 64%,
+                  55.3% 47.5%,
+                  46.5% 49.4%,
+                  45% 62.9%,
+                  50.3% 87.2%,
+                  21.3% 64.1%,
+                  0.1% 100%,
+                  5.4% 51.1%,
+                  21.4% 63.9%,
+                  58.9% 0.2%,
+                  73.6% 51.7%
+                );
+              "
+            />
+          </div>
         </div>
       </header>
 
