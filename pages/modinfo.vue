@@ -1,7 +1,6 @@
 <template>
-    <div class="p-2">
+    <div class="p-2 overflow-y-scroll">
         <SchemaGroup :schema="mod.index._schema" :level="0" target="index" />
-
     </div>
 </template>
 

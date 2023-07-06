@@ -8,6 +8,18 @@
         :search="search"
         :selected="selected"
         :new="props.new"
+        :edit="
+          (e) => {
+            selected = -1;
+            props.edit(e);
+          }
+        "
+        :delete="
+          (e) => {
+            selected = -1;
+            props.delete(e);
+          }
+        "
         @update:search="
           (v) => {
             search = v;
@@ -72,6 +84,18 @@
                 :search="search"
                 :selected="selected"
                 :new="props.new"
+                :edit="
+                  (e) => {
+                    selected = -1;
+                    props.edit(e);
+                  }
+                "
+                :delete="
+                  (e) => {
+                    selected = -1;
+                    props.delete(e);
+                  }
+                "
                 :close="
                   () => {
                     open = false;
@@ -106,12 +130,11 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { Bars3Icon } from "@heroicons/vue/24/outline";
-const props = defineProps(["values", "structure", "new"]);
+const props = defineProps(["values", "structure", "new", "edit", "delete"]);
 /*
 structure:
 {
     name: 'name_of_name_value',
-    tag: 'name_of_tag_value',
 }
 */
 const selected = ref(-1);
@@ -131,8 +154,6 @@ const directory = computed(() => {
     dir[e[props.structure.name][0].toUpperCase()].push({
       index: i,
       name: e[props.structure.name],
-      tag: e[props.structure.tag],
-      icon: e[props.structure.icon],
     });
   });
   return sortOnKeys(dir);

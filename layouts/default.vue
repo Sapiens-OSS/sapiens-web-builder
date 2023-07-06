@@ -4,7 +4,7 @@
     <div
       class="hidden w-28 overflow-y-auto bg-gray-900 border-r-2 border-gray-800 md:block"
     >
-      <div class="flex w-full flex-col items-center py-2">
+      <div class="flex w-full grow flex-col items-center py-2">
         <div class="w-full flex-1 space-y-1 px-2">
           <NuxtLink
             v-for="(item, i) in pages"
@@ -50,9 +50,7 @@
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <div
-            class="fixed inset-0 bg-gray-900 bg-opacity-75"
-          />
+          <div class="fixed inset-0 bg-gray-900 bg-opacity-75" />
         </TransitionChild>
 
         <div class="fixed inset-0 z-40 flex">
@@ -139,21 +137,19 @@
     <div class="flex flex-1 flex-col overflow-hidden">
       <header class="w-full">
         <div
-          class="relative flex h-16 flex-shrink-0 border-b-2 border-gray-800 bg-gray-900 shadow-sm"
+          class="relative items-center flex h-16 flex-shrink-0 border-b-2 border-gray-800 bg-gray-900 shadow-sm"
         >
           <button
             type="button"
-            class="border-r border-gray-600 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
+            class="border-r h-full border-gray-600 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
             @click="mobileMenuOpen = true"
           >
             <span class="sr-only">Open sidebar</span>
             <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
           </button>
-          <div class="mx-auto flex items-center">
-            <h3 class="text-lg font-medium leading-6 text">
-              {{ pages[selectedTab]?.name || "Unknown Page" }}
-            </h3>
-          </div>
+          <h3 class="text-lg font-medium leading-6 text px-4">
+            {{ pages[selectedTab]?.name || "Unknown Page" }}
+          </h3>
         </div>
       </header>
 
@@ -162,7 +158,6 @@
     </div>
   </div>
   <LoadingIndictator />
-
 </template>
 
 <script setup>

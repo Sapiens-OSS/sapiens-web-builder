@@ -63,7 +63,7 @@
       <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
         <img
           class="h-11"
-          src="https://tailwindui.com/img/logos/mark.svg?color=orange&amp;shade=500"
+          src="@/assets/img/logo.png"
           alt="Your Company"
         />
         <div class="mt-24 sm:mt-32 lg:mt-16">
@@ -109,7 +109,7 @@
       >
         <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
           <img
-            src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+            src="@/assets/img/app.png"
             alt="App screenshot"
             width="2432"
             height="1442"

@@ -42,26 +42,45 @@
         <li
           v-for="item in props.directory[letter]"
           :key="item.index"
-          class="background"
+          class="background group"
         >
           <div
             :class="[
-              selected == item.index
-                ? 'bg-gray-800/80'
-                : 'hover:bg-gray-800',
-              'relative flex items-center space-x-3 px-6 py-5 ',
+              selected == item.index ? 'border-l-4 border-orange-600' : '',
+              'hover:bg-gray-800 relative flex items-center space-x-3 px-6 py-5 ',
             ]"
           >
-            <div class="min-w-0 flex-1">
+            <div class="min-w-0 flex w-full flex-row justify-between">
               <button
-                class="focus:outline-none"
+                class="focus:outline-none h-9"
                 @click="selected = selected == item.index ? -1 : item.index"
               >
                 <!-- Extend touch target to entire panel -->
-                <span class="absolute inset-0" aria-hidden="true" />
-                <p class="text-sm font-medium text">{{ item.name }}<span class="font-normal text-gray-500">.json</span></p>
+                <div class="absolute inset-0 right-1/3 z-0" />
+                <p
+                  :class="[
+                    selected == item.index ? 'font-semibold' : 'font-medium',
+                    'text-sm text',
+                  ]"
+                >
+                  {{ item.name }}<span class="text-gray-500">.json</span>
+                </p>
                 <p class="truncate text-sm text-tinted">{{ item.tag }}</p>
               </button>
+              <div class="flex flex-row space-x-1">
+                <button
+                  @click="() => props.edit(item.index)"
+                  class="md:hidden group-hover:block text-gray-500 bg-gray-500/20 rounded-xl p-2"
+                >
+                  <PencilIcon class="w-5 h-5 z-50" />
+                </button>
+                <button
+                  @click="() => props.delete(item.index)"
+                  class="md:hidden group-hover:block text-red-500 bg-red-500/20 rounded-xl p-2"
+                >
+                  <TrashIcon class="w-5 h-5 z-50" />
+                </button>
+              </div>
             </div>
           </div>
         </li>
@@ -71,9 +90,18 @@
 </template>
 
 <script setup>
+import { PencilIcon, TrashIcon } from "@heroicons/vue/20/solid";
 import { XMarkIcon, PlusIcon } from "@heroicons/vue/24/outline";
 
-const props = defineProps(["directory", "search", "selected", "close", "new"]);
+const props = defineProps([
+  "directory",
+  "search",
+  "selected",
+  "close",
+  "new",
+  "edit",
+  "delete",
+]);
 const emit = defineEmits(["update:search", "update:selected"]);
 
 const search = computed({

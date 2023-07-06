@@ -40,7 +40,6 @@ import { useMod } from "~/composables/shared";
 import dot from "dot-object";
 const mod = useMod();
 const props = defineProps(["schema", "level", "target"]);
-console.log(props.schema)
 if (props.target) {
   if (!dot.pick(props.target, mod.value)) {
     dot.str(props.target, {}, mod.value);
