@@ -186,7 +186,6 @@
       <slot />
     </div>
   </div>
-  <LoadingIndictator />
 </template>
 
 <script setup>

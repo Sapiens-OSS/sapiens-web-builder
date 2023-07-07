@@ -9,7 +9,7 @@ export const useMod = () => useState('mod', () => {
             developer: "",
             website: "",
 
-            _schema: {
+            _schemaCache: {
                 title: "Mod Info",
                 properties: {
                     name: {

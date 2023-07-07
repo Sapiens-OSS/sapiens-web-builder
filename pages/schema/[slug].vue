@@ -150,7 +150,7 @@ import {
 const route = useRoute();
 const slug = route.params.slug;
 const mod = useMod();
-const { data: schema } = await useFetch(mod.value[slug]._schema);
+const schema = mod.value[slug]._schemaCache;
 if (!mod.value[slug].files) {
   mod.value[slug].files = [];
 }
