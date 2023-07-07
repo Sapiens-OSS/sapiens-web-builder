@@ -146,6 +146,8 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
+import * as randomWords from 'random-words';
+
 
 const route = useRoute();
 const slug = route.params.slug;
@@ -157,14 +159,18 @@ if (!mod.value[slug].files) {
 
 const editObj = ref(null);
 
+function generateFilename(){
+  return randomWords.generate(2).join('_');
+}
+
 function newFile() {
-  let filename = "new_file";
+  let filename = generateFilename();
   mod.value[slug].files.forEach((e) => {
     if (e.filename == filename) {
-      filename = "new_file_" + Math.floor(Math.random() * 1000);
+      filename = generateFilename();
     }
   });
-
+  
   mod.value[slug].files.push({
     filename,
   });
