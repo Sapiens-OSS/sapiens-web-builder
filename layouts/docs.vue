@@ -160,9 +160,7 @@
 
     <main class="lg:pl-20">
       <div class="xl:pl-96">
-        <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
-          <slot />
-        </div>
+        <slot />
       </div>
     </main>
 
@@ -193,14 +191,8 @@ import {
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 
-const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
-];
+const navigation = (await fetchContentNavigation())[0].children;
+console.log(navigation)
 
 const sidebarOpen = ref(false);
 </script>

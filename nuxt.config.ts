@@ -1,3 +1,5 @@
+import { join } from "path";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "@nuxt/content"],
@@ -10,17 +12,16 @@ export default defineNuxtConfig({
       title: "Hammerstone Web Builder",
     },
   },
+
   content: {
     sources: {
       content: {
-        driver: "github",
-        repo: "Sapiens-OSS/sapiens-modding-wiki",
-        branch: "master",
-        dir: "docs",
+        driver: "fs",
         // Needs to match the catch all directory
-        prefix: "/wiki"
-      }
-    }
+        prefix: "/wiki",
+        base: join(__dirname, "docs"),
+      },
+    },
   },
   ssr: false,
 });
