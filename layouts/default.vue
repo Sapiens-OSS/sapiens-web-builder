@@ -12,7 +12,7 @@
             :to="item.href"
             :class="[
               selectedTab == i
-                ? 'bg-orange-600/10 text-orange-300'
+                ? 'bg-orange-600/10 text-orange-400'
                 : 'text-slate-100 hover:bg-slate-800 hover:text-white',
               'group transition w-full p-3 rounded-md flex flex-col items-center text-xs font-medium',
             ]"
@@ -22,7 +22,7 @@
               :is="item.icon"
               :class="[
                 selectedTab == i
-                  ? 'text-orange-300'
+                  ? 'text-orange-400'
                   : 'text-slate-300 group-hover:text-white',
                 'h-6 w-6',
               ]"
@@ -102,7 +102,7 @@
                       :to="item.href"
                       :class="[
                         selectedTab == i
-                          ? 'bg-orange-600/10 text-orange-300'
+                          ? 'bg-orange-600/10 text-orange-400'
                           : 'text-slate-100 hover:bg-slate-800 hover:text-white',
                         'group py-2 px-3 rounded-md flex items-center text-sm font-medium',
                       ]"
@@ -113,7 +113,7 @@
                         :is="item.icon"
                         :class="[
                           selectedTab == i
-                            ? 'text-orange-300'
+                            ? 'text-orange-400'
                             : 'text-slate-300 group-hover:text-white',
                           'mr-3 h-6 w-6',
                         ]"
@@ -186,7 +186,6 @@
       <slot />
     </div>
   </div>
-  <LoadingIndictator />
 </template>
 
 <script setup>
