@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:px-4 px-2">
+  <div>
     <label
       :for="props.schema._key"
       class="block text-sm font-medium leading-6 text-gray-900 text-white"

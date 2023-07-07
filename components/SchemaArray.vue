@@ -1,4 +1,5 @@
 <template>
+  {{ minLength }} / {{ maxLength }}
   <div class="py-4 lg:px-4 px-2">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
@@ -29,8 +30,7 @@
     <div class="space-y-3 py-4">
       <div
         class="flex flex-col lg:flex-row"
-        v-for="(entry, entryIndex) in Array(parseInt(props.schema.maximum || '1'))
-          .fill(0)
+        v-for="(entry, entryIndex) in arr
           .map((_, i) => {
             return {
               ...(Array.isArray(props.schema.items)
@@ -44,7 +44,7 @@
         :key="entry._key"
       >
         <div
-          class="grow flex flex-col lg:ml-2 ring-1 ring-gray-800 shadow-md rounded-lg"
+          class="grow flex flex-col lg:ml-2 ring-1 ring-gray-800 shadow-md rounded-lg p-2 space-y-2"
         >
           <!-- Handle edge cases -->
           <SchemaGroup
@@ -101,6 +101,7 @@ watch(props, (n) => {
   }
 });
 const arr = computed(() => dot.pick(props.target, mod.value));
+console.log(arr.value)
 
 function add(e) {
   if (maxLength && arr.value.length + 1 > maxLength) return;
