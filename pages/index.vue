@@ -102,6 +102,11 @@
             class="rounded-lg bg-orange-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
             >Get started <span aria-hidden="true">→</span></NuxtLink
           >
+          <NuxtLink
+            to="/wiki"
+            class="rounded-lg px-3.5 py-2.5 text-sm font-semibold text-white"
+            >Documentation <span aria-hidden="true">→</span></NuxtLink
+          >
         </div>
       </div>
       <div

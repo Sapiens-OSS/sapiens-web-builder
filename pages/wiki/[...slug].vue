@@ -1,12 +1,12 @@
 <template>
     <div
-    class="mx-auto flex flex-col justify-items-center max-w-7xl px-4 sm:px-6 lg:px-8 mt-10"
+    class="mx-auto flex flex-col justify-items-center max-w-7xl px-4 sm:px-6 lg:px-8"
   >
     <ContentDoc>
       <template v-slot="{ doc }">
         <div>
           <div class="mx-auto max-w-3xl text-base leading-7 text-gray-700">
-            <p class="text-base font-semibold leading-7 text-indigo-500">
+            <p class="text-base font-semibold leading-7 text-orange-600">
               {{ doc.tag || "News" }}
             </p>
             <h1
@@ -16,7 +16,7 @@
             </h1>
             <div class="max-w-2xl">
               <div
-                class="flex mt-5 prose prose-md prose-invert prose-indigo prose-headings:not-prose"
+                class="flex mt-5 prose prose-md prose-invert prose-orange prose-headings:not-prose"
               >
                 <ContentRenderer :value="doc" />
               </div>
@@ -28,7 +28,7 @@
         <main
           class="mx-auto flex w-full max-w-7xl flex-auto flex-col justify-center px-6 py-8 sm:py-32 lg:px-8"
         >
-          <p class="text-base font-semibold leading-8 text-indigo-600">404</p>
+          <p class="text-base font-semibold leading-8 text-orange-600">404</p>
           <h1
             class="mt-4 text-3xl font-bold tracking-tight text-gray-100 sm:text-5xl"
           >
@@ -40,7 +40,7 @@
           <div class="mt-6">
             <NuxtLink
               to="/news"
-              class="text-sm font-semibold leading-7 text-indigo-500"
+              class="text-sm font-semibold leading-7 text-orange-600"
               ><span aria-hidden="true">&larr;</span> Back to News</NuxtLink
             >
           </div>
