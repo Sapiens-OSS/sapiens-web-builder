@@ -16,7 +16,7 @@
         </SwitchDescription>
         <span
           v-if="props.schema._required"
-          class="text-xs bg-red-500/70 p-1 rounded-md text-white select-none"
+          class="text-xs bg-orange-600 p-1 rounded-md text-white select-none"
           >Required</span
         >
       </span>

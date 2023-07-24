@@ -1,12 +1,12 @@
 <template>
-  <div class="lg:px-4 px-2">
+  <div>
     <label
       :for="props.schema._key"
       class="block text-sm font-medium leading-6 text-gray-900 text-white"
       >{{ props.schema.title || props.schema._key || "Error loading schema" }}
       <span
         v-if="props.schema._required"
-        class="text-xs bg-red-500/70 p-1 rounded-md text-white select-none"
+        class="text-xs bg-orange-600 p-1 rounded-md text-white select-none"
         >Required</span
       >
     </label>
