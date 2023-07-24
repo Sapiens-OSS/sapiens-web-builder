@@ -47,7 +47,7 @@
           <div
             :class="[
               selected == item.index ? 'border-l-4 border-orange-600' : '',
-              'hover:bg-gray-800 relative flex items-center space-x-3 px-6 py-5 ',
+              'hover:bg-gray-800 transition relative flex items-center space-x-3 px-6 py-5 ',
             ]"
           >
             <div class="min-w-0 flex w-full flex-row justify-between">
@@ -67,16 +67,16 @@
                 </p>
                 <p class="truncate text-sm text-gray-400">{{ item.tag }}</p>
               </button>
-              <div class="flex flex-row space-x-1">
+              <div class="flex flex-row space-x-1 md:opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   @click="() => props.edit(item.index)"
-                  class="md:hidden group-hover:block text-gray-500 bg-gray-500/20 rounded-xl p-2"
+                  class="text-gray-500 bg-gray-500/20 rounded-xl p-2"
                 >
                   <PencilIcon class="w-5 h-5 z-50" />
                 </button>
                 <button
                   @click="() => props.delete(item.index)"
-                  class="md:hidden group-hover:block text-red-500 bg-red-500/20 rounded-xl p-2"
+                  class="text-red-500 bg-red-500/20 rounded-xl p-2"
                 >
                   <TrashIcon class="w-5 h-5 z-50" />
                 </button>
