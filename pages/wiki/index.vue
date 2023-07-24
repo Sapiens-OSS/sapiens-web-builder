@@ -13,19 +13,16 @@
           <h1
             class="mt-24 text-4xl font-bold tracking-tight text-white sm:mt-10 sm:text-6xl"
           >
-            Let's get you started...
+            Let's get started...
           </h1>
           <p class="mt-6 text-lg leading-8 text-gray-400">
             Documentation on how to make Sapiens mods, the simple way. The Hammerstone Web Builder is by far the easiest way to add your content into Sapiens.
           </p>
           <div class="mt-10 flex items-center gap-x-6">
-            <a
-              href="#"
+            <NuxtLink
+              href="/wiki/documentation"
               class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-              >Get started <span aria-hidden="true">→</span></a
-            >
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
-              >Learn more <span aria-hidden="true">→</span></a
+              >Get started <span aria-hidden="true">→</span></NuxtLink
             >
           </div>
         </div>

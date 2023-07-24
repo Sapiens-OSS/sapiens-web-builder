@@ -2,6 +2,7 @@
   <div class="m-3">
     <div class="relative flex gap-3 items-center">
       <input
+      v-if="props.search"
         type="text"
         name="search"
         id="search"

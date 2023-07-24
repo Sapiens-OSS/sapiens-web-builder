@@ -69,7 +69,7 @@
                         <li v-for="item in navigation" :key="item.name">
                           <NuxtLink
                             :href="item._path"
-                            @click="() => sidebarOpen = false"
+                            @click="() => (sidebarOpen = false)"
                             :class="[
                               route.path.startsWith(item._path)
                                 ? 'bg-orange-600/10 ring-2 ring-orange-500 text-orange-500'
@@ -174,9 +174,25 @@
 
     <aside
       v-if="side"
-      class="fixed inset-y-0 left-72 hidden w-96 overflow-y-auto border-r border-gray-700 px-4 py-6 sm:px-6 lg:px-8 xl:block"
+      class="fixed inset-y-0 left-72 hidden w-96 overflow-y-auto border-r border-gray-700 xl:block"
     >
-      <SearchableColumn />
+    <h1 class="text-2xl text-white font-semibold px-6 py-4">Pages</h1>
+      <nav class="flex flex-1 flex-col" aria-label="Sidebar">
+        <ul role="list" class="-mx-2 space-y-1 px-6 py-2">
+          <li v-for="item in sideBarNavigation" :key="item._path">
+            <NuxtLink
+              :href="item._path"
+              :class="[
+                item.current
+                  ? 'bg-orange-600/10 ring-2 ring-orange-500 text-orange-500'
+                  : 'text-white hover:text-gray-200 hover:bg-gray-800',
+                'group flex gap-x-3 rounded-md p-2 pl-3 text-sm leading-6 font-semibold',
+              ]"
+              >{{ item.title }}</NuxtLink
+            >
+          </li>
+        </ul>
+      </nav>
     </aside>
   </div>
 </template>
@@ -192,10 +208,22 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const navigation = (await fetchContentNavigation())[0].children;
-console.log(navigation);
 
 const route = useRoute();
 
 const sidebarOpen = ref(false);
 const side = ref(true);
+
+const sideBarNavigation = computed(() => {
+  const index = navigation.findIndex((e) => route.path.startsWith(e._path));
+  if (index == -1) {
+    side.value = false;
+    return {};
+  }
+  side.value = true;
+  return navigation[index].children.map((e) => ({
+    ...e,
+    current: route.path.startsWith(e._path),
+  }));
+});
 </script>

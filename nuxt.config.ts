@@ -22,6 +22,10 @@ export default defineNuxtConfig({
         base: join(__dirname, "docs"),
       },
     },
+    highlight: {
+      theme: "github-dark",
+      preload: ["lua", "js"],
+    },
   },
   ssr: false,
 });
