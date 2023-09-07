@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-import { useMod } from "~/composables/shared";
+import { useMod } from "~/composables/mod";
 import dot from "dot-object";
 
 const mod = useMod();

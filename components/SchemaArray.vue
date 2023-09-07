@@ -1,5 +1,4 @@
 <template>
-  {{ minLength }} / {{ maxLength }}
   <div class="py-4 lg:px-4 px-2">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
@@ -30,18 +29,15 @@
     <div class="space-y-3 py-4">
       <div
         class="flex flex-col lg:flex-row"
-        v-for="(entry, entryIndex) in arr
-          .map((_, i) => {
-            return {
-              ...(Array.isArray(props.schema.items)
-                ? props.schema.items[0]
-                : props.schema.items),
-              _target: `${props.target}[${i}]`,
-              _key: `${i}`,
-              title: `${props.schema._key} #${i + 1}`,
-            };
-          })"
-        :key="entry._key"
+        v-for="(entry, entryIndex) in arr.map((_, i) => {
+          return {
+            ...(Array.isArray(props.schema.items)
+              ? props.schema.items[0]
+              : props.schema.items),
+            _target: `${props.target}[${i}]`,
+            title: `${props.schema._key} #${i + 1}`,
+          };
+        })"
       >
         <div
           class="grow flex flex-col lg:ml-2 ring-1 ring-gray-800 shadow-md rounded-lg p-2 space-y-2"
@@ -74,7 +70,7 @@
 </template>
 
 <script setup>
-import { useMod } from "~/composables/shared";
+import { useMod } from "~/composables/mod";
 import { computed } from "vue";
 import dot from "dot-object";
 import { TrashIcon } from "@heroicons/vue/24/outline";
@@ -92,7 +88,7 @@ const maxLength =
   props.schema?.items?.maximum;
 
 if (!dot.pick(props.target, mod.value)) {
-  dot.str(props.target, Array(minLength || 0), mod.value);
+  dot.str(props.target, Array(minLength || 0).fill(null), mod.value);
 }
 // TODO: Watch only target prop
 watch(props, (n) => {
@@ -101,7 +97,6 @@ watch(props, (n) => {
   }
 });
 const arr = computed(() => dot.pick(props.target, mod.value));
-console.log(arr.value)
 
 function add(e) {
   if (maxLength && arr.value.length + 1 > maxLength) return;
