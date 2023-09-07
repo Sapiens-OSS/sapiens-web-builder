@@ -13,10 +13,5 @@ Object.entries(mod.value).forEach(async (e) => {
   }
 });
 
-async function loadElementFromGitHub(slug) {
-  const hammerstoneDir = await $fetch(`https://api.github.com/repos/${slug}/contents/hammerstone`);
-  await Promise.all(hammerstoneDir.map((e) => (async() => {
-    
-  })()));
-}
+
 </script>
