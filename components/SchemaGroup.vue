@@ -37,7 +37,7 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/vue/24/outline";
-import { useMod } from "~/composables/shared";
+import { useMod } from "~/composables/mod";
 import dot from "dot-object";
 const mod = useMod();
 const props = defineProps(["schema", "level", "target"]);

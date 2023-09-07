@@ -1,5 +1,4 @@
 <template>
-  {{ minLength }} / {{ maxLength }}
   <div class="py-4 lg:px-4 px-2">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
@@ -37,11 +36,9 @@
                 ? props.schema.items[0]
                 : props.schema.items),
               _target: `${props.target}[${i}]`,
-              _key: `${i}`,
               title: `${props.schema._key} #${i + 1}`,
             };
           })"
-        :key="entry._key"
       >
         <div
           class="grow flex flex-col lg:ml-2 ring-1 ring-gray-800 shadow-md rounded-lg p-2 space-y-2"
@@ -74,7 +71,7 @@
 </template>
 
 <script setup>
-import { useMod } from "~/composables/shared";
+import { useMod } from "~/composables/mod";
 import { computed } from "vue";
 import dot from "dot-object";
 import { TrashIcon } from "@heroicons/vue/24/outline";

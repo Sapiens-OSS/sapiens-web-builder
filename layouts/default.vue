@@ -7,7 +7,7 @@
       <div class="flex w-full grow flex-col items-center py-2">
         <div class="w-full flex-1 space-y-1 px-2">
           <NuxtLink
-            v-for="(item, i) in pages"
+            v-for="(item, i) in navigation"
             :key="item.name"
             :to="item.href"
             :class="[
@@ -97,7 +97,7 @@
                 <nav class="flex h-full flex-col">
                   <div class="space-y-1">
                     <NuxtLink
-                      v-for="(item, i) in pages"
+                      v-for="(item, i) in navigation"
                       :key="item.name"
                       :to="item.href"
                       :class="[
@@ -148,11 +148,11 @@
             <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
           </button>
           <h3 class="text-2xl z-10 font-medium leading-6 text-white px-4">
-            {{ pages[selectedTab]?.name || "Unknown Page" }}
+            {{ navigation[selectedTab]?.name || "Unknown Page" }}
           </h3>
 
           <div
-            class="absolute -bottom-32 transform-gpu blur-3xl lg:top-[calc(50%-40rem)] "
+            class="absolute -bottom-32 transform-gpu blur-3xl lg:top-[calc(50%-40rem)]"
             aria-hidden="true"
           >
             <div
@@ -207,51 +207,10 @@ import {
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 
-const pages = [
-  {
-    name: "Mod Info",
-    href: "/modinfo",
-    icon: AdjustmentsHorizontalIcon,
-  },
-  {
-    name: "Materials",
-    href: "/schema/materials",
-    icon: Squares2X2Icon,
-  },
-  {
-    name: "Objects",
-    href: "/schema/objects",
-    icon: CubeTransparentIcon,
-  },
-  {
-    name: "Recipes",
-    href: "/schema/recipes",
-    icon: QueueListIcon,
-  },
-  {
-    name: "Storages",
-    href: "/schema/storages",
-    icon: RectangleStackIcon,
-  },
-  /*{
-    name: "Researches",
-    href: "/schema/researches",
-    icon: AcademicCapIcon,
-
-    // Schema stuff
-    schema: ""
-  },*/
-  {
-    name: "Export",
-    href: "/export",
-    icon: ArrowDownTrayIcon,
-  },
-];
-
 const selectedTab = computed(() => {
   const route = useRoute();
-  for (let i = 0; i < pages.length; i++) {
-    if (route.fullPath == pages[i].href) {
+  for (let i = 0; i < navigation.length; i++) {
+    if (route.fullPath == navigation[i].href) {
       return i;
     }
   }

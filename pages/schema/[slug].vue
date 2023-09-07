@@ -9,7 +9,7 @@
   >
     <div v-if="selected != -1" class="max-h-full overflow-y-scroll p-4">
       <SchemaGroup
-        :schema="JSON.parse(schema)"
+        :schema="schema"
         :target="`${slug}.files[${selected}]`"
         :level="0"
       />
@@ -137,7 +137,7 @@
 </template>
 
 <script setup>
-import { useMod } from "~/composables/shared";
+import { useMod } from "~/composables/mod";
 import { PlusIcon } from "@heroicons/vue/20/solid";
 import {
   Dialog,
@@ -150,12 +150,16 @@ import * as randomWords from 'random-words';
 
 
 const route = useRoute();
+const router = useRouter();
 const slug = route.params.slug;
 const mod = useMod();
-const schema = mod.value[slug]._schemaCache;
-if (!mod.value[slug].files) {
-  mod.value[slug].files = [];
+const tab = tabs.filter((e) => e.id == slug)[0];
+if(!(tab && tab.filled)){
+  router.push('/modinfo');
 }
+const schema = tab.schema;
+mod.value[slug] ??= {};
+mod.value[slug].files ??= [];
 
 const editObj = ref(null);
 
