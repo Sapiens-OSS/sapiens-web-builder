@@ -79,7 +79,7 @@ export const tabs: {
   },
   {
     _schema:
-      "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/main/schemas/object.schema.json",
+      "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/updating-schemas/schemas/object.schema.json",
   },
   {
     _schema:

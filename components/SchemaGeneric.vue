@@ -25,6 +25,11 @@
     :schema="element"
     :target="element._target"
   />
+  <SchemaRemap
+    v-else-if="element.type == 'remap'"
+    :schema="element"
+    :target="element._target"
+  />
   <SchemaUnknown v-else :schema="element" />
 </template>
 

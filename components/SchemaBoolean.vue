@@ -51,6 +51,7 @@ import dot from "dot-object";
 
 const mod = useMod();
 const props = defineProps(["schema", "target"]);
+
 const boolean = computed({
   get() {
     return dot.pick(props.target, mod.value);
@@ -59,6 +60,10 @@ const boolean = computed({
     dot.str(props.target, e, mod.value);
   },
 });
+
+if(props.schema.default != null){
+  boolean.value = props.schema.default; 
+}
 if (!boolean) {
   dot.str(props.target, false, mod.value);
 }
