@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2 lg:px-4 px-2">
+  <div class="">
     <SwitchGroup as="div" class="flex items-center justify-between">
       <span class="flex flex-grow flex-col">
         <SwitchLabel

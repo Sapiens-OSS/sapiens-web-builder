@@ -26,7 +26,7 @@
       >
       </DisclosureButton>
     </dt>
-    <DisclosurePanel as="div" class="lg:pl-4 flex flex-col gap-y-2 p-2">
+    <DisclosurePanel as="div" class="lg:pl-4 flex flex-col gap-y-1 lg:gap-y-3 pl-2 py-2 lg:p-2">
       <div v-for="element in entries" :key="element._key">
         <SchemaGeneric :element="element" :level="level" />
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4 lg:px-4 px-2">
+  <div class="py-4">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-white">
