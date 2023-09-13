@@ -154,6 +154,7 @@ const router = useRouter();
 const slug = route.params.slug;
 const mod = useMod();
 const tab = tabs.filter((e) => e.id == slug)[0];
+if(!tab) router.push('/modinfo');
 if(!(tab && tab.filled)){
   router.push('/modinfo');
 }

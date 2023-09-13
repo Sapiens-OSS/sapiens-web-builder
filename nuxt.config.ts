@@ -10,5 +10,5 @@ export default defineNuxtConfig({
       title: "Hammerstone Web Builder",
     },
   },
-  // ssr: false,
+  ssr: false,
 });

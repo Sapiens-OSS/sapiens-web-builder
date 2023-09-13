@@ -20,6 +20,7 @@
           >
             <component
               :is="item.icon"
+              :key="item.name"
               :class="[
                 selectedTab == i
                   ? 'text-orange-400'
@@ -111,6 +112,7 @@
                     >
                       <component
                         :is="item.icon"
+                        :key="item.name"
                         :class="[
                           selectedTab == i
                             ? 'text-orange-400'
@@ -137,7 +139,7 @@
     <div class="flex flex-1 flex-col overflow-hidden">
       <header class="w-full">
         <div
-          class="relative items-center overflow-hidden flex h-16 flex-shrink-0 border-b-2 border-gray-800 bg-gray-900 shadow-sm"
+          class="items-center justify-between flex h-16 flex-shrink-0 border-b-2 border-gray-800 bg-gray-900 shadow-sm"
         >
           <button
             type="button"
@@ -151,34 +153,51 @@
             {{ navigation[selectedTab]?.name || "Unknown Page" }}
           </h3>
 
-          <div
-            class="absolute -bottom-32 transform-gpu blur-3xl lg:top-[calc(50%-40rem)]"
-            aria-hidden="true"
-          >
-            <div
-              class="aspect-[1108/632] w-[100rem] bg-gradient-to-b from-orange-600 to-amber-300 opacity-20"
-              style="
-                clip-path: polygon(
-                  73.6% 51.7%,
-                  91.7% 11.8%,
-                  100% 46.4%,
-                  97.4% 82.2%,
-                  92.5% 84.9%,
-                  75.7% 64%,
-                  55.3% 47.5%,
-                  46.5% 49.4%,
-                  45% 62.9%,
-                  50.3% 87.2%,
-                  21.3% 64.1%,
-                  0.1% 100%,
-                  5.4% 51.1%,
-                  21.4% 63.9%,
-                  58.9% 0.2%,
-                  73.6% 51.7%
-                );
-              "
-            />
-          </div>
+          <Menu v-if="githubUser" as="div" class="relative px-4">
+            <MenuButton class="-m-1.5 flex items-center p-1.5">
+              <span class="sr-only">Open user menu</span>
+              <img
+                class="h-8 w-8 rounded-full bg-gray-50"
+                :src="githubUser['avatar_url']"
+                alt=""
+              />
+              <span class="hidden lg:flex lg:items-center">
+                <span
+                  class="ml-4 text-sm font-semibold leading-6 text-white"
+                  aria-hidden="true"
+                  >{{ githubUser.login }}</span
+                >
+                <ChevronDownIcon
+                  class="ml-2 h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </span>
+            </MenuButton>
+            <transition
+              enter-active-class="transition ease-out duration-100"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
+              leave-active-class="transition ease-in duration-75"
+              leave-from-class="transform opacity-100 scale-100"
+              leave-to-class="transform opacity-0 scale-95"
+            >
+              <MenuItems
+                class="absolute my-2 mx-1 right-0 z-10 origin-top-right rounded-md overflow-hidden bg-gray-800 shadow-lg focus:outline-none"
+              >
+                <MenuItem v-for="item in userNavigation" v-slot="{ active }">
+                  <button
+                    @click="item.action"
+                    :class="[
+                      active ? 'bg-gray-700' : '',
+                      'block whitespace-nowrap w-full px-5 py-3 text-sm leading-6 text-white',
+                    ]"
+                  >
+                    {{ item.name }}
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </transition>
+          </Menu>
         </div>
       </header>
 
@@ -193,29 +212,37 @@ import { ref, computed } from "vue";
 import {
   Dialog,
   DialogPanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import {
-  Bars3BottomLeftIcon,
-  ArrowDownTrayIcon,
-  AdjustmentsHorizontalIcon,
-  CubeTransparentIcon,
-  RectangleStackIcon,
-  Squares2X2Icon,
-  QueueListIcon,
-  XMarkIcon,
-} from "@heroicons/vue/24/outline";
+import { Bars3BottomLeftIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const selectedTab = computed(() => {
   const route = useRoute();
-  for (let i = 0; i < navigation.length; i++) {
-    if (route.fullPath == navigation[i].href) {
+  for (let i = 0; i < navigation.value.length; i++) {
+    if (route.fullPath == navigation.value[i].href) {
       return i;
     }
   }
   return -1;
 });
+
+const githubUser = useGitHubUser();
+
+const userNavigation = [
+  {
+    name: "Remove Account",
+    action: () => {
+      deleteDocument("github", "pat");
+      githubUser.value = null;
+    },
+  },
+];
 
 const mobileMenuOpen = ref(false);
 </script>

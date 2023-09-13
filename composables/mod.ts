@@ -12,6 +12,7 @@ import {
   HTMLAttributes,
   VNodeProps,
 } from "nuxt/dist/app/compat/capi";
+import GitHubIcon from "assets/github";
 
 export const useMod = () =>
   useState("mod", () => {
@@ -111,14 +112,36 @@ export const locales: {
   },
 };
 
-export let navigation: {
+export const constantNavigation: {
   name: string;
   href: string;
   icon: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
-}[] = [];
+}[] = [
+  {
+    name: "Mod Info",
+    href: "/modinfo",
+    icon: AdjustmentsHorizontalIcon,
+  },
+  {
+    name: "GitHub",
+    href: "/github",
+    icon: GitHubIcon,
+  },
+  {
+    name: "Export",
+    href: "/export",
+    icon: ArrowDownTrayIcon,
+  },
+];
+
+export const navigation: Ref<{
+  name: string;
+  href: string;
+  icon: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
+}[]> = ref(constantNavigation);
 
 export async function fillOutTabs() {
-  await Promise.all(
+  await Promise.allSettled(
     tabs.map((e, i) =>
       (async () => {
         if (e.filled) {
@@ -142,24 +165,14 @@ export async function fillOutTabs() {
     )
   );
 
-  navigation = [
-    {
-      name: "Mod Info",
-      href: "/modinfo",
-      icon: AdjustmentsHorizontalIcon,
-    },
-    {
-      name: "Export",
-      href: "/export",
-      icon: ArrowDownTrayIcon,
-    },
-  ];
+  navigation.value = constantNavigation;
 
   tabs.reverse().forEach((e) => {
+    if(!e) return;
     if (!(e.filled && e.name && e.icon)) {
       return;
     }
-    navigation.splice(1, 0, {
+    navigation.value.splice(1, 0, {
       name: e.name,
       href: `/schema/${e.id}`,
       icon: e.icon,
