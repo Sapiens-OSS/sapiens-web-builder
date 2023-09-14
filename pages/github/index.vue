@@ -78,7 +78,6 @@
         <li
           v-for="repo in repos"
           :key="repo.id"
-          @click=" /*loadProjectFromGitHub(repo.url) */"
           class="relative cursor-pointer flex justify-between gap-x-6 px-4 py-5 hover:bg-zinc-800 sm:px-6"
         >
           <div class="flex min-w-0 gap-x-4">
