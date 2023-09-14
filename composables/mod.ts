@@ -158,7 +158,7 @@ export async function fillOutTabs() {
     )
   );
 
-  navigation.value = constantNavigation;
+  navigation.value = [...constantNavigation];
 
   tabs.reverse().forEach((e) => {
     if (!e) return;

@@ -4,7 +4,7 @@
       v-if="!githubUser"
       class="absolute inset-0 flex justify-center items-start p-4 lg:items-center bg-backdrop-blur bg-zinc-900/30"
     >
-      <div class="flex bg-gray-800 rounded-xl h-fit p-8">
+      <div class="flex bg-zinc-800 rounded-xl h-fit p-8">
         <div class="flex min-h-full flex-1 flex-col">
           <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2
@@ -46,10 +46,10 @@
               </div>
             </form>
 
-            <p class="mt-10 text-center text-sm text-gray-400">
+            <p class="mt-10 text-center text-sm text-zinc-400">
               All authentication is done client-side.
             </p>
-            <p class="mt-2 text-center text-sm text-gray-400">
+            <p class="mt-2 text-center text-sm text-zinc-400">
               How do I connect GitHub?
               {{ " " }}
               <a
@@ -62,8 +62,46 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <h1 class="text-white">GitHub integration coming soon!</h1>
+    <div class="h-full w-full overflow-y-scroll" v-else>
+      <h3 class="text-sm text-zinc-400 p-3">
+        Make sure your project is tagged with
+        <span
+          class="bg-zinc-950 mx-0.5 px-2 py-1 font-monospace ring-1 ring-zinc-300/50 rounded-lg"
+          >hwb</span
+        >
+        in order to show up here.
+      </h3>
+      <ul
+        role="list"
+        class="divide-y divide-zinc-600 flex flex-col mb-16 shadow-sm ring-1 ring-zinc-900/5"
+      >
+        <li
+          v-for="repo in repos"
+          :key="repo.id"
+          @click=" /*loadProjectFromGitHub(repo.url) */"
+          class="relative cursor-pointer flex justify-between gap-x-6 px-4 py-5 hover:bg-zinc-800 sm:px-6"
+        >
+          <div class="flex min-w-0 gap-x-4">
+            <div class="min-w-0 flex-auto">
+              <p class="text-sm font-semibold leading-6 text-white">
+                <span class="absolute inset-x-0 -top-px bottom-0" />
+                {{ repo.full_name }}
+              </p>
+              <p class="mt-1 flex text-xs leading-5 text-zinc-400">
+                <span class="relative truncate">{{
+                  repo.description || "No description for this project."
+                }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="flex shrink-0 items-center gap-x-4">
+            <ChevronRightIcon
+              class="h-5 w-5 flex-none text-zinc-400"
+              aria-hidden="true"
+            />
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -71,12 +109,14 @@
 <script setup>
 import GitHubIcon from "@/assets/github";
 import { assertBucketExists } from "@/composables/storage";
+import { ChevronRightIcon, FunnelIcon } from "@heroicons/vue/24/outline";
 
 const githubUser = useGitHubUser();
 
 assertBucketExists("github");
 
 const tokenModel = ref("");
+const repos = ref([]);
 
 async function submitToken() {
   const validToken = await updateGitHubUser(tokenModel.value);
@@ -87,4 +127,10 @@ async function submitToken() {
   }
 }
 
+if (githubUser.value) {
+  const token = getDocument("github", "pat");
+  $fetch(githubUser.value.repos_url, generateGitHubHeaders()).then((e) => {
+    repos.value = e.filter((v) => v.topics.includes("hwb"));
+  });
+}
 </script>

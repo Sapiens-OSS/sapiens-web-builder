@@ -17,7 +17,7 @@
     <div class="flex h-full w-full justify-center" v-else>
       <div class="flex flex-col self-center h-min text-center">
         <svg
-          class="mx-auto h-12 w-12 text-gray-400"
+          class="mx-auto h-12 w-12 text-zinc-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -32,7 +32,7 @@
           />
         </svg>
         <h3 class="mt-2 text-sm font-semibold text-white">No file selected</h3>
-        <p class="mt-1 text-sm text-gray-400">
+        <p class="mt-1 text-sm text-zinc-400">
           Get started by creating a new file or selecting one.
         </p>
         <div class="mt-6">
@@ -60,7 +60,7 @@
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-0 bg-gray-950 bg-opacity-75 transition-opacity"
+          class="fixed inset-0 bg-zinc-950 bg-opacity-75 transition-opacity"
         />
       </TransitionChild>
 
@@ -78,7 +78,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-lg bg-zinc-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
@@ -94,14 +94,14 @@
                           type="text"
                           name="name"
                           id="name"
-                          class="block w-full bg-gray-800 text-white rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                          class="block w-full bg-zinc-800 text-white rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-zinc-800 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                           placeholder="new_file"
                           aria-describedby="name-description"
                           v-model="editObj.name"
                         />
                       </div>
                       <p
-                        class="mt-2 text-sm text-gray-500"
+                        class="mt-2 text-sm text-zinc-500"
                         id="name-description"
                       >
                         Use a valid file name (no spaces or special characters).
@@ -111,7 +111,7 @@
                 </div>
               </div>
               <div
-                class="bg-gray-900 border-t border-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
+                class="bg-zinc-900 border-t border-zinc-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
               >
                 <button
                   type="button"
@@ -122,7 +122,7 @@
                 </button>
                 <button
                   type="button"
-                  class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500/20 sm:ml-3 sm:w-auto"
+                  class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-500/20 sm:ml-3 sm:w-auto"
                   @click="editObj = null"
                 >
                   Cancel
@@ -155,7 +155,7 @@ const slug = route.params.slug;
 const mod = useMod();
 const tab = tabs.filter((e) => e.id == slug)[0];
 if(!tab) router.push('/modinfo');
-if(!(tab && tab.filled)){
+if(!tab.filled){
   router.push('/modinfo');
 }
 const schema = tab.schema;

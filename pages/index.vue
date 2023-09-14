@@ -1,5 +1,5 @@
 <template>
-  <div class="relative isolate overflow-hidden bg-gray-900">
+  <div class="relative isolate overflow-hidden bg-zinc-900">
     <svg
       class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
       aria-hidden="true"
@@ -16,7 +16,7 @@
           <path d="M.5 200V.5H200" fill="none" />
         </pattern>
       </defs>
-      <svg x="50%" y="-1" class="overflow-visible fill-gray-800/20">
+      <svg x="50%" y="-1" class="overflow-visible fill-zinc-800/20">
         <path
           d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
           stroke-width="0"
@@ -80,7 +80,7 @@
               ></span
             >
             <span
-              class="hidden md:flex items-center space-x-2 text-sm font-medium leading-6 text-gray-300"
+              class="hidden md:flex items-center space-x-2 text-sm font-medium leading-6 text-zinc-300"
             >
               Check out the source code <span aria-hidden="true" class="ml-1">→</span>
             </span>
@@ -91,7 +91,7 @@
         >
           Create Sapiens mods, easily.
         </h1>
-        <p class="mt-6 text-lg leading-8 text-gray-300">
+        <p class="mt-6 text-lg leading-8 text-zinc-300">
           The Hammerstone Web Builder is an easy-to-use web app to create
           Sapiens mods that use the Hammerstone Framework. Created and supported
           by the Sapiens Modding Community.
@@ -118,11 +118,11 @@
         </div>
       </div>
     </div>
-    <footer class="border-t border-gray-800 py-6 sm:py-10">
+    <footer class="border-t border-zinc-800 py-6 sm:py-10">
       <div
         class="mx-auto flex max-w-7xl flex-col items-center justify-center gap-8 px-6 sm:flex-row lg:px-8"
       >
-        <p class="text-sm leading-7 text-gray-500">
+        <p class="text-sm leading-7 text-zinc-500">
           Created and supported with &#10084;&#65039; by the Sapiens Modding
           Community.
         </p>

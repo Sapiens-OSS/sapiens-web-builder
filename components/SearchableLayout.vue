@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-1 items-stretch overflow-hidden">
     <aside
-      class="hidden w-96 overflow-y-auto border-r border-gray-700 lg:block"
+      class="hidden w-96 overflow-y-auto border-r border-zinc-700 lg:block"
     >
       <SearchableColumn
         :directory="directory"
@@ -41,11 +41,11 @@
         >
           <div class="text-center">
             <h1
-              class="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl"
+              class="mt-4 text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl"
             >
               Interface unimplemented
             </h1>
-            <p class="mt-6 text-base leading-7 text-gray-600">
+            <p class="mt-6 text-base leading-7 text-zinc-600">
               Sorry, we haven't got around to implementing this panel. Please
               check back later!
             </p>
@@ -77,7 +77,7 @@
         >
           <DialogPanel class="pointer-events-auto w-screen max-w-md">
             <div
-              class="flex h-full flex-col overflow-y-scroll bg-gray-900 shadow-xl"
+              class="flex h-full flex-col overflow-y-scroll bg-zinc-900 shadow-xl"
             >
               <SearchableColumn
                 :directory="directory"

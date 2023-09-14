@@ -12,7 +12,7 @@
             >Required</span
           >
         </h1>
-        <p class="mt-2 text-sm text-gray-400">
+        <p class="mt-2 text-sm text-zinc-400">
           {{ props.schema.description || "No description provided." }}
         </p>
       </div>
@@ -36,17 +36,17 @@
             :value="entry[0]"
             @change="(e) => modifyKey(entry[0], e.target.value)"
             type="text"
-            class="block rounded-md font-normal border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-gray-800 text-white"
+            class="block rounded-md font-normal border-0 py-1.5 text-zinc-900 shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-zinc-800 text-white"
           />
           ->
           <input
             :value="entry[1]"
             @change="(e) => modifyValue(entry[0], e.target.value)"
             type="text"
-            class="block rounded-md font-normal border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-gray-800 text-white"
+            class="block rounded-md font-normal border-0 py-1.5 text-zinc-900 shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-zinc-800 text-white"
           />
         </div>
-        <span class="block lg:hidden text-gray-200">
+        <span class="block lg:hidden text-zinc-200">
           {{ entry[0] }} -> {{ entry[1] }}
         </span>
         <div class="flex flex-row justify-end gap-x-1">
@@ -85,7 +85,7 @@
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity"
+          class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
         />
       </TransitionChild>
 
@@ -103,7 +103,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+              class="relative transform overflow-hidden rounded-lg bg-zinc-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
             >
               <div class="text-white">
                 <input
@@ -117,7 +117,7 @@
                     }
                   "
                   type="text"
-                  class="block rounded-md font-normal border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-gray-900 text-white"
+                  class="block rounded-md font-normal border-0 py-1.5 text-zinc-900 shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-zinc-900 text-white"
                 />
                 <div class="flex my-2 justify-center">
                   <ArrowDownIcon class="w-5 h-5" />
@@ -128,7 +128,7 @@
                     (e) => modifyValue(mobileEditTableTarget, e.target.value)
                   "
                   type="text"
-                  class="block rounded-md font-normal border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-gray-900 text-white"
+                  class="block rounded-md font-normal border-0 py-1.5 text-zinc-900 shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-zinc-900 text-white"
                 />
               </div>
               <div class="mt-5 sm:mt-6">

@@ -4,7 +4,7 @@
       <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
         Ready?<br />Download your mod.
       </h2>
-      <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
+      <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-zinc-300">
         Click the Download button and we'll package your mod up, all nice and
         neat. You'll have to extract it into your mods directory to play.
       </p>

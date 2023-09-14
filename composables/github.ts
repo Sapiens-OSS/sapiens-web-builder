@@ -1,12 +1,27 @@
 import { Octokit } from "octokit";
 
+export const generateGitHubHeaders = () => {
+  const token = getOrDefaultDocument("github", "pat", null);
+  if (token) {
+    return {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+  }
+  return {};
+};
+
 export const useGitHubUser = () => useState("github_user", () => null);
 
-async function handleFile(url: string) {}
+async function handleFile(url: string) {
+  const data = await $fetch(url);
+  const mod = useMod();
+
+  // Find the right schema, somehow
+}
 
 async function recuseDir(url: string) {
   const dir: { url: string; type: string; download_url?: string }[] =
-    await $fetch(url);
+    await $fetch(url, generateGitHubHeaders());
   await Promise.all(
     dir.map((e) =>
       (async () => {
@@ -23,11 +38,11 @@ async function recuseDir(url: string) {
   );
 }
 
-export async function loadProjectFromGitHub(slug: string) {
-  await recuseDir(`https://api.github.com/repos/${slug}/contents/hammerstone`);
+export async function loadProjectFromGitHub(url: string) {
+  await recuseDir(`${url}/contents/hammerstone`);
 }
 
-export async function updateGitHubUser(token: string){
+export async function updateGitHubUser(token: string) {
   const octokit = new Octokit({ auth: token });
 
   const gitHubUser = useGitHubUser();

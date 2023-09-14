@@ -1,8 +1,8 @@
 <template>
-  <div class="flex h-screen bg-gray-900">
+  <div class="flex h-screen bg-zinc-900">
     <!-- Narrow sidebar -->
     <div
-      class="hidden w-28 overflow-y-auto bg-gray-900 border-r-2 border-gray-800 md:block"
+      class="hidden w-28 overflow-y-auto bg-zinc-900 border-r-2 border-zinc-800 md:block"
     >
       <div class="flex w-full grow flex-col items-center py-2">
         <div class="w-full flex-1 space-y-1 px-2">
@@ -13,7 +13,7 @@
             :class="[
               selectedTab == i
                 ? 'bg-orange-600/10 text-orange-400'
-                : 'text-slate-100 hover:bg-slate-800 hover:text-white',
+                : 'text-zinc-100 hover:bg-zinc-800 hover:text-white',
               'group transition w-full p-3 rounded-md flex flex-col items-center text-xs font-medium',
             ]"
             :aria-current="selectedTab == i ? 'page' : undefined"
@@ -24,7 +24,7 @@
               :class="[
                 selectedTab == i
                   ? 'text-orange-400'
-                  : 'text-slate-300 group-hover:text-white',
+                  : 'text-zinc-300 group-hover:text-white',
                 'h-6 w-6',
               ]"
               aria-hidden="true"
@@ -51,7 +51,7 @@
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <div class="fixed inset-0 bg-gray-900 bg-opacity-75" />
+          <div class="fixed inset-0 bg-zinc-900 bg-opacity-75" />
         </TransitionChild>
 
         <div class="fixed inset-0 z-40 flex">
@@ -65,7 +65,7 @@
             leave-to="-translate-x-full"
           >
             <DialogPanel
-              class="relative flex w-full max-w-xs flex-1 flex-col bg-gray-900 border-r border-gray-800 pt-5 pb-4"
+              class="relative flex w-full max-w-xs flex-1 flex-col bg-zinc-900 border-r border-zinc-800 pt-5 pb-4"
             >
               <TransitionChild
                 as="template"
@@ -104,7 +104,7 @@
                       :class="[
                         selectedTab == i
                           ? 'bg-orange-600/10 text-orange-400'
-                          : 'text-slate-100 hover:bg-slate-800 hover:text-white',
+                          : 'text-zinc-100 hover:bg-zinc-800 hover:text-white',
                         'group py-2 px-3 rounded-md flex items-center text-sm font-medium',
                       ]"
                       :aria-current="selectedTab == i ? 'page' : undefined"
@@ -116,7 +116,7 @@
                         :class="[
                           selectedTab == i
                             ? 'text-orange-400'
-                            : 'text-slate-300 group-hover:text-white',
+                            : 'text-zinc-300 group-hover:text-white',
                           'mr-3 h-6 w-6',
                         ]"
                         aria-hidden="true"
@@ -139,11 +139,11 @@
     <div class="flex flex-1 flex-col overflow-hidden">
       <header class="w-full">
         <div
-          class="items-center justify-between flex h-16 flex-shrink-0 border-b-2 border-gray-800 bg-gray-900 shadow-sm"
+          class="items-center justify-between flex h-16 flex-shrink-0 border-b-2 border-zinc-800 bg-zinc-900 shadow-sm"
         >
           <button
             type="button"
-            class="border-r z-10 h-full border-gray-600 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
+            class="border-r z-10 h-full border-zinc-600 px-4 text-zinc-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500 md:hidden"
             @click="mobileMenuOpen = true"
           >
             <span class="sr-only">Open sidebar</span>
@@ -157,7 +157,7 @@
             <MenuButton class="-m-1.5 flex items-center p-1.5">
               <span class="sr-only">Open user menu</span>
               <img
-                class="h-8 w-8 rounded-full bg-gray-50"
+                class="h-8 w-8 rounded-full bg-zinc-50"
                 :src="githubUser['avatar_url']"
                 alt=""
               />
@@ -168,7 +168,7 @@
                   >{{ githubUser.login }}</span
                 >
                 <ChevronDownIcon
-                  class="ml-2 h-5 w-5 text-gray-400"
+                  class="ml-2 h-5 w-5 text-zinc-400"
                   aria-hidden="true"
                 />
               </span>
@@ -182,13 +182,13 @@
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="absolute my-2 mx-1 right-0 z-10 origin-top-right rounded-md overflow-hidden bg-gray-800 shadow-lg focus:outline-none"
+                class="absolute my-2 mx-1 right-0 z-10 origin-top-right rounded-md overflow-hidden bg-zinc-800 shadow-lg focus:outline-none"
               >
                 <MenuItem v-for="item in userNavigation" v-slot="{ active }">
                   <button
                     @click="item.action"
                     :class="[
-                      active ? 'bg-gray-700' : '',
+                      active ? 'bg-zinc-700' : '',
                       'block whitespace-nowrap w-full px-5 py-3 text-sm leading-6 text-white',
                     ]"
                   >

@@ -9,7 +9,7 @@
       <DisclosureButton
         :class="[
           props.schema._required ? 'border-2 border-orange-600' : '',
-          'relative flex w-full items-start justify-between text-left text-gray-900 bg-gray-800 px-4 py-2 rounded-lg',
+          'relative flex w-full items-start justify-between text-left text-zinc-900 bg-zinc-800 px-4 py-2 rounded-lg',
         ]"
       >
         <span class="text-base truncate font-semibold leading-7 text-white"

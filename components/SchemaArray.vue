@@ -12,7 +12,7 @@
             >Required</span
           >
         </h1>
-        <p class="mt-2 text-sm text-gray-400">
+        <p class="mt-2 text-sm text-zinc-400">
           {{ props.schema.description || "No description provided." }}
         </p>
       </div>
@@ -40,7 +40,7 @@
         })"
       >
         <div
-          class="grow flex flex-col bg-gray-800/30 lg:ml-2 shadow-xl rounded-lg space-y-2"
+          class="grow flex flex-col bg-zinc-800/30 lg:ml-2 shadow-xl rounded-lg space-y-2"
         >
           <!-- Handle edge cases -->
           <SchemaGroup

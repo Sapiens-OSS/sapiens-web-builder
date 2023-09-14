@@ -7,7 +7,7 @@
         id="search"
         v-model="search"
         placeholder="Search items..."
-        class="block w-full rounded-md bg-gray-900 text-gray-400 border-slate-600 pr-12 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm"
+        class="block w-full rounded-md bg-zinc-900 text-zinc-400 border-slate-600 pr-12 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm"
       />
       <button
         type="button"
@@ -34,7 +34,7 @@
       class="relative"
     >
       <div
-        class="sticky top-0 z-10 border-t border-b border-gray-700 bg-gray-800 px-6 py-1 text-sm font-medium text-gray-500"
+        class="sticky top-0 z-10 border-t border-b border-zinc-700 bg-zinc-800 px-6 py-1 text-sm font-medium text-zinc-500"
       >
         <h3 class="text-white">{{ letter }}</h3>
       </div>
@@ -42,12 +42,12 @@
         <li
           v-for="item in props.directory[letter]"
           :key="item.index"
-          class="bg-gray-900 group"
+          class="bg-zinc-900 group"
         >
           <div
             :class="[
               selected == item.index ? 'border-l-4 border-orange-600' : '',
-              'hover:bg-gray-800 transition relative flex items-center space-x-3 px-6 py-5 ',
+              'hover:bg-zinc-800 transition relative flex items-center space-x-3 px-6 py-5 ',
             ]"
           >
             <div class="min-w-0 flex w-full flex-row justify-between">
@@ -63,14 +63,14 @@
                     'text-sm text-white',
                   ]"
                 >
-                  {{ item.name }}<span class="text-gray-500">.json</span>
+                  {{ item.name }}<span class="text-zinc-500">.json</span>
                 </p>
-                <p class="truncate text-sm text-gray-400">{{ item.tag }}</p>
+                <p class="truncate text-sm text-zinc-400">{{ item.tag }}</p>
               </button>
               <div class="flex flex-row space-x-1 md:opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   @click="() => props.edit(item.index)"
-                  class="text-gray-500 bg-gray-500/20 rounded-xl p-2"
+                  class="text-zinc-500 bg-zinc-500/20 rounded-xl p-2"
                 >
                   <PencilIcon class="w-5 h-5 z-50" />
                 </button>

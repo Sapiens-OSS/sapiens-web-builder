@@ -2,7 +2,7 @@
   <div>
     <label
       :for="props.schema._key"
-      class="block text-sm font-medium leading-6 text-gray-900 text-white"
+      class="block text-sm font-medium leading-6 text-zinc-900 text-white"
       >{{ props.schema.title || props.schema._key || "Error loading schema" }}
       <span
         v-if="props.schema._required"
@@ -14,14 +14,14 @@
       <Listbox v-if="schema?.enum" as="div" v-model="text">
         <div class="relative mt-2">
           <ListboxButton
-            class="relative w-full cursor-default rounded-md bg-gray-800 py-1.5 pl-3 pr-10 text-left text-white shadow-sm ring-1 ring-inset ring-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-600 sm:text-sm sm:leading-6"
+            class="relative w-full cursor-default rounded-md bg-zinc-800 py-1.5 pl-3 pr-10 text-left text-white shadow-sm ring-1 ring-inset ring-zinc-800 focus:outline-none focus:ring-2 focus:ring-orange-600 sm:text-sm sm:leading-6"
           >
             <span class="block truncate">{{ text }}</span>
             <span
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
             >
               <ChevronUpDownIcon
-                class="h-5 w-5 text-gray-400"
+                class="h-5 w-5 text-zinc-400"
                 aria-hidden="true"
               />
             </span>
@@ -33,7 +33,7 @@
             leave-to-class="opacity-0"
           >
             <ListboxOptions
-              class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-zinc-900 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
             >
               <ListboxOption
                 as="template"
@@ -76,7 +76,7 @@
         :name="props.schema?._key"
         :id="props.schema._key"
         v-model="text"
-        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-gray-800 text-white"
+        class="block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6 bg-zinc-800 text-white"
         :placeholder="
           props.schema.examples
             ? `e.g. ${props.schema.examples.join(', ')}`
@@ -86,7 +86,7 @@
       />
     </div>
     <p
-      class="mt-1 text-sm text-gray-400 max-w-full truncate"
+      class="mt-1 text-sm text-zinc-400 max-w-full truncate"
       :id="`${props.schema._key}-description`"
     >
       {{ props.schema.description }}
