@@ -4,8 +4,7 @@ import {
   ArrowDownTrayIcon,
   CubeIcon,
   CubeTransparentIcon,
-  QueueListIcon,
-  Squares2X2Icon,
+  GlobeAltIcon,
 } from "@heroicons/vue/24/outline";
 import {
   FunctionalComponent,
@@ -72,11 +71,7 @@ export const tabs: {
 }[] = [
   {
     _schema:
-      "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/main/schemas/material.schema.json",
-  },
-  {
-    _schema:
-      "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/main/schemas/recipe.recipe.json",
+      "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/updating-schemas/schemas/shared.schema.json",
   },
   {
     _schema:
@@ -84,7 +79,7 @@ export const tabs: {
   },
   {
     _schema:
-      "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/main/schemas/storage.schema.json",
+      "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/updating-schemas/schemas/storage.schema.json",
   },
 ];
 
@@ -94,13 +89,9 @@ export const locales: {
     name: string;
   };
 } = {
-  "hammerstone.material.schema": {
-    icon: Squares2X2Icon,
-    name: "Materials",
-  },
-  "hammerstone.recipe.schema": {
-    icon: QueueListIcon,
-    name: "Recipes",
+  "hammerstone.shared.schema": {
+    icon: GlobeAltIcon,
+    name: "Shared",
   },
   "hammerstone.storage.schema": {
     icon: RectangleStackIcon,
@@ -134,11 +125,13 @@ export const constantNavigation: {
   },
 ];
 
-export const navigation: Ref<{
-  name: string;
-  href: string;
-  icon: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
-}[]> = ref(constantNavigation);
+export const navigation: Ref<
+  {
+    name: string;
+    href: string;
+    icon: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
+  }[]
+> = ref(constantNavigation);
 
 export async function fillOutTabs() {
   await Promise.allSettled(
@@ -168,7 +161,7 @@ export async function fillOutTabs() {
   navigation.value = constantNavigation;
 
   tabs.reverse().forEach((e) => {
-    if(!e) return;
+    if (!e) return;
     if (!(e.filled && e.name && e.icon)) {
       return;
     }

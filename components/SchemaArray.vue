@@ -40,7 +40,7 @@
         })"
       >
         <div
-          class="grow flex flex-col lg:ml-2 ring-1 ring-gray-800 shadow-md rounded-lg p-2 space-y-2"
+          class="grow flex flex-col bg-gray-800/30 lg:ml-2 shadow-xl rounded-lg space-y-2"
         >
           <!-- Handle edge cases -->
           <SchemaGroup
@@ -52,7 +52,7 @@
             :target="entry._target"
             :level="1"
           />
-          <SchemaGeneric v-else :element="entry" />
+          <SchemaGeneric class="p-4" v-else :element="entry" />
           <div class="w-full flex flex-row justify-end">
             <button
               type="button"

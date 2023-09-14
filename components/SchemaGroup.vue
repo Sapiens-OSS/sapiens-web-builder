@@ -1,32 +1,46 @@
 <template>
   <Disclosure
     as="div"
-    class="w-full pt-2"
+    class="w-full"
     v-slot="{ open }"
     :defaultOpen="props.level <= 2"
   >
     <dt>
       <DisclosureButton
-        :class="[props.schema._required ? 'border-2 border-orange-600' : '', 'relative flex w-full items-start justify-between text-left text-gray-900 bg-gray-800 px-4 py-2 rounded-lg']"
+        :class="[
+          props.schema._required ? 'border-2 border-orange-600' : '',
+          'relative flex w-full items-start justify-between text-left text-gray-900 bg-gray-800 px-4 py-2 rounded-lg',
+        ]"
       >
         <span class="text-base truncate font-semibold leading-7 text-white"
           >{{
             props.schema?.title || props.schema?._key || "Error loading schema"
           }}
         </span>
-        
+
         <span class="ml-6 flex h-7 items-center">
-          <PlusSmallIcon v-if="!open" class="h-6 w-6 text-white" aria-hidden="true" />
-          <MinusSmallIcon v-else class="h-6 w-6 text-white" aria-hidden="true" />
+          <PlusSmallIcon
+            v-if="!open"
+            class="h-6 w-6 text-white"
+            aria-hidden="true"
+          />
+          <MinusSmallIcon
+            v-else
+            class="h-6 w-6 text-white"
+            aria-hidden="true"
+          />
         </span>
         <span
-        v-if="props.schema._required"
-        class="absolute -top-3 left-2 text-xs bg-orange-600 px-1 py-0.5 rounded-md text-white select-none"
-        >Required</span
-      >
+          v-if="props.schema._required"
+          class="absolute -top-3 left-2 text-xs bg-orange-600 px-1 py-0.5 rounded-md text-white select-none"
+          >Required</span
+        >
       </DisclosureButton>
     </dt>
-    <DisclosurePanel as="div" class="lg:pl-4 flex flex-col gap-y-1 lg:gap-y-3 pl-2 py-2 lg:p-2">
+    <DisclosurePanel
+      as="div"
+      class="lg:pl-4 flex flex-col gap-y-1 lg:gap-y-3 pl-2 py-2 lg:p-2"
+    >
       <div v-for="element in entries" :key="element._key">
         <SchemaGeneric :element="element" :level="level" />
       </div>
