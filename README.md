@@ -1,13 +1,75 @@
-![](./assets/img/logo.png)
-# Hammerstone Web Builder
-[![](https://dcbadge.vercel.app/api/server/WnN8hj2Fyg?style=flat)](https://discord.gg/WnN8hj2Fyg)
+# Nuxt 3 Minimal Starter
 
-The Hammerstone Web Builder (HWB) is a client-side web app to generate the JSON files that make up DDAPI mods. It uses a SSR-disabled Nuxt 3 frontend, and loads schemas from [Sapiens-OSS / hammerstone-schemas](https://github.com/Sapiens-OSS/hammerstone-schemas). 
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Use the app
-Head over to [https://sapiens-oss.github.io/sapiens-web-builder/](https://sapiens-oss.github.io/sapiens-web-builder/) to get started!
-## Local build
-Install the node packages with your tool of choice, and then run the 'dev' script.
+## Setup
 
-## Contribute
-Contributions welcome! If you're designing stuff, try make it fit in. 
+Make sure to install the dependencies:
+
+```bash
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
+```
+
+## Development Server
+
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
+
+# bun
+bun run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm run preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

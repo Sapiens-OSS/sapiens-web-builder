@@ -2,18 +2,15 @@
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <LoadingIndictator />
 </template>
 
 <script setup>
+import { LoadLocalStorage } from "./composables/localStorage";
 
-fillOutTabs();
+useHead({
+  titleTemplate: (title) =>
+    title ? `${title} | Sapiens Web Builder` : `Sapiens Web Builder`,
+});
 
-const token = getOrDefaultDocument("github", "pat", null);
-
-if (token) {
-  try {
-    await updateGitHubUser(token);
-  } catch (e) {}
-}
+LoadLocalStorage();
 </script>

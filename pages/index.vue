@@ -61,11 +61,6 @@
       class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40"
     >
       <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-        <img
-          class="h-11"
-          src="@/assets/img/logo.png"
-          alt="Your Company"
-        />
         <div class="mt-24 sm:mt-32 lg:mt-16">
           <a
             href="https://github.com/Sapiens-OSS/sapiens-web-builder"
@@ -74,31 +69,32 @@
           >
             <span
               class="rounded-full inline-flex bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20"
-              >Open Source
+              >Open Source!
               <span class="block md:hidden ml-1" aria-hidden="true"
                 >→</span
               ></span
             >
             <span
-              class="hidden md:flex items-center space-x-2 text-sm font-medium leading-6 text-zinc-300"
+              class="hidden md:flex items-center space-x-2 text-sm font-medium leading-6 text-zinc-400"
             >
-              Check out the source code <span aria-hidden="true" class="ml-1">→</span>
+              Check out the source code
+              <span aria-hidden="true" class="ml-1">→</span>
             </span>
           </a>
         </div>
         <h1
           class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl"
         >
-          Create Sapiens mods, easily.
+          Build your Sapiens mod, easily.
         </h1>
-        <p class="mt-6 text-lg leading-8 text-zinc-300">
+        <p class="mt-6 text-lg leading-8 text-zinc-400">
           The Hammerstone Web Builder is an easy-to-use web app to create
           Sapiens mods that use the Hammerstone Framework. Created and supported
           by the Sapiens Modding Community.
         </p>
         <div class="mt-10 flex items-center gap-x-6">
           <NuxtLink
-            to="/modinfo"
+            to="/projects"
             class="rounded-lg bg-orange-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
             >Get started <span aria-hidden="true">→</span></NuxtLink
           >
@@ -118,22 +114,5 @@
         </div>
       </div>
     </div>
-    <footer class="border-t border-zinc-800 py-6 sm:py-10">
-      <div
-        class="mx-auto flex max-w-7xl flex-col items-center justify-center gap-8 px-6 sm:flex-row lg:px-8"
-      >
-        <p class="text-sm leading-7 text-zinc-500">
-          Created and supported with &#10084;&#65039; by the Sapiens Modding
-          Community.
-        </p>
-      </div>
-    </footer>
   </div>
-  
 </template>
-
-<script setup>
-definePageMeta({
-  layout: false,
-});
-</script>
