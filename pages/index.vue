@@ -1,5 +1,5 @@
 <template>
-  <div class="relative isolate overflow-hidden bg-zinc-900">
+  <div class="relative isolate overflow-hidden grow">
     <svg
       class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
       aria-hidden="true"

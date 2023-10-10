@@ -11,5 +11,16 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  safelist: [
+    {
+      pattern: /text-(.*)-300/,
+    },
+    {
+      pattern: /bg-(.*)-500\/20/,
+    },
+    {
+      pattern: /ring-(.*)-500\/20/,
+    },
+  ],
+  plugins: [require("@tailwindcss/forms")],
 };
