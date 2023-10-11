@@ -74,7 +74,7 @@
                         :to="constructProjectPath(item.path)"
                         :class="[
                           selectedPage == itemIdx
-                            ? 'bg-orange-600/10 ring-2 ring-inset ring-orange-500 text-orange-500'
+                            ? 'bg-orange-600/10 ring-1 ring-inset ring-orange-500 text-orange-500'
                             : 'text-zinc-400 hover:text-white hover:bg-zinc-700',
                           'group w-full flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                         ]"
@@ -117,7 +117,7 @@
               :to="constructProjectPath(item.path)"
               :class="[
                 selectedPage == itemIdx
-                  ? 'bg-orange-500/20 ring-2 ring-inset ring-orange-500 text-orange-500'
+                  ? 'bg-orange-500/20 ring-1 ring-inset ring-orange-500 text-orange-500'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-700',
                 'transition group flex flex-col items-center gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold',
               ]"
@@ -146,7 +146,8 @@
     </div>
 
     <div
-      class="sticky top-0 z-40 flex items-center gap-x-6 bg-zinc-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden"
+      class="sticky top-0 z-10 flex items-center gap-x-6 bg-zinc-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden"
+      id="mobile-nav"
     >
       <button
         type="button"
@@ -157,11 +158,11 @@
         <Bars3Icon class="h-6 w-6" aria-hidden="true" />
       </button>
       <div class="flex-1 text-sm font-semibold leading-6 text-white">
-        Dashboard
+        {{ navigation[selectedPage]?.name ?? "Loading..." }}
       </div>
     </div>
 
-    <main class="lg:pl-20 flex min-h-screen bg-zinc-200">
+    <main class="lg:pl-20 flex min-h-screen">
       <LazyNuxtPage />
     </main>
   </div>

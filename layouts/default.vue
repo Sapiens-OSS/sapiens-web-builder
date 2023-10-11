@@ -106,6 +106,6 @@ const mobileMenuOpen = ref(false);
 const router = useRouter();
 
 router.afterEach(() => {
-    mobileMenuOpen.value = false;
-})
+  mobileMenuOpen.value = false;
+});
 </script>

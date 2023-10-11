@@ -1,18 +1,18 @@
 <template>
   <div class="flex h-full justify-center items-center">
-    <div>
-      <h2 class="text-base font-semibold leading-6 text-gray-900">Object</h2>
-      <p class="mt-1 text-sm text-gray-500">
-        You haven’t created an object yet. Get started by selecting a template
-        or start from an empty objects.
+    <div class="px-4">
+      <h2 class="text-base font-semibold leading-6 text-zinc-100">Configs</h2>
+      <p class="mt-1 text-sm text-gray-400">
+        You haven’t created a config yet. Get started by selecting a template
+        or start from an empty config.
       </p>
       <ul
         role="list"
-        class="mt-6 grid grid-cols-1 gap-6 border-b border-t border-gray-200 py-6 sm:grid-cols-2"
+        class="mt-6 grid grid-cols-1 gap-6 border-b border-t border-zinc-700 py-6 sm:grid-cols-2"
       >
         <li v-for="(item, itemIdx) in items" :key="itemIdx" class="flow-root">
           <div
-            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50"
+            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-zinc-800"
           >
             <div
               :class="[
@@ -27,14 +27,14 @@
               />
             </div>
             <div>
-              <h3 class="text-sm font-medium text-gray-900">
+              <h3 class="text-sm font-medium text-zinc-100">
                 <a href="#" class="focus:outline-none">
                   <span class="absolute inset-0" aria-hidden="true" />
                   <span>{{ item.title }}</span>
                   <span aria-hidden="true"> &rarr;</span>
                 </a>
               </h3>
-              <p class="mt-1 text-sm text-gray-500">{{ item.description }}</p>
+              <p class="mt-1 text-sm text-zinc-400">{{ item.description }}</p>
             </div>
           </div>
         </li>
@@ -42,9 +42,9 @@
       <div class="mt-4 flex">
         <a
           href="#"
-          class="text-sm font-medium text-orange-700 hover:text-orange-600"
+          class="text-sm font-medium text-orange-500 hover:text-orange-600"
         >
-          Or start from an empty object
+          Or start from an empty config
           <span aria-hidden="true"> &rarr;</span>
         </a>
       </div>

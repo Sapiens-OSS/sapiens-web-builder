@@ -1,48 +1,83 @@
 <template>
   <div class="flex grow flex-row">
-    <aside class="h-screen overflow-y-scroll w-96 bg-zinc-900">
-      <nav class="h-full overflow-y-auto" aria-label="Directory">
-        <div
-          v-for="letter in Object.keys(directory)"
-          :key="letter"
-          class="relative"
-        >
-          <div
-            class="z-10 bg-zinc-800 px-3 py-1.5 text-sm font-semibold leading-6 text-zinc-100"
-          >
-            <h3>{{ letter }}</h3>
-          </div>
-          <ul role="list" class="divide-y divide-zinc-700">
-            <li
-              v-for="person in directory[letter]"
-              :key="person.email"
-              class="flex gap-x-4 px-3 py-5"
-            >
-              <img
-                class="h-12 w-12 flex-none rounded-full bg-zinc-700"
-                :src="person.imageUrl"
-                alt=""
-              />
-              <div class="min-w-0">
-                <p class="text-sm font-semibold leading-6 text-zinc-100">
-                  {{ person.name }}
-                </p>
-                <p class="mt-1 truncate text-xs leading-5 text-zinc-400">
-                  {{ person.email }}
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <aside
+      class="hidden lg:block h-screen overflow-y-scroll border-r border-zinc-700 w-96 bg-zinc-900"
+    >
+      <Directory :directory="directory" @select="" />
     </aside>
-    <main class="grow">
-        <NuxtPage />
+    <ClientOnly>
+      <Teleport to="#mobile-nav">
+        <button
+          @click="drawerOpen = true"
+          type="button"
+          class="p-2.5 text-gray-400"
+        >
+          <span class="sr-only">Open sidebar</span>
+          <RectangleStackIcon class="h-6 w-6" aria-hidden="true" />
+        </button>
+      </Teleport>
+    </ClientOnly>
+    <main class="bg-zinc-900 grow max-w-screen overflow-x-hidden">
+      <NuxtPage />
     </main>
   </div>
+
+  <TransitionRoot as="template" :show="drawerOpen">
+    <Dialog as="div" class="relative z-10" @close="drawerOpen = false">
+      <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="translate-y-full"
+          enter-to="translate-y-0"
+          leave="ease-in duration-200"
+          leave-from="translate-y-0"
+          leave-to="translate-y-full"
+        >
+          <DialogPanel
+            class="relative w-full h-full transform h-screen overflow-y-scroll bg-zinc-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+          >
+            <div class="border-b border-zinc-700">
+              <div class="flex items-start justify-between px-6 pt-4 pb-3">
+                <DialogTitle
+                  class="text-base font-semibold leading-6 text-zinc-100"
+                  >Configs</DialogTitle
+                >
+                <div class="ml-3 flex h-7 items-center">
+                  <button
+                    type="button"
+                    class="relative rounded-md text-zinc-100 hover:text-zinc-200"
+                    @click="drawerOpen = false"
+                  >
+                    <span class="absolute -inset-2.5" />
+                    <span class="sr-only">Close panel</span>
+                    <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <Directory :directory="directory" @select="" />
+            </div>
+          </DialogPanel>
+        </TransitionChild>
+      </div>
+    </Dialog>
+  </TransitionRoot>
 </template>
 
 <script setup lang="ts">
+import { RectangleStackIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
+
+const drawerOpen = ref(false);
+
 const directory: any = {
   A: [
     {

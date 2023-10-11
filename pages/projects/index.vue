@@ -57,7 +57,7 @@
           <div class="flex flex-none items-center gap-x-4">
             <NuxtLink
               :href="`/projects/${project.id}/`"
-              class="hidden rounded-md bg-zinc-800 px-2.5 py-1.5 text-sm font-semibold text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 hover:bg-zinc-700 sm:block"
+              class="rounded-md bg-zinc-800 px-2.5 py-1.5 text-sm font-semibold text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 hover:bg-zinc-700"
               >Open project<span class="sr-only"
                 >, {{ project.name }}</span
               ></NuxtLink
