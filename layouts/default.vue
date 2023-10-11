@@ -28,7 +28,7 @@
         </div>
         <NuxtLink href="/" class="-m-1.5 p-1.5">
           <span class="sr-only">Sapiens Web Builder</span>
-          <img class="h-8 w-auto" src="@/assets/logo.png" alt="" />
+          <img class="h-5 w-auto" src="@/assets/logo.png" alt="" />
         </NuxtLink>
         <div class="flex flex-1 justify-end">
           <NuxtLink
@@ -83,7 +83,7 @@
         </DialogPanel>
       </Dialog>
     </header>
-    <div class="flex grow">
+    <div class="grow">
       <slot />
     </div>
   </div>
@@ -95,7 +95,8 @@ import { Dialog, DialogPanel } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const navigation = [
-  { name: "About", href: "/about" },
+  // I'm too lazy to make an about page
+  // { name: "About", href: "/about" },
   { name: "Docs", href: "/docs" },
   { name: "Community", href: "/community" },
 ];
