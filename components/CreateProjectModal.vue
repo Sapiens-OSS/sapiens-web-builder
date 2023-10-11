@@ -169,7 +169,7 @@ import {
   RadioGroupOption,
 } from "@headlessui/vue";
 import { FolderPlusIcon } from "@heroicons/vue/24/outline";
-import { PROJECT_SOURCES } from "~/types/project";
+import { PROJECT_SOURCES } from "~/scripts/project";
 
 const props = defineProps(["modelValue"]);
 const emits = defineEmits(["update:modelValue"]);

@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import { LoadLocalStorage } from "./types/localStorage";
-import { LoadDummyStorage } from "./types/dummy";
+import { LoadLocalStorage } from "./scripts/localStorage";
+import { LoadDummyStorage } from "./scripts/dummy";
 
 useHead({
   titleTemplate: (title) =>

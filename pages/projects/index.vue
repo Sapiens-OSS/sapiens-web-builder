@@ -136,7 +136,7 @@
 </template>
 
 <script setup lang="ts">
-import { fetchProjects } from "~/types/project";
+import { fetchProjects } from "~/scripts/project";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
 import { TrashIcon } from "@heroicons/vue/24/outline";

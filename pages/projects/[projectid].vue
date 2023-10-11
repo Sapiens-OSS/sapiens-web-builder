@@ -104,7 +104,7 @@
 
     <!-- Static sidebar for desktop -->
     <div
-      class="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-zinc-900 lg:pb-4"
+      class="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-zinc-900 lg:pb-4 lg:border-r lg:border-zinc-700"
     >
       <div class="flex h-16 shrink-0 items-center justify-center">
         <img class="h-11 w-auto" src="@/assets/icon.png" alt="HWB" />
@@ -119,7 +119,7 @@
                 selectedPage == itemIdx
                   ? 'bg-orange-500/20 ring-2 ring-inset ring-orange-500 text-orange-500'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-700',
-                'transition group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold',
+                'transition group flex flex-col items-center gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold',
               ]"
             >
               <component
@@ -127,7 +127,9 @@
                 class="h-6 w-6 shrink-0"
                 aria-hidden="true"
               />
-              <span class="sr-only">{{ item.name }}</span>
+              <span class="text-xs truncate">{{
+                item.name.split(" ")[0]
+              }}</span>
             </NuxtLink>
             <button
               v-else
@@ -157,17 +159,9 @@
       <div class="flex-1 text-sm font-semibold leading-6 text-white">
         Dashboard
       </div>
-      <a href="#">
-        <span class="sr-only">Your profile</span>
-        <img
-          class="h-8 w-8 rounded-full bg-gray-800"
-          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          alt=""
-        />
-      </a>
     </div>
 
-    <main class="lg:pl-20 min-h-screen">
+    <main class="lg:pl-20 flex min-h-screen bg-zinc-200">
       <LazyNuxtPage />
     </main>
   </div>
@@ -192,8 +186,10 @@ import {
   FullyLoadedProject,
   PartiallyLoadedProject,
   fetchProjects,
-} from "~/types/project";
-import { Schema } from "~/types/schemas";
+} from "~/scripts/project";
+import { Schema } from "~/scripts/schemas";
+import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
+import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
 
 // Globals
 const route = useRoute();
@@ -232,6 +228,7 @@ async function loadSchemas() {
   for (let i = 0; i < project.schemas.length; i++) {
     const schemaUrl = project.schemas[i];
     const schema = JSON.parse(await $fetch(schemaUrl)) as Schema;
+    schema.title = cleanSchemaName(schema.title);
 
     // Store by URL for quick lookup later
     schemas.value[schemaUrl] = schema;
@@ -280,7 +277,7 @@ function generateNavigation() {
       base.push({
         name: schema.title,
         path: `/editor/${schema.$id}`,
-        icon: CubeTransparentIcon,
+        icon: mapSchemaIcon(schema.title) ?? CubeTransparentIcon,
         loading: false,
       });
     } else {
@@ -317,6 +314,9 @@ const sidebarOpen = ref(false);
 definePageMeta({
   layout: false,
   middleware: "check-valid-project",
+});
+router.afterEach(() => {
+  sidebarOpen.value = false;
 });
 
 // Lazy loading

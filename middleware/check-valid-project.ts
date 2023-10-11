@@ -1,6 +1,6 @@
-import { LoadDummyStorage } from "~/types/dummy";
-import { LoadLocalStorage } from "~/types/localStorage";
-import { fetchProjects } from "~/types/project";
+import { LoadDummyStorage } from "~/scripts/dummy";
+import { LoadLocalStorage } from "~/scripts/localStorage";
+import { fetchProjects } from "~/scripts/project";
 
 export default defineNuxtRouteMiddleware((to) => {
     // Make sure they're loaded in
