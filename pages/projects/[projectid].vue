@@ -167,7 +167,7 @@
       </a>
     </div>
 
-    <main class="lg:pl-20 min-h-screen bg-zinc-800">
+    <main class="lg:pl-20 min-h-screen">
       <LazyNuxtPage />
     </main>
   </div>
@@ -181,20 +181,84 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-import { PartiallyLoadedProject, fetchProjects } from "~/types/project";
+import {
+  AcademicCapIcon,
+  Bars3Icon,
+  CubeTransparentIcon,
+  HomeIcon,
+  XMarkIcon,
+} from "@heroicons/vue/24/outline";
+import {
+  FullyLoadedProject,
+  PartiallyLoadedProject,
+  fetchProjects,
+} from "~/types/project";
+import { Schema } from "~/types/schemas";
 
+// Globals
 const route = useRoute();
 const router = useRouter();
-
-const project: PartiallyLoadedProject = route.meta
+const partialProject: PartiallyLoadedProject = route.meta
   .project as PartiallyLoadedProject;
+const project: FullyLoadedProject = partialProject.projectSource.loadProject(
+  partialProject.id
+);
+const schemas: Ref<{ [key: string]: Schema }> = ref({});
 
-console.log(route.meta);
-
+// Utilities
 const constructProjectPath = (path: string) => `/projects/${project.id}${path}`;
+async function loadSchemas() {
+  const notificationID = crypto.randomUUID().toString();
+  const notifications = useNotifications();
+  notifications.value.push({
+    uuid: notificationID,
+    type: NotificationType.PROGRESS,
+    title: "Downloading & importing schemas...",
+    description:
+      "Fetching project schemas and importing into the current project...",
+    progress: 0,
+  });
 
-const navigation = computed(() => {
+  const updateNotificationProgress = (v: number) =>
+    (notifications.value[
+      notifications.value.findIndex((e) => e.uuid == notificationID)
+    ].progress = v);
+  const destroyNotification = () =>
+    notifications.value.splice(
+      notifications.value.findIndex((e) => e.uuid == notificationID),
+      1
+    );
+
+  for (let i = 0; i < project.schemas.length; i++) {
+    const schemaUrl = project.schemas[i];
+    const schema = JSON.parse(await $fetch(schemaUrl)) as Schema;
+
+    // Store by URL for quick lookup later
+    schemas.value[schemaUrl] = schema;
+
+    updateNotificationProgress((i + 1 / project.schemas.length) * 100);
+  }
+
+  destroyNotification();
+
+  navigation.value = generateNavigation();
+
+  const successNotificationID = crypto.randomUUID().toString();
+  notifications.value.push({
+    uuid: successNotificationID,
+    type: NotificationType.TEXT,
+    title: "Loaded project successfully",
+    description: "Successfully loaded project!",
+  });
+
+  setTimeout(() => {
+    notifications.value.splice(
+      notifications.value.findIndex((e) => e.uuid == successNotificationID),
+      1
+    );
+  }, 2000);
+}
+function generateNavigation() {
   const base: Array<{
     name: string;
     path: string;
@@ -209,9 +273,32 @@ const navigation = computed(() => {
     },
   ];
 
-  return base;
-});
+  project.schemas.forEach((url) => {
+    console.log(schemas);
+    if (schemas.value[url]) {
+      const schema: Schema = schemas.value[url];
+      base.push({
+        name: schema.title,
+        path: `/editor/${schema.$id}`,
+        icon: CubeTransparentIcon,
+        loading: false,
+      });
+    } else {
+      base.push({
+        name: "Schema loading...",
+        path: "",
+        // Dummy icon (isn't used)
+        icon: AcademicCapIcon,
+        loading: true,
+      });
+    }
+  });
 
+  return base;
+}
+
+// Rendering
+const navigation = ref(generateNavigation());
 const selectedPage = computed(() => {
   const route = useRoute();
   for (let i = 0; i < navigation.value.length; i++) {
@@ -224,11 +311,14 @@ const selectedPage = computed(() => {
   }
   return -1;
 });
-
 const sidebarOpen = ref(false);
 
+// Nuxt setup
 definePageMeta({
   layout: false,
   middleware: "check-valid-project",
 });
+
+// Lazy loading
+loadSchemas();
 </script>
