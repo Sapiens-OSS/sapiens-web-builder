@@ -10,8 +10,6 @@ export function createBucket(name: string) {
   const bucketIndex: BucketIndex = { bucketPaths: [] };
   const bucketIndexPath = bucketIndexAssembler(name);
 
-  console.log(`set ${bucketIndexPath} ${JSON.stringify(bucketIndex)}`);
-
   localStorage.setItem(bucketIndexPath, JSON.stringify(bucketIndex));
 }
 

@@ -272,7 +272,6 @@ function generateNavigation() {
   ];
 
   project.schemas.forEach((url) => {
-    console.log(schemas);
     if (schemas.value[url]) {
       const schema: Schema = schemas.value[url];
       base.push({
