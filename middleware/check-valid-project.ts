@@ -19,4 +19,4 @@ export default defineNuxtRouteMiddleware((to) => {
     }
 
     to.meta.project = project;
-})
+});

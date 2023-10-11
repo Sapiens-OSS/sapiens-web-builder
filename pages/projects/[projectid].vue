@@ -1,12 +1,12 @@
 <template>
   <!--
-      This example requires updating your template:
-  
-      ```
-      <html class="h-full bg-white">
-      <body class="h-full">
-      ```
-    -->
+        This example requires updating your template:
+    
+        ```
+        <html class="h-full bg-white">
+        <body class="h-full">
+        ```
+      -->
   <div>
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog
@@ -167,8 +167,8 @@
       </a>
     </div>
 
-    <main>
-      <slot />
+    <main class="lg:pl-20 min-h-screen bg-zinc-800">
+      <LazyNuxtPage />
     </main>
   </div>
 </template>
@@ -181,16 +181,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import {
-  Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/vue/24/outline";
+import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { PartiallyLoadedProject, fetchProjects } from "~/types/project";
 
 const route = useRoute();
@@ -198,11 +189,10 @@ const router = useRouter();
 
 const project: PartiallyLoadedProject = route.meta
   .project as PartiallyLoadedProject;
-if (!project) {
-  router.push("/projects");
-}
 
-const constructProjectPath = (path: string) => `/projects/${project.id}${path}`.replace(/\/$/, "");;
+console.log(route.meta);
+
+const constructProjectPath = (path: string) => `/projects/${project.id}${path}`;
 
 const navigation = computed(() => {
   const base: Array<{
@@ -213,7 +203,7 @@ const navigation = computed(() => {
   }> = [
     {
       name: "Home",
-      path: "/",
+      path: "",
       icon: HomeIcon,
       loading: false,
     },
@@ -225,7 +215,10 @@ const navigation = computed(() => {
 const selectedPage = computed(() => {
   const route = useRoute();
   for (let i = 0; i < navigation.value.length; i++) {
-    if (route.path == constructProjectPath(navigation.value[i].path)) {
+    if (
+      route.path.replace(/\/$/, "") ==
+      constructProjectPath(navigation.value[i].path)
+    ) {
       return i;
     }
   }
@@ -233,4 +226,9 @@ const selectedPage = computed(() => {
 });
 
 const sidebarOpen = ref(false);
+
+definePageMeta({
+  layout: false,
+  middleware: "check-valid-project",
+});
 </script>
