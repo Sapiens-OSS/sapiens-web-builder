@@ -12,7 +12,7 @@
       >
         <li v-for="(item, itemIdx) in items" :key="itemIdx" class="flow-root">
           <div
-            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-zinc-800"
+            class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-orange-500 hover:bg-zinc-800"
           >
             <div
               :class="[
@@ -91,7 +91,7 @@ const items = [
     title: "Create a Spreadsheet",
     description: "Lots of numbers and things — good for nerds.",
     icon: TableCellsIcon,
-    background: "bg-indigo-500",
+    background: "bg-orange-500",
   },
   {
     title: "Create a Timeline",

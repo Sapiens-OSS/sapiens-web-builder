@@ -155,7 +155,7 @@
     </div>
 
     <div
-      class="sticky top-0 z-10 flex items-center gap-x-6 bg-zinc-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden"
+      class="sticky top-0 z-10 flex items-center gap-x-6 bg-zinc-900 px-6 py-6 shadow-sm sm:px-6 lg:hidden"
       id="mobile-nav"
     >
       <button
@@ -171,8 +171,8 @@
       </div>
     </div>
 
-    <main class="lg:pl-20 flex min-h-screen">
-      <LazyNuxtPage />
+    <main class="lg:pl-20 bg-zinc-900 flex min-h-screen">
+      <LazyNuxtPage :navigation="navigation[selectedPage]" />
     </main>
   </div>
 </template>
@@ -284,22 +284,20 @@ function generateNavigation() {
   const base: Array<{
     name: string;
     path: string;
-    icon: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
+    icon?: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
     loading: boolean;
   }> = [
     {
       name: "Home",
-      path: "",
+      path: "/home",
       icon: HomeIcon,
       loading: false,
     },
   ];
 
-
   project.schemas.forEach((url) => {
     if (schemas.value[url] !== undefined) {
       const schema = schemas.value[url];
-      console.log(schema);
       if (schema == null) {
         return;
       }
@@ -314,7 +312,6 @@ function generateNavigation() {
         name: "Schema loading...",
         path: "",
         // Dummy icon (isn't used)
-        icon: AcademicCapIcon,
         loading: true,
       });
     }
@@ -329,8 +326,9 @@ const selectedPage = computed(() => {
   const route = useRoute();
   for (let i = 0; i < navigation.value.length; i++) {
     if (
-      route.path.replace(/\/$/, "") ==
-      constructProjectPath(navigation.value[i].path)
+      route.path
+        .replace(/\/$/, "")
+        .startsWith(constructProjectPath(navigation.value[i].path))
     ) {
       return i;
     }
