@@ -95,8 +95,7 @@ import { Dialog, DialogPanel } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const navigation = [
-  // I'm too lazy to make an about page
-  // { name: "About", href: "/about" },
+  { name: "About", href: "/about" },
   { name: "Docs", href: "/docs" },
   { name: "Community", href: "/community" },
 ];
