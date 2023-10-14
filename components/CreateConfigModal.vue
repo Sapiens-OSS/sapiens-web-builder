@@ -31,7 +31,7 @@
             <DialogPanel
               class="relative transform overflow-hidden rounded-lg bg-zinc-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
-              <div>
+              <form @submit.prevent="createConfig">
                 <div
                   class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100"
                 >
@@ -69,26 +69,24 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
-              >
-                <button
-                  type="button"
-                  class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 sm:col-start-2"
-                  @click="createConfig"
+                <div
+                  class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
                 >
-                  Confirm
-                </button>
-                <button
-                  type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md bg-zinc-700 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-zinc-600 hover:bg-zinc-600 sm:col-start-1 sm:mt-0"
-                  @click="open = false"
-                  ref="cancelButtonRef"
-                >
-                  Cancel
-                </button>
-              </div>
+                  <button
+                    type="submit"
+                    class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 sm:col-start-2"
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    type="button"
+                    class="mt-3 inline-flex w-full justify-center rounded-md bg-zinc-700 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-zinc-600 hover:bg-zinc-600 sm:col-start-1 sm:mt-0"
+                    @click="open = false"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </DialogPanel>
           </TransitionChild>
         </div>

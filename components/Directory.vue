@@ -40,7 +40,13 @@
           <li
             v-for="file in directory[letter]"
             :key="file.id"
-            class="flex gap-x-4 px-3 py-5"
+            @click="() => emit('select', file.id)"
+            :class="[
+              file.id == props.selectedId
+                ? 'bg-zinc-800/40 hover:bg-zinc-800/80'
+                : 'hover:bg-zinc-800/60',
+              'flex gap-x-4 px-3 py-5 cursor-pointer',
+            ]"
           >
             <div class="min-w-0">
               <p class="text-sm font-semibold leading-6 text-zinc-100">
@@ -63,11 +69,20 @@
 <script setup>
 const props = defineProps([
   "directory",
-  "select",
+
+  // Optional(ish)
+  "selectedId",
+
+  // Optional (for title bar)
   "navigation",
+
+  // Optional (for teleportation)
   "directoryNavId",
 ]);
-const emit = defineEmits(["createConfig"]);
+const emit = defineEmits([
+  "select", // Happens on select
+  "createConfig", // Creates config
+]);
 
 const route = useRoute();
 </script>

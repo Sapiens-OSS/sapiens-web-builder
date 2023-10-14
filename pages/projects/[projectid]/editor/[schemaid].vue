@@ -6,8 +6,9 @@
       <Directory
         :navigation="props.navigation"
         :directory="directory"
-        @select=""
+        :selected-id="route.params.configid"
         @createConfig="() => (createConfigOpen = true)"
+        @select="onDirectorySelect"
       />
     </aside>
     <ClientOnly>
@@ -53,9 +54,10 @@
               <Directory
                 :navigation="props.navigation"
                 :directory="directory"
+                :selected-id="route.params.configid"
                 :directory-nav-id="'mobile-directory-id'"
                 @createConfig="() => (createConfigOpen = true)"
-                @select=""
+                @select="onDirectorySelect"
               />
             </div>
           </DialogPanel>
@@ -81,12 +83,19 @@ import {
 import { FullyLoadedProject, File } from "~/scripts/project";
 
 const props = defineProps(["navigation"]);
+const router = useRouter();
 const route = useRoute();
 
 const project: Ref<FullyLoadedProject> = useState("project");
 
 const drawerOpen = ref(false);
 const createConfigOpen = ref(false);
+
+const onDirectorySelect = (id: string) =>
+  router.push({
+    name: "projects-projectid-editor-schemaid-configid",
+    params: Object.assign({}, route.params, { configid: id }),
+  });
 
 const directory = computed(() => {
   // Files are stored by schema ID
