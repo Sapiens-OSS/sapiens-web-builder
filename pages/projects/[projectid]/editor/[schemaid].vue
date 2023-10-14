@@ -7,22 +7,19 @@
         :navigation="props.navigation"
         :directory="directory"
         @select=""
+        @createConfig="() => (createConfigOpen = true)"
       />
     </aside>
     <ClientOnly>
       <Teleport to="#mobile-nav">
-        <button
-          @click="drawerOpen = true"
-          type="button"
-          class="text-gray-400"
-        >
+        <button @click="drawerOpen = true" type="button" class="text-gray-400">
           <span class="sr-only">Open sidebar</span>
           <RectangleStackIcon class="h-6 w-6" aria-hidden="true" />
         </button>
       </Teleport>
     </ClientOnly>
     <main class="grow max-w-screen overflow-x-hidden">
-      <NuxtPage />
+      <NuxtPage @create="() => (createConfigOpen = true)" />
     </main>
   </div>
 
@@ -57,6 +54,7 @@
                 :navigation="props.navigation"
                 :directory="directory"
                 :directory-nav-id="'mobile-directory-id'"
+                @createConfig="() => (createConfigOpen = true)"
                 @select=""
               />
             </div>
@@ -65,6 +63,11 @@
       </div>
     </Dialog>
   </TransitionRoot>
+
+  <CreateConfigModal
+    v-model="createConfigOpen"
+    :schemaid="route.params.schemaid"
+  />
 </template>
 
 <script setup lang="ts">
@@ -75,11 +78,31 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
+import { FullyLoadedProject, File } from "~/scripts/project";
 
 const props = defineProps(["navigation"]);
-console.log(props.navigation);
+const route = useRoute();
+
+const project: Ref<FullyLoadedProject> = useState("project");
 
 const drawerOpen = ref(false);
+const createConfigOpen = ref(false);
 
-const directory: any = {};
+const directory = computed(() => {
+  // Files are stored by schema ID
+  const schemaID = route.params.schemaid.toString();
+  const files: File[] = (project.value.files[schemaID] ?? []).sort((a, b) => {
+    var textA = a.name.toUpperCase();
+    var textB = b.name.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
+
+  const dir: { [key: string]: File[] } = {};
+  files.forEach((file) => {
+    dir[file.name[0]] ??= [];
+    dir[file.name[0]].push(file);
+  });
+
+  return dir;
+});
 </script>

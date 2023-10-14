@@ -1,5 +1,11 @@
 import { LocalStorageSource } from "./localStorage/localStorageSource";
 
+export interface File {
+  id: string;
+  name: string;
+  value: any;
+}
+
 export interface PartiallyLoadedProject {
   // Project ID (global)
   id: string;
@@ -14,7 +20,8 @@ export interface FullyLoadedProject extends PartiallyLoadedProject {
   // Loaded schemas (for modded schemas)
   schemas: string[];
   // Dictionary of JSON objects that are the actual project files
-  files: { [key: string]: any };
+  // Stored by schemaID
+  files: { [key: string]: File[] };
 }
 
 export enum ProjectSourceColour {

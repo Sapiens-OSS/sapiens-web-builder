@@ -13,10 +13,11 @@
         <div class="flex-shrink-0">
           <NuxtLink
             :to="{
-              name: 'projects-projectid-editor-schema',
+              name: 'projects-projectid-editor-schemaid',
               params: route.params,
             }"
             type="button"
+            @click="() => emit('createConfig')"
             class="relative inline-flex items-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
           >
             New Config
@@ -37,21 +38,16 @@
         </div>
         <ul role="list" class="divide-y divide-zinc-700">
           <li
-            v-for="person in directory[letter]"
-            :key="person.email"
+            v-for="file in directory[letter]"
+            :key="file.id"
             class="flex gap-x-4 px-3 py-5"
           >
-            <img
-              class="h-12 w-12 flex-none rounded-full bg-zinc-700"
-              :src="person.imageUrl"
-              alt=""
-            />
             <div class="min-w-0">
               <p class="text-sm font-semibold leading-6 text-zinc-100">
-                {{ person.name }}
+                {{ file.name }}
               </p>
               <p class="mt-1 truncate text-xs leading-5 text-zinc-400">
-                {{ person.email }}
+                {{ file.id }}
               </p>
             </div>
           </li>
@@ -71,6 +67,7 @@ const props = defineProps([
   "navigation",
   "directoryNavId",
 ]);
+const emit = defineEmits(["createConfig"]);
 
 const route = useRoute();
 </script>

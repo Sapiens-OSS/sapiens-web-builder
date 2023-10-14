@@ -206,13 +206,13 @@ const route = useRoute();
 const router = useRouter();
 const partialProject: PartiallyLoadedProject = route.meta
   .project as PartiallyLoadedProject;
-const project: FullyLoadedProject = partialProject.projectSource.loadProject(
+const project: Ref<FullyLoadedProject> = useState('project', () => partialProject.projectSource.loadProject(
   partialProject.id
-);
+));
 const schemas: Ref<{ [key: string]: Schema | null }> = ref({});
 
 // Utilities
-const constructProjectPath = (path: string) => `/projects/${project.id}${path}`;
+const constructProjectPath = (path: string) => `/projects/${project.value.id}${path}`;
 async function loadSchemas() {
   const notificationID = crypto.randomUUID().toString();
   const notifications = useNotifications();
@@ -243,8 +243,8 @@ async function loadSchemas() {
         "An error occured while trying to import a schema. Check browser console for more details.",
     });
 
-  for (let i = 0; i < project.schemas.length; i++) {
-    const schemaUrl = project.schemas[i];
+  for (let i = 0; i < project.value.schemas.length; i++) {
+    const schemaUrl = project.value.schemas[i];
 
     try {
       const schema = JSON.parse(await $fetch(schemaUrl)) as Schema;
@@ -253,7 +253,7 @@ async function loadSchemas() {
       // Store by URL for quick lookup later
       schemas.value[schemaUrl] = schema;
 
-      updateNotificationProgress((i + 1 / project.schemas.length) * 100);
+      updateNotificationProgress((i + 1 / project.value.schemas.length) * 100);
     } catch (e) {
       pushErrorNotification();
       console.error(e);
@@ -295,7 +295,7 @@ function generateNavigation() {
     },
   ];
 
-  project.schemas.forEach((url) => {
+  project.value.schemas.forEach((url) => {
     if (schemas.value[url] !== undefined) {
       const schema = schemas.value[url];
       if (schema == null) {
