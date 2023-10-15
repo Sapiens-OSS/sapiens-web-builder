@@ -108,8 +108,8 @@ const directory = computed(() => {
 
   const dir: { [key: string]: File[] } = {};
   files.forEach((file) => {
-    dir[file.name[0]] ??= [];
-    dir[file.name[0]].push(file);
+    dir[file.name[0].toUpperCase()] ??= [];
+    dir[file.name[0].toUpperCase()].push(file);
   });
 
   return dir;

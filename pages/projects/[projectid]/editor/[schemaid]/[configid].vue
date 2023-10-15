@@ -1,6 +1,10 @@
 <template>
   <div class="p-4">
-    <SchemaSelector :schema="schema" />
+    <SchemaSelector
+      v-if="schema && config"
+      :schema="schema"
+      v-model="config.value"
+    />
   </div>
 </template>
 
@@ -11,6 +15,7 @@ import { Schema } from "~/scripts/schemas";
 
 const project: Ref<FullyLoadedProject> = useState("project");
 const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");
+const notifications = useNotifications();
 const route = useRoute();
 
 // Hook this config up
@@ -59,6 +64,5 @@ const schemaID = route.params.schemaid.toString();
 const schema = Object.entries(schemas.value)
   .filter((e) => e[1].$id == schemaID)
   ?.at(0)
-  ?.at(1);
-console.log(schema);
+  ?.at(1) as Schema | null;
 </script>
