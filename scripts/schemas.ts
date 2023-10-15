@@ -10,4 +10,5 @@ export interface Schema {
   title: string;
   description: string;
   properties: any;
+  type: string;
 }

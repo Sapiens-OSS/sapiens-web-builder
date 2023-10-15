@@ -187,6 +187,7 @@ import {
 } from "@headlessui/vue";
 import {
   AcademicCapIcon,
+  ArrowDownTrayIcon,
   Bars3Icon,
   CubeTransparentIcon,
   HomeIcon,
@@ -195,7 +196,6 @@ import {
 import {
   FullyLoadedProject,
   PartiallyLoadedProject,
-  fetchProjects,
 } from "~/scripts/project";
 import { Schema } from "~/scripts/schemas";
 import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
@@ -206,13 +206,17 @@ const route = useRoute();
 const router = useRouter();
 const partialProject: PartiallyLoadedProject = route.meta
   .project as PartiallyLoadedProject;
-const project: Ref<FullyLoadedProject> = useState('project', () => partialProject.projectSource.loadProject(
-  partialProject.id
-));
-const schemas: Ref<{ [key: string]: Schema | null }> = ref({});
+const project: Ref<FullyLoadedProject> = useState("project", () =>
+  partialProject.projectSource.loadProject(partialProject.id)
+);
+const schemas: Ref<{ [key: string]: Schema | null }> = useState(
+  "schemas",
+  () => ({})
+);
 
 // Utilities
-const constructProjectPath = (path: string) => `/projects/${project.value.id}${path}`;
+const constructProjectPath = (path: string) =>
+  `/projects/${project.value.id}${path}`;
 async function loadSchemas() {
   const notificationID = crypto.randomUUID().toString();
   const notifications = useNotifications();
@@ -249,6 +253,7 @@ async function loadSchemas() {
     try {
       const schema = JSON.parse(await $fetch(schemaUrl)) as Schema;
       schema.title = cleanSchemaName(schema.title);
+      schema.type = "object";
 
       // Store by URL for quick lookup later
       schemas.value[schemaUrl] = schema;
@@ -315,6 +320,13 @@ function generateNavigation() {
         loading: true,
       });
     }
+  });
+
+  base.push({
+    name: "Export",
+    path: "/export",
+    icon: ArrowDownTrayIcon,
+    loading: false,
   });
 
   return base;

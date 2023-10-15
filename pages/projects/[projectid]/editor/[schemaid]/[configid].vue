@@ -1,15 +1,17 @@
 <template>
-  <h1>{{ config }}</h1>
+  <div class="p-4">
+    <SchemaSelector :schema="schema" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { WritableComputedRef } from "vue";
 import { FullyLoadedProject, File } from "~/scripts/project";
+import { Schema } from "~/scripts/schemas";
 
 const project: Ref<FullyLoadedProject> = useState("project");
+const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");
 const route = useRoute();
-
-console.log(project.value);
 
 // Hook this config up
 const config: WritableComputedRef<File | null> = computed({
@@ -52,5 +54,11 @@ if (config.value == null) {
   });
 }
 
-console.log(config.value);
+const schemaID = route.params.schemaid.toString();
+// Doesn't have to be computed
+const schema = Object.entries(schemas.value)
+  .filter((e) => e[1].$id == schemaID)
+  ?.at(0)
+  ?.at(1);
+console.log(schema);
 </script>

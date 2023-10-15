@@ -19,7 +19,7 @@
         </button>
       </Teleport>
     </ClientOnly>
-    <main class="grow max-w-screen overflow-x-hidden">
+    <main class="w-full max-w-screen overflow-x-hidden">
       <NuxtPage @create="() => (createConfigOpen = true)" />
     </main>
   </div>
