@@ -22,6 +22,11 @@ const props = defineProps<{
 
 const emit = defineEmits(["update:modelValue"]);
 
+type SchemaEditor =
+  | typeof SchemaObject
+  | typeof SchemaArray
+  | typeof SchemaString;
+
 const model = computed({
   get() {
     return props.modelValue;
@@ -37,5 +42,14 @@ const objects: { [key: string]: any } = {
   array: SchemaArray,
   string: SchemaString,
 };
-const component = objects[props.schema.type] ?? SchemaNotFound;
+
+const figureOutComponentType: (schema: any) => SchemaEditor | null = (
+  schema: any
+) => {
+  if (objects[props.schema.type]) return objects[props.schema.type];
+  if (props.schema.properties) return objects.object;
+  return null;
+};
+
+const component = figureOutComponentType(props.schema) ?? SchemaNotFound;
 </script>
