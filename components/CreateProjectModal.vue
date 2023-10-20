@@ -33,10 +33,10 @@
             >
               <div>
                 <div
-                  class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100"
+                  class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/5"
                 >
                   <FolderPlusIcon
-                    class="h-6 w-6 text-orange-600"
+                    class="h-6 w-6 text-orange-500"
                     aria-hidden="true"
                   />
                 </div>
@@ -187,11 +187,22 @@ const projectName = ref("");
 const projectStorage = ref(0);
 const router = useRouter();
 
+const notifications = useNotifications();
+
 function createProject() {
-  const id = projectSources.value[projectStorage.value].newProject(
-    projectName.value
-  );
-  router.push(`/projects/${id}/`);
+  try {
+    const id = projectSources.value[projectStorage.value].newProject(
+      projectName.value
+    );
+    router.push(`/projects/${id}/`);
+  } catch (e) {
+    notifications.value.push({
+      uuid: crypto.randomUUID(),
+      type: NotificationType.TEXT,
+      title: "An error occurred while creating project",
+      description: e.toString(),
+    });
+  }
 }
 
 watch(

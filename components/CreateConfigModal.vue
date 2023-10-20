@@ -29,14 +29,14 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-zinc-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative w-full  transform overflow-hidden rounded-lg bg-zinc-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
               <form @submit.prevent="createConfig">
                 <div
-                  class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100"
+                  class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/5"
                 >
                   <FolderPlusIcon
-                    class="h-6 w-6 text-orange-600"
+                    class="h-6 w-6 text-orange-500"
                     aria-hidden="true"
                   />
                 </div>

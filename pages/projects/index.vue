@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <ul role="list" class="w-full divide-y divide-gray-100">
+      <ul role="list" class="w-full divide-y divide-zinc-700">
         <li
           v-for="project in projects"
           :key="project.id"
