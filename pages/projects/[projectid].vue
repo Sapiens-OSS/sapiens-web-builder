@@ -235,6 +235,7 @@ const constructProjectPath = (path: string) =>
   project.value ? `/projects/${project.value.id}${path}` : `/projects`;
 async function loadSchemas() {
   if (project.value == null) return;
+  navigation.value = generateNavigation();
   const notificationID = crypto.randomUUID().toString();
   const notifications = useNotifications();
   notifications.value.push({

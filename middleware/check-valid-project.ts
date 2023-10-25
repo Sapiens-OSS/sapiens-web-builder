@@ -15,6 +15,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
 
     const projects = useState<PartiallyLoadedProject[]>("projects");
+
+    if(projects.value == null){
+        projects.value = (await Promise.all(fetchProjects())).flat();
+    }
+
     const project = projects.value.filter((e) => e.id == projectID).at(0);
     if(!project){
         navigateTo('/projects');
