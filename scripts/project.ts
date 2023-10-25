@@ -40,21 +40,21 @@ export abstract class ProjectSource {
   // Tag styles
   abstract color(): ProjectSourceColour;
   // Fetch array of project IDs
-  abstract fetchProjects(): PartiallyLoadedProject[];
+  abstract fetchProjects(): Promise<PartiallyLoadedProject[]>;
   // Save project
-  abstract saveProject(project: FullyLoadedProject): void;
+  abstract saveProject(project: FullyLoadedProject): Promise<boolean>;
   // Load project from ID
-  abstract loadProject(id: string): FullyLoadedProject;
+  abstract loadProject(id: string): Promise<FullyLoadedProject>;
   // Creates new projet
-  abstract newProject(name: string): string;
+  abstract newProject(name: string): Promise<string>;
   // Deletes project
-  abstract deleteProject(id: string): void;
+  abstract deleteProject(id: string): Promise<boolean>;
   // Supports autosave
   abstract autosaveSupported(): boolean;
 }
 
 export const PROJECT_SOURCES: ProjectSource[] = [];
 
-export function fetchProjects(): PartiallyLoadedProject[] {
-  return PROJECT_SOURCES.map((e) => e.fetchProjects()).flat();
+export function fetchProjects(): Promise<PartiallyLoadedProject[]>[] {
+  return PROJECT_SOURCES.map((e) => e.fetchProjects());
 }

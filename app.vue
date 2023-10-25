@@ -8,6 +8,7 @@
 <script setup>
 import { LoadLocalStorage } from "./scripts/localStorage";
 import { LoadDummyStorage } from "./scripts/dummy";
+import { LoadIndexedDBSource } from "./scripts/indexeddb";
 
 useHead({
   titleTemplate: (title) =>
@@ -16,4 +17,5 @@ useHead({
 
 LoadDummyStorage();
 LoadLocalStorage();
+LoadIndexedDBSource();
 </script>

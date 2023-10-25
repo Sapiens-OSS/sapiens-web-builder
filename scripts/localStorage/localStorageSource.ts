@@ -24,40 +24,45 @@ export class LocalStorageSource implements ProjectSource {
   color(): ProjectSourceColour {
     return ProjectSourceColour.ORANGE;
   }
-  fetchProjects(): PartiallyLoadedProject[] {
+  async fetchProjects() {
     const projectIDs = searchBucket(BUCKET_NAME);
-    const projects = projectIDs
-      .map((e) => e.split(".").at(-1) ?? "")
-      .map((e) => this.loadProject(e));
+    const projects = await Promise.allSettled(
+      projectIDs
+        .map((e) => e.split(".").at(-1) ?? "")
+        .map((e) => this.loadProject(e))
+    );
     // Fetch document ID, without bucket ID
-    return projects;
+    return projects
+      .filter((e): e is PromiseFulfilledResult<PartiallyLoadedProject> => true)
+      .map((e) => e.value);
   }
-  newProject(name: string): string {
+  async newProject(name: string) {
     const projectID = crypto.randomUUID();
     const project: FullyLoadedProject = {
       id: projectID.toString(),
       name: name,
       schemas: DEFAULT_SCHEMAS,
-      files: [],
+      files: {},
       projectSource: this,
     };
     this.saveProject(project);
     return project.id;
   }
-  saveProject(project: FullyLoadedProject): void {
+  async saveProject(project: FullyLoadedProject) {
     createOrSetDocument(
       BUCKET_NAME,
       project.id,
       JSON.stringify(project, (k, v) => (k == "projectSource" ? undefined : v))
     );
+    return true;
   }
-  loadProject(id: string): FullyLoadedProject {
+  async loadProject(id: string) {
     const document = getOrDefaultDocument(BUCKET_NAME, id, null);
     if (document == null) {
       return {
         id: "INVALID_ID",
         name: "INVALID PROJECT ID",
-        files: [],
+        files: {},
         schemas: [],
         projectSource: this,
       };
@@ -65,8 +70,9 @@ export class LocalStorageSource implements ProjectSource {
     const assign: { projectSource: ProjectSource } = { projectSource: this };
     return Object.assign(JSON.parse(document), assign);
   }
-  deleteProject(id: string): void {
+  async deleteProject(id: string) {
     deleteDocument(BUCKET_NAME, id);
+    return true;
   }
 
   // This is quick enough that we can auto-save

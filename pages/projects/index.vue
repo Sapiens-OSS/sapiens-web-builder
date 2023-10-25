@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="projects.length > 0"
+    v-if="completedValues.length > 0"
     class="mx-auto grow max-w-5xl px-4 sm:px-6 lg:px-8"
   >
     <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
@@ -28,7 +28,7 @@
       </div>
       <ul role="list" class="w-full divide-y divide-zinc-700">
         <li
-          v-for="project in projects"
+          v-for="project in completedValues"
           :key="project.id"
           class="flex items-center justify-between gap-x-6 py-5"
         >
@@ -101,7 +101,7 @@
     </div>
   </div>
 
-  <div class="place-self-center mx-auto text-center" v-else>
+  <div class="place-self-center mx-auto text-center py-12" v-else>
     <svg
       class="mx-auto h-12 w-12 text-zinc-500"
       fill="none"
@@ -136,11 +136,19 @@
 </template>
 
 <script setup lang="ts">
-import { fetchProjects } from "~/scripts/project";
+import { PartiallyLoadedProject, fetchProjects } from "~/scripts/project";
+import { PromiseLoader } from "~/scripts/promiseLoader";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
 import { TrashIcon } from "@heroicons/vue/24/outline";
-const projects = fetchProjects();
+const loader = new PromiseLoader<PartiallyLoadedProject>(
+  fetchProjects(),
+  (e) => {},
+  (e) => {}
+);
+
+// Typescript shenanigans
+const completedValues: Ref<PartiallyLoadedProject[]> = loader.completedValues;
 
 const createProjectModalOpen = ref(false);
 </script>

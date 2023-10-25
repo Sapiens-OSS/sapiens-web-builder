@@ -1,20 +1,19 @@
 import {
   FullyLoadedProject,
-  PROJECT_SOURCES,
   PartiallyLoadedProject,
   ProjectSource,
   ProjectSourceColour,
 } from "../project";
 
-export class DummyStorage implements ProjectSource {
+export class IndexedDBStorageSource implements ProjectSource {
   name(): string {
-    return "Dummy Storage";
+    return "IndexedDB Storage";
   }
   description(): string {
-    return "Dummy storage. Not implemented.";
+    return "Stores project files in browser, and supports upload and saving of assets and models.";
   }
   color(): ProjectSourceColour {
-    return ProjectSourceColour.ORANGE;
+    return ProjectSourceColour.BLUE;
   }
   async fetchProjects() {
     return [];
@@ -38,13 +37,6 @@ export class DummyStorage implements ProjectSource {
     });
   }
   autosaveSupported(): boolean {
-    return false;
+    return true;
   }
-}
-
-export const dummyStorage: DummyStorage = new DummyStorage();
-
-export function LoadDummyStorage() {
-  if (!PROJECT_SOURCES.includes(dummyStorage))
-    PROJECT_SOURCES.push(dummyStorage);
 }

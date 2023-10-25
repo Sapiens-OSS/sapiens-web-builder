@@ -193,10 +193,7 @@ import {
   HomeIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import {
-  FullyLoadedProject,
-  PartiallyLoadedProject,
-} from "~/scripts/project";
+import { FullyLoadedProject, PartiallyLoadedProject } from "~/scripts/project";
 import { Schema } from "~/scripts/schemas";
 import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
 import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
@@ -204,11 +201,30 @@ import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
 // Globals
 const route = useRoute();
 const router = useRouter();
+const notifications = useNotifications();
 const partialProject: PartiallyLoadedProject = route.meta
   .project as PartiallyLoadedProject;
-const project: Ref<FullyLoadedProject> = useState("project", () =>
-  partialProject.projectSource.loadProject(partialProject.id)
+const projectLoader = partialProject.projectSource.loadProject(
+  partialProject.id
 );
+const project = useState<FullyLoadedProject | null>("project", () => null);
+
+projectLoader.catch((e) => {
+  notifications.value.push({
+    type: NotificationType.TEXT,
+    uuid: crypto.randomUUID(),
+    title: "An error occurred while loading the project",
+    description: e,
+  });
+  router.push("/projects");
+});
+
+projectLoader.then((e) => {
+  project.value = e;
+  // Lazy loading
+  loadSchemas();
+});
+
 const schemas: Ref<{ [key: string]: Schema | null }> = useState(
   "schemas",
   () => ({})
@@ -216,8 +232,9 @@ const schemas: Ref<{ [key: string]: Schema | null }> = useState(
 
 // Utilities
 const constructProjectPath = (path: string) =>
-  `/projects/${project.value.id}${path}`;
+  project.value ? `/projects/${project.value.id}${path}` : `/projects`;
 async function loadSchemas() {
+  if (project.value == null) return;
   const notificationID = crypto.randomUUID().toString();
   const notifications = useNotifications();
   notifications.value.push({
@@ -300,27 +317,36 @@ function generateNavigation() {
     },
   ];
 
-  project.value.schemas.forEach((url) => {
-    if (schemas.value[url] !== undefined) {
-      const schema = schemas.value[url];
-      if (schema == null) {
-        return;
+  if (project.value) {
+    project.value.schemas.forEach((url) => {
+      if (schemas.value[url] !== undefined) {
+        const schema = schemas.value[url];
+        if (schema == null) {
+          return;
+        }
+        base.push({
+          name: schema.title,
+          path: `/editor/${schema.$id}`,
+          icon: mapSchemaIcon(schema.title) ?? CubeTransparentIcon,
+          loading: false,
+        });
+      } else {
+        base.push({
+          name: "Schema loading...",
+          path: "",
+          // Dummy icon (isn't used)
+          loading: true,
+        });
       }
-      base.push({
-        name: schema.title,
-        path: `/editor/${schema.$id}`,
-        icon: mapSchemaIcon(schema.title) ?? CubeTransparentIcon,
-        loading: false,
-      });
-    } else {
-      base.push({
-        name: "Schema loading...",
-        path: "",
-        // Dummy icon (isn't used)
-        loading: true,
-      });
-    }
-  });
+    });
+  } else {
+    base.push({
+      name: "Schema loading...",
+      path: "",
+      // Dummy icon (isn't used)
+      loading: true,
+    });
+  }
 
   base.push({
     name: "Export",
@@ -357,7 +383,4 @@ definePageMeta({
 router.afterEach(() => {
   sidebarOpen.value = false;
 });
-
-// Lazy loading
-loadSchemas();
 </script>
