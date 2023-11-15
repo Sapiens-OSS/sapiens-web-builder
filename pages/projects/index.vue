@@ -82,7 +82,12 @@
                 >
                   <MenuItem v-slot="{ active }">
                     <button
-                      @click="project.projectSource.deleteProject(project.id)"
+                      @click="
+                        () => {
+                          project.projectSource.deleteProject(project.id);
+                          loader.refresh();
+                        }
+                      "
                       :class="[
                         active ? 'bg-zinc-700' : '',
                         'inline-flex items-center justify-between w-full px-3 py-1 text-sm leading-6 text-zinc-100',
@@ -142,7 +147,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
 import { TrashIcon } from "@heroicons/vue/24/outline";
 const loader = new PromiseLoader<PartiallyLoadedProject>(
-  fetchProjects(),
+  () => fetchProjects(),
   (e) => {},
   (e) => {}
 );

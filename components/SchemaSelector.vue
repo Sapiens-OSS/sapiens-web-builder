@@ -13,6 +13,7 @@ import SchemaObject from "./SchemaObject.vue";
 import SchemaNotFound from "./SchemaNotFound.vue";
 import SchemaArray from "./SchemaArray.vue";
 import SchemaString from "./SchemaString.vue";
+import SchemaNumber from "./SchemaNumber.vue";
 
 const props = defineProps<{
   schema: Schema;
@@ -41,6 +42,7 @@ const objects: { [key: string]: any } = {
   object: SchemaObject,
   array: SchemaArray,
   string: SchemaString,
+  integer: SchemaNumber
 };
 
 const figureOutComponentType: (schema: any) => SchemaEditor | null = (

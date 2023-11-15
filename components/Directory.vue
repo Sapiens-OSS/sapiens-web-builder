@@ -38,23 +38,31 @@
         </div>
         <ul role="list" class="divide-y divide-zinc-700">
           <li
-            v-for="file in directory[letter]"
-            :key="file.id"
-            @click="() => emit('select', file.id)"
+            v-for="config in directory[letter]"
+            :key="config.id"
             :class="[
-              file.id == props.selectedId
-                ? 'bg-zinc-800/40 hover:bg-zinc-800/80'
+              config.id == props.selectedId
+                ? 'bg-zinc-800/40'
                 : 'hover:bg-zinc-800/60',
-              'flex gap-x-4 px-3 py-5 cursor-pointer',
+              'flex justify-between cursor-pointer',
             ]"
           >
-            <div class="min-w-0">
+            <div
+              class="grow pl-3 py-5 hover:bg-zinc-800/80"
+              @click="() => emit('select', config.id)"
+            >
               <p class="text-sm font-semibold leading-6 text-zinc-100">
-                {{ file.name }}
+                {{ config.name }}
               </p>
               <p class="mt-1 truncate text-xs leading-5 text-zinc-400">
-                {{ file.id }}
+                {{ config.id }}
               </p>
+            </div>
+            <div
+              @click="() => emit('deleteConfig', config.id)"
+              class="bg-red-600 hover:bg-red-500 px-3 py-5 text-white flex justify-center items-center"
+            >
+              <TrashIcon class="h-5 w-5" aria-hidden="true" />
             </div>
           </li>
         </ul>
@@ -67,6 +75,8 @@
 </template>
 
 <script setup>
+import { TrashIcon } from "@heroicons/vue/24/outline";
+
 const props = defineProps([
   "directory",
 
@@ -82,6 +92,7 @@ const props = defineProps([
 const emit = defineEmits([
   "select", // Happens on select
   "createConfig", // Creates config
+  "deleteConfig", // Deletes config
 ]);
 
 const route = useRoute();

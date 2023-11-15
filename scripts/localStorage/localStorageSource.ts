@@ -15,6 +15,9 @@ import {
 export const BUCKET_NAME = "projects";
 
 export class LocalStorageSource implements ProjectSource {
+  id(): string {
+    return "localstorage";
+  }
   name(): string {
     return "Local Storage";
   }

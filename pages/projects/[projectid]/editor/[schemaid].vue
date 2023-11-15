@@ -8,6 +8,7 @@
         :directory="directory"
         :selected-id="route.params.configid"
         @createConfig="() => (createConfigOpen = true)"
+        @deleteConfig="(id) => (deleteConfigID = id)"
         @select="onDirectorySelect"
       />
     </aside>
@@ -57,6 +58,7 @@
                 :selected-id="route.params.configid"
                 :directory-nav-id="'mobile-directory-id'"
                 @createConfig="() => (createConfigOpen = true)"
+                @deleteConfig="(id) => (deleteConfigID = id)"
                 @select="onDirectorySelect"
               />
             </div>
@@ -68,6 +70,10 @@
 
   <CreateConfigModal
     v-model="createConfigOpen"
+    :schemaid="route.params.schemaid"
+  />
+  <DeleteConfigModal
+    v-model="deleteConfigID"
     :schemaid="route.params.schemaid"
   />
 </template>
@@ -90,6 +96,7 @@ const project: Ref<FullyLoadedProject> = useState("project");
 
 const drawerOpen = ref(false);
 const createConfigOpen = ref(false);
+const deleteConfigID = ref(null);
 
 const onDirectorySelect = (id: string) =>
   router.push({
@@ -98,6 +105,7 @@ const onDirectorySelect = (id: string) =>
   });
 
 const directory = computed(() => {
+  if (!project.value) return [];
   // Files are stored by schema ID
   const schemaID = route.params.schemaid.toString();
   const files: File[] = (project.value.files[schemaID] ?? []).sort((a, b) => {

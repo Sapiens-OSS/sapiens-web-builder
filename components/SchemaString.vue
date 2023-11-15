@@ -138,7 +138,7 @@ const model = computed({
   },
 });
 
-model.value ??= "";
+model.value ??= props.schema.default ?? "";
 
 const componentID = crypto.randomUUID();
 </script>

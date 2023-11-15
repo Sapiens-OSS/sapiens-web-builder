@@ -109,7 +109,67 @@
       <div class="flex h-16 shrink-0 items-center justify-center">
         <img class="h-11 w-auto" src="@/assets/icon.png" alt="HWB" />
       </div>
-      <nav class="mt-8">
+      <div class="mt-2 px-2 h-7 flex items-center justify-center">
+        <button
+          v-if="!autosaver"
+          @click="saveProject"
+          type="button"
+          className="rounded flex items-center justify-center bg-orange-600 h-full w-full px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+        >
+          <div v-if="saving">
+            <svg
+              aria-hidden="true"
+              class="w-4 h-4 text-transparent animate-spin fill-white"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+            <span class="sr-only">Loading...</span>
+          </div>
+          <span v-else>Save</span>
+        </button>
+        <div
+          v-else
+          className="rounded flex items-center justify-center h-full w-full bg-zinc-800 border border-zinc-600 px-2 py-1 text-xs font-semibold text-zinc-400 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600"
+        >
+          <span
+            class="inline-flex gap-x-1 items-center justify-center"
+            v-if="autosaver.autosaving()"
+          >
+            Saving
+            <div role="status">
+              <svg
+                aria-hidden="true"
+                class="w-2 h-2 text-transparent animate-spin fill-white"
+                viewBox="0 0 100 101"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                  fill="currentFill"
+                />
+              </svg>
+              <span class="sr-only">Loading...</span>
+            </div>
+          </span>
+          <span v-else> Saved </span>
+        </div>
+      </div>
+      <nav class="mt-2">
         <ul role="list" class="flex flex-col items-center space-y-1">
           <li v-for="(item, itemIdx) in navigation" :key="item.name">
             <NuxtLink
@@ -197,6 +257,7 @@ import { FullyLoadedProject, PartiallyLoadedProject } from "~/scripts/project";
 import { Schema } from "~/scripts/schemas";
 import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
 import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
+import { Autosaver } from "~/scripts/autosaver";
 
 // Globals
 const route = useRoute();
@@ -221,6 +282,18 @@ projectLoader.catch((e) => {
 
 projectLoader.then((e) => {
   project.value = e;
+  // Autosaving setup
+  if (project.value.projectSource.autosaveSupported()) {
+    autosaver.value = new Autosaver(project.value);
+    watch(
+      project.value.files,
+      () => {
+        autosaver.value?.change();
+        console.log("change");
+      },
+      { deep: true }
+    );
+  }
   // Lazy loading
   loadSchemas();
 });
@@ -359,6 +432,9 @@ function generateNavigation() {
   return base;
 }
 
+// Autosaving
+const autosaver = ref<Autosaver | undefined>();
+
 // Rendering
 const navigation = ref(generateNavigation());
 const selectedPage = computed(() => {
@@ -374,12 +450,38 @@ const selectedPage = computed(() => {
   }
   return -1;
 });
+
+function saveProject() {
+  if (!project.value || saving.value) return;
+  saving.value = true;
+  project.value.projectSource
+    .saveProject(project.value)
+    .catch((e) => {
+      notifications.value.push({
+        uuid: crypto.randomUUID(),
+        type: NotificationType.TEXT,
+        title: "Error saving project",
+        description: e,
+      });
+    })
+    .finally(() => {
+      saving.value = false;
+    });
+}
+
+// State
 const sidebarOpen = ref(false);
+const saving = ref(false);
 
 // Nuxt setup
 definePageMeta({
   layout: false,
   middleware: "check-valid-project",
+});
+useHead({
+  title: project.value
+    ? `${project.value.name} / ${project.value.projectSource.name()}`
+    : null,
 });
 router.afterEach(() => {
   sidebarOpen.value = false;

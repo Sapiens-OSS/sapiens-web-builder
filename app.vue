@@ -15,7 +15,7 @@ useHead({
     title ? `${title} | Sapiens Web Builder` : `Sapiens Web Builder`,
 });
 
-LoadDummyStorage();
-LoadLocalStorage();
+// LoadDummyStorage();
+// LoadLocalStorage();
 LoadIndexedDBSource();
 </script>

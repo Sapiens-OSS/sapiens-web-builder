@@ -7,6 +7,9 @@ import {
 } from "../project";
 
 export class DummyStorage implements ProjectSource {
+  id(): string {
+    return "dummy";
+  }
   name(): string {
     return "Dummy Storage";
   }

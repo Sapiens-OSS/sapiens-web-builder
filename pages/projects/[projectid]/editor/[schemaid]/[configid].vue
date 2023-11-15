@@ -21,6 +21,7 @@ const route = useRoute();
 // Hook this config up
 const config: WritableComputedRef<File | null> = computed({
   get() {
+    if (!project.value) return null;
     const files = project.value.files[route.params.schemaid.toString()];
     if (!files) {
       console.log("files invalid");

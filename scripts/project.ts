@@ -21,7 +21,7 @@ export interface FullyLoadedProject extends PartiallyLoadedProject {
   schemas: string[];
   // Dictionary of JSON objects that are the actual project files
   // Stored by schemaID
-  files: { [key: string]: File[] };
+  files: { [key: string]: Array<File> };
 }
 
 export enum ProjectSourceColour {
@@ -33,6 +33,8 @@ export enum ProjectSourceColour {
 
 // Class defining a source for projects (eg GitHub, local storage)
 export abstract class ProjectSource {
+  // Lookup project source by id
+  abstract id(): string;
   // Name of project source (eg "Local", "GitHub")
   abstract name(): string;
   // Description of project source
