@@ -95,7 +95,7 @@ const features = [
   {
     name: "Well supported",
     description:
-      "The mods created using Sapiens Web Builder use Sapiens' mod popular modding framework. More stability and more compatiablity than anything else.",
+      "The mods created using Sapiens Web Builder use Sapiens' most popular modding framework: Hammerstone. More stability and more compatiablity than anything else.",
   },
   {
     name: "Extendable",
