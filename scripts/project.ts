@@ -31,6 +31,13 @@ export enum ProjectSourceColour {
   BLUE = "blue",
 }
 
+export interface Asset {
+  id: string;
+  name: string;
+  filename: string;
+  data?: Blob;
+}
+
 // Class defining a source for projects (eg GitHub, local storage)
 export abstract class ProjectSource {
   // Lookup project source by id
@@ -53,6 +60,13 @@ export abstract class ProjectSource {
   abstract deleteProject(id: string): Promise<boolean>;
   // Supports autosave
   abstract autosaveSupported(): boolean;
+
+  // Assets
+  abstract assetsSupported(): boolean;
+  abstract fetchAssets(): Promise<Asset[]>;
+  abstract createAsset(asset: Asset): Promise<boolean>;
+  abstract loadAsset(id: string): Promise<Blob>;
+  abstract updateAsset(id: string, data: Blob): Promise<boolean>;
 }
 
 export const PROJECT_SOURCES: ProjectSource[] = [];

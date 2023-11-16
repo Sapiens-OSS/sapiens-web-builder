@@ -4,12 +4,11 @@
       <div class="border-b border-zinc-800 px-4 py-4 sm:px-6">
         <div class="flex flex-wrap items-center sm:flex-nowrap">
           <button
+            @click="assetModal = true"
             type="button"
             class="relative block w-full rounded-lg border-2 border-dashed border-zinc-600 px-12 py-4 text-center hover:border-zinc-400"
           >
-            <FolderPlusIcon
-              class="mx-auto h-12 w-12 text-gray-400"
-            />
+            <FolderPlusIcon class="mx-auto h-12 w-12 text-gray-400" />
             <span class="mt-2 block text-sm font-semibold text-zinc-200"
               >Upload asset</span
             >
@@ -32,7 +31,7 @@
               v-for="config in directory[letter]"
               :key="config.id"
               :class="[
-                config.id == 0 ? 'bg-zinc-800/40' : 'hover:bg-zinc-800/60',
+                config.id == '' ? 'bg-zinc-800/40' : 'hover:bg-zinc-800/60',
                 'flex justify-between cursor-pointer',
               ]"
             >
@@ -54,22 +53,20 @@
         </div>
       </div>
       <div class="mt-3 text-center" v-else>
-        <span class="text-zinc-400 text-sm">No configs (yet!)</span>
+        <span class="text-zinc-400 text-sm">No assets (yet!)</span>
       </div>
     </nav>
-    <UploadAssetModal />
+    <UploadAssetModal v-model="assetModal" />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { FolderPlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import { Asset, FullyLoadedProject } from "~/scripts/project";
 
-const directory = {
-  A: [
-    {
-      id: "83912832193",
-      name: "lmaoooo",
-    },
-  ],
-};
+const project = useState<FullyLoadedProject>("project");
+
+const assetModal = ref(false);
+
+const directory: { [key: string]: Asset[] } = {};
 </script>

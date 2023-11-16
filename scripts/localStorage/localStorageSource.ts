@@ -1,4 +1,5 @@
 import {
+  Asset,
   FullyLoadedProject,
   PartiallyLoadedProject,
   ProjectSource,
@@ -81,5 +82,21 @@ export class LocalStorageSource implements ProjectSource {
   // This is quick enough that we can auto-save
   autosaveSupported(): boolean {
     return true;
+  }
+
+  assetsSupported(): boolean {
+    return false;
+  }
+  fetchAssets(): Promise<Asset[]> {
+    throw new Error("Method not implemented.");
+  }
+  createAsset(asset: Asset): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+  loadAsset(id: string): Promise<Blob> {
+    throw new Error("Method not implemented.");
+  }
+  updateAsset(id: string, data: Blob): Promise<boolean> {
+    throw new Error("Method not implemented.");
   }
 }

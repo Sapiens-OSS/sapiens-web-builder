@@ -470,15 +470,18 @@ function generateNavigation() {
       icon: HomeIcon,
       loading: false,
     },
-    {
-      name: "Assets",
-      path: "/assets",
-      icon: FolderOpenIcon,
-      loading: false,
-    },
   ];
 
   if (project.value) {
+    if (project.value.projectSource.assetsSupported()) {
+      base.push({
+        name: "Assets",
+        path: "/assets",
+        icon: FolderOpenIcon,
+        loading: false,
+      });
+    }
+
     project.value.schemas.forEach((url) => {
       if (schemas.value[url] !== undefined) {
         const schema = schemas.value[url];

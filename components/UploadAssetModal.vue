@@ -31,7 +31,7 @@
             <DialogPanel
               class="relative transform overflow-hidden rounded-lg bg-zinc-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
-              <form @submit.prevent="() => {}">
+              <form @submit.prevent="upload">
                 <div class="flex flex-col gap-y-4">
                   <div>
                     <button
@@ -45,13 +45,14 @@
                         >Click here to upload file...</span
                       >
                       <span
-                        v-if="fileOpener?.value"
+                        v-if="selectedFile"
                         class="mt-1 block text-xs text-zinc-400"
                       >
-                        {{ fileOpener.value.split("\\").at(-1) }}
+                        {{ selectedFile.split("\\").at(-1) }}
                       </span>
                     </button>
                     <input
+                      v-on:change="onSelect"
                       ref="fileOpener"
                       accept="image/*,audio/*,.glb"
                       class="absolute -top-full"
@@ -59,20 +60,38 @@
                       id="file-input"
                     />
                   </div>
+                  <div class="mt-2">
+                    <div>
+                      <label
+                        for="name"
+                        class="block text-sm font-medium leading-6 text-zinc-100"
+                        >Filename</label
+                      >
+                      <div class="mt-2">
+                        <input
+                          v-model="filename"
+                          type="text"
+                          name="name"
+                          id="name"
+                          class="block w-full rounded-md border-0 py-1.5 bg-zinc-700 text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                          placeholder="my-asset.png"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
                 >
                   <button
-                    type="button"
+                    type="submit"
                     class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
-                    @click="open = false"
                   >
                     Upload
                   </button>
                   <button
                     type="button"
-                    class="mt-3 inline-flex w-full justify-center rounded-md bg-zinc-700 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-zinc-600 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                    class="mt-3 inline-flex w-full justify-center rounded-md bg-zinc-700 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-zinc-600 hover:bg-zinc-600 sm:col-start-1 sm:mt-0"
                     @click="open = false"
                     ref="cancelButtonRef"
                   >
@@ -88,7 +107,7 @@
   </TransitionRoot>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import {
   Dialog,
@@ -98,8 +117,52 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { CheckIcon, FolderPlusIcon } from "@heroicons/vue/24/outline";
+import { Asset, FullyLoadedProject } from "~/scripts/project";
 
-const open = ref(true);
+const props = defineProps(["modelValue"]);
+
+const emits = defineEmits(["update:modelValue"]);
+
+const open = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(v) {
+    if (v) {
+      selectedFile.value = undefined;
+      filename.value = "";
+    }
+    emits("update:modelValue", v);
+  },
+});
+
+const project = useState<FullyLoadedProject>("project");
 
 const fileOpener = ref();
+const selectedFile = ref();
+const filename = ref("");
+
+function onSelect(v: Event) {
+  selectedFile.value = (v.target as HTMLInputElement)?.value;
+  filename.value = selectedFile.value.split("\\").at(-1);
+}
+
+async function upload() {
+  if (!project.value) return;
+  const fr = new FileReader();
+  const ab = await new Promise<ArrayBuffer>((r, j) => {
+    fr.onload = (e) => {
+      r(e.target?.result as ArrayBuffer);
+    };
+    fr.readAsArrayBuffer(fileOpener.value.files[0]);
+  });
+  const asset: Asset = {
+    id: crypto.randomUUID(),
+    name: filename.value,
+    filename: selectedFile.value.split("\\").at(-1),
+    data: new Blob([ab]),
+  };
+  await project.value.projectSource.createAsset(asset);
+  open.value = false;
+}
 </script>

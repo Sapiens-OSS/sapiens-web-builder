@@ -1,4 +1,5 @@
 import {
+  Asset,
   FullyLoadedProject,
   PartiallyLoadedProject,
   ProjectSource,
@@ -47,6 +48,14 @@ export const useProjectObjectStore = async (
   await waitDB;
   const transaction = db.result.transaction(["projects"], access);
   return transaction.objectStore("projects");
+};
+
+export const useAssetObjectStore = async (
+  access: IDBTransactionMode | undefined = undefined
+) => {
+  await waitDB;
+  const transaction = db.result.transaction(["assets"], access);
+  return transaction.objectStore("assets");
 };
 
 export class IndexedDBStorageSource implements ProjectSource {
@@ -119,5 +128,29 @@ export class IndexedDBStorageSource implements ProjectSource {
   }
   autosaveSupported(): boolean {
     return true;
+  }
+
+  assetsSupported(): boolean {
+    return true;
+  }
+  async fetchAssets(): Promise<Asset[]> {
+    const assetStore = await useAssetObjectStore();
+    const assets = assetStore.getAll();
+    await new Promise<void>((r) => (assets.onsuccess = () => r()));
+    const loadedAssets: Asset[] = assets.result;
+    return loadedAssets;
+  }
+  createAsset(asset: Asset): Promise<boolean> {
+    return new Promise<boolean>(async (resolve, reject) => {
+      const assetStore = await useAssetObjectStore("readwrite");
+      assetStore.add(asset).onerror = () => reject(false);
+      resolve(true);
+    });
+  }
+  loadAsset(id: string): Promise<Blob> {
+    throw new Error("Method not implemented.");
+  }
+  updateAsset(id: string, data: Blob): Promise<boolean> {
+    throw new Error("Method not implemented.");
   }
 }

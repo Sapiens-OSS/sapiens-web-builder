@@ -1,4 +1,5 @@
 import {
+  Asset,
   FullyLoadedProject,
   PROJECT_SOURCES,
   PartiallyLoadedProject,
@@ -42,6 +43,21 @@ export class DummyStorage implements ProjectSource {
   }
   autosaveSupported(): boolean {
     return false;
+  }
+  assetsSupported(): boolean {
+    return false;
+  }
+  fetchAssets(): Promise<Asset[]> {
+    throw new Error("Method not implemented.");
+  }
+  createAsset(asset: Asset): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+  loadAsset(id: string): Promise<Blob> {
+    throw new Error("Method not implemented.");
+  }
+  updateAsset(id: string, data: Blob): Promise<boolean> {
+    throw new Error("Method not implemented.");
   }
 }
 
