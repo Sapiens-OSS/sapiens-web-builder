@@ -121,17 +121,13 @@ import { Asset, FullyLoadedProject } from "~/scripts/project";
 
 const props = defineProps(["modelValue"]);
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "create"]);
 
 const open = computed({
   get() {
     return props.modelValue;
   },
   set(v) {
-    if (v) {
-      selectedFile.value = undefined;
-      filename.value = "";
-    }
     emits("update:modelValue", v);
   },
 });
@@ -150,19 +146,24 @@ function onSelect(v: Event) {
 async function upload() {
   if (!project.value) return;
   const fr = new FileReader();
+  const file: File = fileOpener.value.files[0];
   const ab = await new Promise<ArrayBuffer>((r, j) => {
     fr.onload = (e) => {
       r(e.target?.result as ArrayBuffer);
     };
-    fr.readAsArrayBuffer(fileOpener.value.files[0]);
+    fr.readAsArrayBuffer(file);
   });
   const asset: Asset = {
     id: crypto.randomUUID(),
     name: filename.value,
     filename: selectedFile.value.split("\\").at(-1),
-    data: new Blob([ab]),
+    data: new Blob([ab], { type: file.type }),
   };
   await project.value.projectSource.createAsset(asset);
   open.value = false;
+  selectedFile.value = undefined;
+  filename.value = "";
+
+  emits("create");
 }
 </script>

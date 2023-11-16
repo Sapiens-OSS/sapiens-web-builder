@@ -29,7 +29,7 @@ waitDB.catch(() => {
 db.onupgradeneeded = async (event) => {
   // Create object stores
   const projects = db.result.createObjectStore("projects", { keyPath: "id" });
-  const assets = db.result.createObjectStore("assets", { autoIncrement: true });
+  const assets = db.result.createObjectStore("assets", { keyPath: "id" });
 
   // Wait for completion
   await new Promise<void>(
@@ -152,5 +152,12 @@ export class IndexedDBStorageSource implements ProjectSource {
   }
   updateAsset(id: string, data: Blob): Promise<boolean> {
     throw new Error("Method not implemented.");
+  }
+  deleteAsset(id: string): Promise<boolean> {
+    return new Promise<boolean>(async (resolve, reject) => {
+      const assetStore = await useAssetObjectStore("readwrite");
+      assetStore.delete(id).onerror = () => reject();
+      resolve(true);
+    });
   }
 }

@@ -1,19 +1,35 @@
 <template>
   <div class="w-full">
-    <nav aria-label="Directory" class="w-80 border-r border-zinc-700">
+    <nav
+      aria-label="Directory"
+      class="w-80 min-h-screen border-r border-zinc-700"
+    >
       <div class="border-b border-zinc-800 px-4 py-4 sm:px-6">
         <div class="flex flex-wrap items-center sm:flex-nowrap">
           <button
             @click="assetModal = true"
             type="button"
-            class="relative block w-full rounded-lg border-2 border-dashed border-zinc-600 px-12 py-4 text-center hover:border-zinc-400"
+            class="group relative block w-full rounded-lg border-2 border-dashed border-zinc-600 px-12 py-4 text-center hover:border-zinc-400"
           >
-            <FolderPlusIcon class="mx-auto h-12 w-12 text-gray-400" />
+            <FolderPlusIcon
+              class="mx-auto h-12 w-12 text-zinc-600 group-hover:text-zinc-400"
+            />
             <span class="mt-2 block text-sm font-semibold text-zinc-200"
               >Upload asset</span
             >
           </button>
         </div>
+        <h1 class="mt-2 text-zinc-200">
+          Total assets size:
+          {{
+            (assets
+              .map((e) => e.data?.size)
+              .reduce((count, e) => {
+                return (count ?? 0) + (e ?? 0);
+              }, 0) ?? 0) /
+            (10 ** 6)
+          }} MB
+        </h1>
       </div>
       <div v-if="Object.keys(directory).length > 0">
         <div
@@ -28,22 +44,32 @@
           </div>
           <ul role="list" class="divide-y divide-zinc-700">
             <li
-              v-for="config in directory[letter]"
-              :key="config.id"
+              v-for="asset in directory[letter]"
+              :key="asset.id"
               :class="[
-                config.id == '' ? 'bg-zinc-800/40' : 'hover:bg-zinc-800/60',
+                asset.id == selectedID
+                  ? 'bg-zinc-800/40'
+                  : 'hover:bg-zinc-800/60',
                 'flex justify-between cursor-pointer',
               ]"
             >
-              <div class="grow pl-3 py-5 hover:bg-zinc-800/80">
+              <div
+                @click="
+                  () => {
+                    selectedID = asset.id;
+                  }
+                "
+                class="grow pl-3 py-5 hover:bg-zinc-800/80"
+              >
                 <p class="text-sm font-semibold leading-6 text-zinc-100">
-                  {{ config.name }}
+                  {{ asset.name }}
                 </p>
                 <p class="mt-1 truncate text-xs leading-5 text-zinc-400">
-                  {{ config.id }}
+                  {{ asset.id }}
                 </p>
               </div>
               <div
+                @click="() => deleteAsset(asset.id)"
                 class="bg-red-600 hover:bg-red-500 px-3 py-5 text-white flex justify-center items-center"
               >
                 <TrashIcon class="h-5 w-5" aria-hidden="true" />
@@ -56,7 +82,11 @@
         <span class="text-zinc-400 text-sm">No assets (yet!)</span>
       </div>
     </nav>
-    <UploadAssetModal v-model="assetModal" />
+    <NuxtPage />
+    <UploadAssetModal
+      v-model="assetModal"
+      @create="() => generateDirectory()"
+    />
   </div>
 </template>
 
@@ -67,6 +97,25 @@ import { Asset, FullyLoadedProject } from "~/scripts/project";
 const project = useState<FullyLoadedProject>("project");
 
 const assetModal = ref(false);
+const selectedID = ref("");
 
-const directory: { [key: string]: Asset[] } = {};
+async function deleteAsset(id: string) {
+  await project.value.projectSource.deleteAsset(id);
+  await generateDirectory();
+}
+
+const assets: Ref<Asset[]> = ref([]);
+const directory: Ref<{ [key: string]: Asset[] }> = ref({});
+
+async function generateDirectory() {
+  directory.value = {};
+  assets.value = await project.value?.projectSource.fetchAssets();
+  assets.value.forEach((asset) => {
+    directory.value[asset.name[0].toUpperCase()] ??= [];
+    directory.value[asset.name[0].toUpperCase()].push(asset);
+    console.log(asset.data?.type);
+  });
+}
+
+await generateDirectory();
 </script>

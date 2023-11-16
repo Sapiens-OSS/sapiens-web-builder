@@ -67,6 +67,7 @@ export abstract class ProjectSource {
   abstract createAsset(asset: Asset): Promise<boolean>;
   abstract loadAsset(id: string): Promise<Blob>;
   abstract updateAsset(id: string, data: Blob): Promise<boolean>;
+  abstract deleteAsset(id: string): Promise<boolean>;
 }
 
 export const PROJECT_SOURCES: ProjectSource[] = [];
