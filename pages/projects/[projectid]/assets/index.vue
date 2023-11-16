@@ -22,13 +22,14 @@
         <h1 class="mt-2 text-zinc-200">
           Total assets size:
           {{
-            (assets
-              .map((e) => e.data?.size)
-              .reduce((count, e) => {
-                return (count ?? 0) + (e ?? 0);
-              }, 0) ?? 0) /
-            (10 ** 6)
-          }} MB
+            formatBytes(
+              (assets ?? [])
+                .map((e) => e.data?.size)
+                .reduce((count, e) => {
+                  return (count ?? 0) + (e ?? 0);
+                }, 0) ?? 0
+            )
+          }}
         </h1>
       </div>
       <div v-if="Object.keys(directory).length > 0">
@@ -61,7 +62,7 @@
                 "
                 class="grow pl-3 py-5 hover:bg-zinc-800/80"
               >
-                <p class="text-sm font-semibold leading-6 text-zinc-100">
+                <p class="text-sm truncate max-w-[16rem] font-semibold leading-6 text-zinc-100">
                   {{ asset.name }}
                 </p>
                 <p class="mt-1 truncate text-xs leading-5 text-zinc-400">
@@ -104,7 +105,29 @@ async function deleteAsset(id: string) {
   await generateDirectory();
 }
 
-const assets: Ref<Asset[]> = ref([]);
+function formatBytes(bytes: number, decimals = 2) {
+  if (!+bytes) return "0 Bytes";
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = [
+    "Bytes",
+    "KiB",
+    "MiB",
+    "GiB",
+    "TiB",
+    "PiB",
+    "EiB",
+    "ZiB",
+    "YiB",
+  ];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
+const assets: Ref<Asset[] | undefined> = useState("assets");
 const directory: Ref<{ [key: string]: Asset[] }> = ref({});
 
 async function generateDirectory() {

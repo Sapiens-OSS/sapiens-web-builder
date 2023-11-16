@@ -333,7 +333,7 @@ import {
   HomeIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import { FullyLoadedProject, PartiallyLoadedProject } from "~/scripts/project";
+import { Asset, FullyLoadedProject, PartiallyLoadedProject } from "~/scripts/project";
 import { Schema } from "~/scripts/schemas";
 import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
 import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
@@ -349,6 +349,7 @@ const projectLoader = partialProject.projectSource.loadProject(
   partialProject.id
 );
 const project = useState<FullyLoadedProject | null>("project", () => null);
+const assets = useState<Asset[] | undefined>("assets", () => undefined);
 
 projectLoader.catch((e) => {
   notifications.value.push({
