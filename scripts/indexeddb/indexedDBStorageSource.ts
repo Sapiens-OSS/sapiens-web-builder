@@ -149,6 +149,7 @@ export class IndexedDBStorageSource implements ProjectSource {
     return true;
   }
 
+  // Asset handling
   assetsSupported(): boolean {
     return true;
   }
@@ -212,7 +213,7 @@ export class IndexedDBStorageSource implements ProjectSource {
 
     return { ...asset, data: blob };
   }
-  updateAsset(id: string, data: Blob): Promise<boolean> {
+  updateAsset(id: string, data: Asset): Promise<boolean> {
     throw new Error("Method not implemented.");
   }
   deleteAsset(id: string): Promise<boolean> {

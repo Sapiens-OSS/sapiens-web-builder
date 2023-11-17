@@ -66,7 +66,7 @@ export abstract class ProjectSource {
   abstract fetchAssets(): Promise<Asset[]>;
   abstract createAsset(asset: Asset): Promise<boolean>;
   abstract loadAsset(id: string): Promise<Asset & { data: Blob }>;
-  abstract updateAsset(id: string, data: Blob): Promise<boolean>;
+  abstract updateAsset(id: string, data: Asset): Promise<boolean>;
   abstract deleteAsset(id: string): Promise<boolean>;
 }
 

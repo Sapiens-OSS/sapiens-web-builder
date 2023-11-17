@@ -96,7 +96,7 @@ export class LocalStorageSource implements ProjectSource {
   loadAsset(id: string): Promise<Asset & { data: Blob }> {
     throw new Error("Method not implemented.");
   }
-  updateAsset(id: string, data: Blob): Promise<boolean> {
+  updateAsset(id: string, data: Asset): Promise<boolean> {
     throw new Error("Method not implemented.");
   }
   deleteAsset(id: string): Promise<boolean> {

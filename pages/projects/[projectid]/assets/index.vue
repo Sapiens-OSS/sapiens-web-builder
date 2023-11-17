@@ -1,72 +1,25 @@
 <template>
-  <div class="w-full flex flex-row">
-    <nav aria-label="Directory" class="w-80 border-r border-zinc-700">
-      <div class="border-b border-zinc-800 px-4 py-4 sm:px-6">
-        <div class="flex flex-wrap items-center sm:flex-nowrap">
-          <button
-            @click="assetModal = true"
-            type="button"
-            class="group relative block w-full rounded-lg border-2 border-dashed border-zinc-600 px-12 py-4 text-center hover:border-zinc-400"
-          >
-            <FolderPlusIcon
-              class="mx-auto h-12 w-12 text-zinc-600 group-hover:text-zinc-400"
-            />
-            <span class="mt-2 block text-sm font-semibold text-zinc-200"
-              >Upload asset</span
-            >
-          </button>
-        </div>
-      </div>
-      <div v-if="Object.keys(directory).length > 0">
-        <div
-          v-for="letter in Object.keys(directory)"
-          :key="letter"
-          class="relative"
-        >
-          <div
-            class="z-10 bg-zinc-800 px-3 py-1.5 text-sm font-semibold leading-6 text-zinc-100"
-          >
-            <h3>{{ letter }}</h3>
-          </div>
-          <ul role="list" class="divide-y divide-zinc-700">
-            <li
-              v-for="asset in directory[letter]"
-              :key="asset.id"
-              :class="[
-                asset.id == selectedID
-                  ? 'bg-zinc-800/40'
-                  : 'hover:bg-zinc-800/60',
-                'flex justify-between cursor-pointer',
-              ]"
-            >
-              <div
-                @click="() => assetSelect(asset.id)"
-                class="grow pl-3 py-5 hover:bg-zinc-800/80"
-              >
-                <p
-                  class="text-sm truncate max-w-[16rem] font-semibold leading-6 text-zinc-100"
-                >
-                  {{ asset.name }}
-                </p>
-                <p class="mt-1 truncate text-xs leading-5 text-zinc-400">
-                  {{ asset.id }}
-                </p>
-              </div>
-              <div
-                @click="() => deleteAsset(asset.id)"
-                class="bg-red-600 hover:bg-red-500 px-3 py-5 text-white flex justify-center items-center"
-              >
-                <TrashIcon class="h-5 w-5" aria-hidden="true" />
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="mt-3 text-center" v-else>
-        <span class="text-zinc-400 text-sm">No assets (yet!)</span>
-      </div>
-    </nav>
-    <div class="grow">
+  <div class="flex flex-row grow">
+    <aside
+      class="hidden lg:block h-screen overflow-y-scroll border-r border-zinc-700 w-96"
+    >
+      <AssetDirectory
+        :directory="directory"
+        :selected-i-d="selectedID"
+        @generateDirectory="() => generateDirectory()"
+        @openCreateModal="() => (assetModal = true)"
+        @select="(id) => selectAsset(id)"
+      />
+    </aside>
+    <ClientOnly>
+      <Teleport to="#mobile-nav">
+        <button @click="drawerOpen = true" type="button" class="text-gray-400">
+          <span class="sr-only">Open sidebar</span>
+          <RectangleStackIcon class="h-6 w-6" aria-hidden="true" />
+        </button>
+      </Teleport>
+    </ClientOnly>
+    <main class="w-full grow max-w-screen overflow-x-hidden">
       <NuxtErrorBoundary>
         <template #default>
           <NuxtPage />
@@ -92,53 +45,103 @@
                 <button
                   @click="assetModal = true"
                   class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                  >Create new asset</button
                 >
+                  Create new asset
+                </button>
               </div>
             </div>
           </main>
         </template>
       </NuxtErrorBoundary>
-    </div>
-    <UploadAssetModal
-      v-model="assetModal"
-      @create="() => generateDirectory()"
-    />
+    </main>
   </div>
+
+  <TransitionRoot as="template" :show="drawerOpen">
+    <Dialog as="div" class="relative z-10" @close="drawerOpen = false">
+      <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="translate-y-full"
+          enter-to="translate-y-0"
+          leave="ease-in duration-200"
+          leave-from="translate-y-0"
+          leave-to="translate-y-full"
+        >
+          <DialogPanel
+            class="relative w-full h-full transform h-screen overflow-y-scroll bg-zinc-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+          >
+            <ClientOnly>
+              <Teleport to="#mobile-directory-id">
+                <button
+                  type="button"
+                  class="rounded-md ml-3 text-zinc-100 hover:text-zinc-200"
+                  @click="drawerOpen = false"
+                >
+                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                </button>
+              </Teleport>
+            </ClientOnly>
+            <div>
+              <AssetDirectory
+                :directory="directory"
+                :selected-i-d="selectedID"
+                directory-nav-id="mobile-directory-id"
+                @generateDirectory="() => generateDirectory()"
+                @openCreateModal="() => (assetModal = true)"
+                @select="(id) => selectAsset(id)"
+              />
+            </div>
+          </DialogPanel>
+        </TransitionChild>
+      </div>
+    </Dialog>
+  </TransitionRoot>
+  <UploadAssetModal v-model="assetModal" @create="(id) => onCreateAsset(id)" />
 </template>
 
 <script setup lang="ts">
 import {
+  Dialog,
+  DialogPanel,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
+import {
   CircleStackIcon,
   FolderOpenIcon,
   FolderPlusIcon,
+  RectangleStackIcon,
   TrashIcon,
+  XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { Asset, FullyLoadedProject } from "~/scripts/project";
 
 const project = useState<FullyLoadedProject>("project");
 
-const router = useRouter();
-const route = useRoute();
-
 const assetModal = ref(false);
+const drawerOpen = ref(false);
 const selectedID = ref("");
 
-async function deleteAsset(id: string) {
-  await project.value.projectSource.deleteAsset(id);
+const route = useRoute();
+const router = useRouter();
+
+const assets: Ref<Asset[] | undefined> = useState("assets");
+const directory: Ref<{ [key: string]: Asset[] }> = ref({});
+
+async function onCreateAsset(id: string) {
   await generateDirectory();
+  selectAsset(id);
 }
 
-async function assetSelect(id: string) {
+async function selectAsset(id: string) {
   router.push({
     name: "projects-projectid-assets-index-assetid",
     params: Object.assign({}, route.params, { assetid: id }),
   });
   selectedID.value = id;
+  drawerOpen.value = false;
 }
-
-const assets: Ref<Asset[] | undefined> = useState("assets");
-const directory: Ref<{ [key: string]: Asset[] }> = ref({});
 
 async function generateDirectory() {
   directory.value = {};
