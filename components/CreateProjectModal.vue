@@ -218,7 +218,15 @@ async function createProject() {
     const id = await projectSources.value[projectStorage.value].newProject(
       projectName.value
     );
-    router.push(`/projects/${id}/`);
+    router.push(`/projects/${id}/`, {
+      meta: {
+        project: {
+          id,
+          name: projectName.value,
+          projectSource: projectSources.value[projectStorage.value],
+        },
+      },
+    });
   } catch (e) {
     notifications.value.push({
       uuid: crypto.randomUUID(),

@@ -1,9 +1,6 @@
 <template>
-  <div class="w-full">
-    <nav
-      aria-label="Directory"
-      class="w-80 min-h-screen border-r border-zinc-700"
-    >
+  <div class="w-full flex flex-row">
+    <nav aria-label="Directory" class="w-80 border-r border-zinc-700">
       <div class="border-b border-zinc-800 px-4 py-4 sm:px-6">
         <div class="flex flex-wrap items-center sm:flex-nowrap">
           <button
@@ -19,18 +16,6 @@
             >
           </button>
         </div>
-        <h1 class="mt-2 text-zinc-200">
-          Total assets size:
-          {{
-            formatBytes(
-              (assets ?? [])
-                .map((e) => e.data?.size)
-                .reduce((count, e) => {
-                  return (count ?? 0) + (e ?? 0);
-                }, 0) ?? 0
-            )
-          }}
-        </h1>
       </div>
       <div v-if="Object.keys(directory).length > 0">
         <div
@@ -55,14 +40,12 @@
               ]"
             >
               <div
-                @click="
-                  () => {
-                    selectedID = asset.id;
-                  }
-                "
+                @click="() => assetSelect(asset.id)"
                 class="grow pl-3 py-5 hover:bg-zinc-800/80"
               >
-                <p class="text-sm truncate max-w-[16rem] font-semibold leading-6 text-zinc-100">
+                <p
+                  class="text-sm truncate max-w-[16rem] font-semibold leading-6 text-zinc-100"
+                >
                   {{ asset.name }}
                 </p>
                 <p class="mt-1 truncate text-xs leading-5 text-zinc-400">
@@ -83,7 +66,40 @@
         <span class="text-zinc-400 text-sm">No assets (yet!)</span>
       </div>
     </nav>
-    <NuxtPage />
+    <div class="grow">
+      <NuxtErrorBoundary>
+        <template #default>
+          <NuxtPage />
+        </template>
+        <template #error="{ error }">
+          <main
+            class="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8"
+          >
+            <div class="text-center">
+              <p class="text-base font-semibold text-orange-600">Oh no!</p>
+              <h1
+                class="mt-4 text-3xl font-bold tracking-tight text-zinc-200 sm:text-5xl"
+              >
+                Asset not found
+              </h1>
+              <p class="mt-6 text-base leading-7 text-zinc-400">
+                Unfortunately the asset you're looking for couldn't be loaded.
+              </p>
+              <p class="mt-2 text-xs text-zinc-500">
+                {{ error }}
+              </p>
+              <div class="mt-8 flex items-center justify-center gap-x-6">
+                <button
+                  @click="assetModal = true"
+                  class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                  >Create new asset</button
+                >
+              </div>
+            </div>
+          </main>
+        </template>
+      </NuxtErrorBoundary>
+    </div>
     <UploadAssetModal
       v-model="assetModal"
       @create="() => generateDirectory()"
@@ -92,10 +108,18 @@
 </template>
 
 <script setup lang="ts">
-import { FolderPlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import {
+  CircleStackIcon,
+  FolderOpenIcon,
+  FolderPlusIcon,
+  TrashIcon,
+} from "@heroicons/vue/24/outline";
 import { Asset, FullyLoadedProject } from "~/scripts/project";
 
 const project = useState<FullyLoadedProject>("project");
+
+const router = useRouter();
+const route = useRoute();
 
 const assetModal = ref(false);
 const selectedID = ref("");
@@ -105,26 +129,12 @@ async function deleteAsset(id: string) {
   await generateDirectory();
 }
 
-function formatBytes(bytes: number, decimals = 2) {
-  if (!+bytes) return "0 Bytes";
-
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = [
-    "Bytes",
-    "KiB",
-    "MiB",
-    "GiB",
-    "TiB",
-    "PiB",
-    "EiB",
-    "ZiB",
-    "YiB",
-  ];
-
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+async function assetSelect(id: string) {
+  router.push({
+    name: "projects-projectid-assets-index-assetid",
+    params: Object.assign({}, route.params, { assetid: id }),
+  });
+  selectedID.value = id;
 }
 
 const assets: Ref<Asset[] | undefined> = useState("assets");
@@ -136,7 +146,6 @@ async function generateDirectory() {
   assets.value.forEach((asset) => {
     directory.value[asset.name[0].toUpperCase()] ??= [];
     directory.value[asset.name[0].toUpperCase()].push(asset);
-    console.log(asset.data?.type);
   });
 }
 

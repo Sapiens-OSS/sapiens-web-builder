@@ -98,6 +98,17 @@
                     Cancel
                   </button>
                 </div>
+                <div
+                  v-if="loadingProgress != undefined"
+                  class="w-full mt-4 h-2 bg-zinc-700 rounded-full overflow-hidden"
+                >
+                  <div
+                    :style="{
+                      width: `${loadingProgress}%`,
+                    }"
+                    class="transition-transform h-full bg-orange-600"
+                  />
+                </div>
               </form>
             </DialogPanel>
           </TransitionChild>
@@ -138,6 +149,8 @@ const fileOpener = ref();
 const selectedFile = ref();
 const filename = ref("");
 
+const loadingProgress: Ref<number | undefined> = ref(undefined);
+
 function onSelect(v: Event) {
   selectedFile.value = (v.target as HTMLInputElement)?.value;
   filename.value = selectedFile.value.split("\\").at(-1);
@@ -151,6 +164,10 @@ async function upload() {
     fr.onload = (e) => {
       r(e.target?.result as ArrayBuffer);
     };
+    fr.onprogress = (v) => {
+      const progress = parseInt(`${(v.loaded / v.total) * 100}`, 10);
+      loadingProgress.value = progress;
+    };
     fr.readAsArrayBuffer(file);
   });
   const asset: Asset = {
@@ -163,6 +180,7 @@ async function upload() {
   open.value = false;
   selectedFile.value = undefined;
   filename.value = "";
+  loadingProgress.value = undefined;
 
   emits("create");
 }
