@@ -109,7 +109,7 @@ import {
   RadioGroupOption,
 } from "@headlessui/vue";
 import { FolderPlusIcon } from "@heroicons/vue/24/outline";
-import { File, FullyLoadedProject } from "~/scripts/project";
+import { type File, type FullyLoadedProject } from "~/scripts/project";
 
 const props = defineProps(["modelValue", "schemaid"]);
 const emits = defineEmits(["update:modelValue"]);

@@ -317,7 +317,7 @@
 </template>
 
 <script setup lang="ts">
-import { FunctionalComponent, HTMLAttributes, VNodeProps, ref } from "vue";
+import { type FunctionalComponent, type HTMLAttributes, type VNodeProps, ref } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -333,8 +333,8 @@ import {
   HomeIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import { Asset, FullyLoadedProject, PartiallyLoadedProject } from "~/scripts/project";
-import { Schema } from "~/scripts/schemas";
+import { type Asset, type FullyLoadedProject, type PartiallyLoadedProject } from "~/scripts/project";
+import { type Schema } from "~/scripts/schemas";
 import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
 import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
 import { Autosaver } from "~/scripts/autosaver";

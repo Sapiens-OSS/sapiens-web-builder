@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { Asset, FullyLoadedProject } from "~/scripts/project";
+import { type Asset, type FullyLoadedProject } from "~/scripts/project";
 
 const route = useRoute();
 

@@ -128,7 +128,7 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { CheckIcon, FolderPlusIcon } from "@heroicons/vue/24/outline";
-import { Asset, FullyLoadedProject } from "~/scripts/project";
+import { type Asset, type FullyLoadedProject } from "~/scripts/project";
 
 const props = defineProps(["modelValue"]);
 

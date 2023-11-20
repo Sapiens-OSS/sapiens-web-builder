@@ -86,7 +86,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { FullyLoadedProject, File } from "~/scripts/project";
+import { type FullyLoadedProject, type File } from "~/scripts/project";
 
 const props = defineProps(["navigation"]);
 const router = useRouter();

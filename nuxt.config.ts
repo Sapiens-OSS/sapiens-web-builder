@@ -9,6 +9,8 @@ export default defineNuxtConfig({
     },
   },
 
+  modules: ["@nuxt/content"],
+
   app: {
     head: {
       link: [{ rel: "icon", href: "/favicon.ico" }],

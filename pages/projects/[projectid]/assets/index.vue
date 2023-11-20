@@ -115,7 +115,7 @@ import {
   TrashIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import { Asset, FullyLoadedProject } from "~/scripts/project";
+import { type Asset, type FullyLoadedProject } from "~/scripts/project";
 
 const project = useState<FullyLoadedProject>("project");
 

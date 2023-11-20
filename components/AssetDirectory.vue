@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import { FolderPlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import { FullyLoadedProject } from "~/scripts/project";
+import { type FullyLoadedProject } from "~/scripts/project";
 
 const props = defineProps(["directory", "directoryNavId", "selectedID"]);
 const emit = defineEmits(["generateDirectory", "openCreateModal", "select"]);

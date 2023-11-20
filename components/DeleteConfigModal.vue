@@ -86,7 +86,7 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { FolderPlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import { FullyLoadedProject } from "~/scripts/project";
+import { type FullyLoadedProject } from "~/scripts/project";
 
 const props = defineProps(["modelValue", "schemaid"]);
 const emits = defineEmits(["update:modelValue"]);

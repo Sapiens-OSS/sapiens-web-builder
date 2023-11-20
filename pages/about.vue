@@ -70,7 +70,7 @@
               </span>
             </DisclosureButton>
           </dt>
-          <DisclosurePanel as="dd" class="mt-2 pr-12">
+          <DisclosurePanel as="dd" class="mt-4 pr-12">
             <p class="text-base leading-7 text-zinc-400">{{ faq.answer }}</p>
           </DisclosurePanel>
         </Disclosure>
@@ -79,7 +79,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import {
   MinusSmallIcon,
@@ -109,11 +109,23 @@ const features = [
   },
 ];
 
-const faqs = [
+const faqs: Array<{ question: string; answer: string }> = [
   {
-    question: "How does Sapiens Web Builder work without accounts?",
+    question: "How does Sapiens Web Builder store my projects?",
     answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      "It depends on the storage location you've picked, but it's typically in either your browser's storage location or somewhere like GitHub. Whenever you save, or autosave, we use that location to save your project data and configs. ",
+  },
+  {
+    question:
+      "Do I have to credit Sapiens Web Builder or Sapiens Modding Community?",
+    answer:
+      "No! Whatever mods you create using this tool don't require attribution (but we would appreciate it :]). However, any mod developer that looks into your mod's files could probably tell.",
+  },
+  {
+    question:
+      "How do I add extra functionality to my mods (something SWB doesn't support)?",
+    answer:
+      "You can always extend the functionality of your mods with actual code, but the SWB doesn't have a convient way of doing that. To learn more about modding Sapiens, you can join our Discord and look at our wiki.",
   },
 ];
 </script>

@@ -141,7 +141,7 @@
 </template>
 
 <script setup lang="ts">
-import { PartiallyLoadedProject, fetchProjects } from "~/scripts/project";
+import { type PartiallyLoadedProject, fetchProjects } from "~/scripts/project";
 import { PromiseLoader } from "~/scripts/promiseLoader";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
@@ -156,4 +156,8 @@ const loader = new PromiseLoader<PartiallyLoadedProject>(
 const completedValues: Ref<PartiallyLoadedProject[]> = loader.completedValues;
 
 const createProjectModalOpen = ref(false);
+
+useHead({
+  title: "Projects",
+});
 </script>

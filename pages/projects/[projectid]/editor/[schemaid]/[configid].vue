@@ -9,9 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import { WritableComputedRef } from "vue";
-import { FullyLoadedProject, File } from "~/scripts/project";
-import { Schema } from "~/scripts/schemas";
+import { type WritableComputedRef } from "vue";
+import { type FullyLoadedProject, type File } from "~/scripts/project";
+import { type Schema } from "~/scripts/schemas";
 
 const project: Ref<FullyLoadedProject> = useState("project");
 const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");

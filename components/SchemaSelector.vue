@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { Schema } from "~/scripts/schemas";
+import { type Schema } from "~/scripts/schemas";
 import SchemaObject from "./SchemaObject.vue";
 import SchemaNotFound from "./SchemaNotFound.vue";
 import SchemaArray from "./SchemaArray.vue";
