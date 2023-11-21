@@ -1,7 +1,7 @@
 import {
-  Asset,
-  FullyLoadedProject,
-  PartiallyLoadedProject,
+  type Asset,
+  type FullyLoadedProject,
+  type PartiallyLoadedProject,
   ProjectSource,
   ProjectSourceColour,
 } from "../project";
@@ -47,6 +47,7 @@ export class LocalStorageSource implements ProjectSource {
       name: name,
       schemas: DEFAULT_SCHEMAS,
       files: {},
+      version: { major: 1, minor: 0, patch: 0 },
       projectSource: this,
     };
     this.saveProject(project);

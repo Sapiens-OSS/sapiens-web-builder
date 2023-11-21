@@ -1,4 +1,4 @@
-import { FullyLoadedProject } from "./project";
+import { type FullyLoadedProject } from "./project";
 
 export class Autosaver {
   private project: FullyLoadedProject;

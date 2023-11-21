@@ -135,7 +135,6 @@
                   <button
                     type="submit"
                     class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 sm:col-start-2"
-                    @click="createProject"
                   >
                     <span v-if="!projectLoading">Confirm</span>
                     <div v-else role="status">
@@ -218,15 +217,12 @@ async function createProject() {
     const id = await projectSources.value[projectStorage.value].newProject(
       projectName.value
     );
-    router.push(`/projects/${id}/`, {
-      meta: {
-        project: {
-          id,
-          name: projectName.value,
-          projectSource: projectSources.value[projectStorage.value],
-        },
-      },
-    });
+    const projectid = useState("partialproject", () => ({
+      id,
+      name: projectName.value,
+      projectSource: projectSources.value[projectStorage.value],
+    }));
+    router.push(`/projects/${id}/`);
   } catch (e) {
     notifications.value.push({
       uuid: crypto.randomUUID(),

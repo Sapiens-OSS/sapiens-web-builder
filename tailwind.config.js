@@ -6,6 +6,7 @@ module.exports = {
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
     "./error.vue",
+    "./content/**/*.md",
     "./app.vue",
   ],
   theme: {
@@ -22,5 +23,5 @@ module.exports = {
       pattern: /ring-(.*)-500\/20/,
     },
   ],
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 };

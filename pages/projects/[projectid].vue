@@ -55,9 +55,9 @@
               <div
                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-zinc-900 px-6 pb-2 ring-1 ring-white/10"
               >
-                <div class="flex h-16 shrink-0 items-center">
+                <NuxtLink href="/" class="flex h-16 shrink-0 items-center">
                   <img class="h-5 w-auto" src="@/assets/logo.png" alt="HWB" />
-                </div>
+                </NuxtLink>
                 <nav class="flex flex-1 flex-col">
                   <ul role="list" class="-mx-2 flex-1 space-y-1">
                     <li v-for="(item, itemIdx) in navigation" :key="item.name">
@@ -98,9 +98,9 @@
     <div
       class="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-zinc-900 lg:pb-4 lg:border-r lg:border-zinc-700"
     >
-      <div class="flex h-16 shrink-0 items-center justify-center">
+      <NuxtLink href="/" class="flex h-16 shrink-0 items-center justify-center">
         <img class="h-11 w-auto" src="@/assets/icon.png" alt="HWB" />
-      </div>
+      </NuxtLink>
       <div class="mt-2 px-2 h-7 flex items-center justify-center">
         <button
           v-if="!autosaver"
@@ -317,7 +317,12 @@
 </template>
 
 <script setup lang="ts">
-import { type FunctionalComponent, type HTMLAttributes, type VNodeProps, ref } from "vue";
+import {
+  type FunctionalComponent,
+  type HTMLAttributes,
+  type VNodeProps,
+  ref,
+} from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -333,7 +338,11 @@ import {
   HomeIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import { type Asset, type FullyLoadedProject, type PartiallyLoadedProject } from "~/scripts/project";
+import {
+  type Asset,
+  type FullyLoadedProject,
+  type PartiallyLoadedProject,
+} from "~/scripts/project";
 import { type Schema } from "~/scripts/schemas";
 import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
 import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
@@ -343,10 +352,10 @@ import { Autosaver } from "~/scripts/autosaver";
 const route = useRoute();
 const router = useRouter();
 const notifications = useNotifications();
-const partialProject: PartiallyLoadedProject = route.meta
-  .project as PartiallyLoadedProject;
-const projectLoader = partialProject.projectSource.loadProject(
-  partialProject.id
+const partialProject: Ref<PartiallyLoadedProject> = useState("partialproject");
+console.log(route.meta);
+const projectLoader = partialProject.value.projectSource.loadProject(
+  partialProject.value.id
 );
 const project = useState<FullyLoadedProject | null>("project", () => null);
 const assets = useState<Asset[] | undefined>("assets", () => undefined);
@@ -363,6 +372,13 @@ projectLoader.catch((e) => {
 
 projectLoader.then((e) => {
   project.value = e;
+
+  // Setup title
+  useHead({
+    title: project.value
+      ? `${project.value.name} / ${project.value.projectSource.name()}`
+      : null,
+  });
 
   // Autosaving setup
   if (project.value.projectSource.autosaveSupported()) {
@@ -569,11 +585,7 @@ definePageMeta({
   layout: false,
   middleware: "check-valid-project",
 });
-useHead({
-  title: project.value
-    ? `${project.value.name} / ${project.value.projectSource.name()}`
-    : null,
-});
+
 router.afterEach(() => {
   sidebarOpen.value = false;
 });

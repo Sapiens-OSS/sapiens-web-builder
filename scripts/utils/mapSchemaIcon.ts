@@ -4,7 +4,7 @@ import {
   InboxIcon,
   RectangleGroupIcon,
 } from "@heroicons/vue/24/outline";
-import { FunctionalComponent, HTMLAttributes, VNodeProps } from "vue";
+import { type FunctionalComponent, type HTMLAttributes, type VNodeProps } from "vue";
 
 const iconMap: {
   [key: string]: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;

@@ -1,4 +1,5 @@
 import { LocalStorageSource } from "./localStorage/localStorageSource";
+import type { Version } from "./versionController";
 
 export interface File {
   id: string;
@@ -11,6 +12,8 @@ export interface PartiallyLoadedProject {
   id: string;
   // Project Name
   name: string;
+  // Version
+  version: Version;
   // Project source to save/load from
   projectSource: ProjectSource;
 }

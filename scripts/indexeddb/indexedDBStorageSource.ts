@@ -1,7 +1,7 @@
 import {
-  Asset,
-  FullyLoadedProject,
-  PartiallyLoadedProject,
+  type Asset,
+  type FullyLoadedProject,
+  type PartiallyLoadedProject,
   ProjectSource,
   ProjectSourceColour,
 } from "../project";
@@ -127,11 +127,12 @@ export class IndexedDBStorageSource implements ProjectSource {
     return new Promise<string>(async (resolve, reject) => {
       const projectStore = await useProjectObjectStore("readwrite");
       const projectID = crypto.randomUUID();
-      const project = {
+      const project: FullyLoadedProject | { projectSource: string } = {
         id: projectID.toString(),
         name: name,
         schemas: DEFAULT_SCHEMAS,
         files: {},
+        version: { major: 1, minor: 0, patch: 0 },
         projectSource: this.id(),
       };
       projectStore.add(project).onerror = (e) => reject(e);

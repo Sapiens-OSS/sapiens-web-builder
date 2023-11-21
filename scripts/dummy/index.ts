@@ -1,8 +1,8 @@
 import {
-  Asset,
-  FullyLoadedProject,
+  type Asset,
+  type FullyLoadedProject,
   PROJECT_SOURCES,
-  PartiallyLoadedProject,
+  type PartiallyLoadedProject,
   ProjectSource,
   ProjectSourceColour,
 } from "../project";

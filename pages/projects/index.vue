@@ -37,6 +37,9 @@
               <p class="text-sm font-semibold leading-6 text-zinc-100">
                 {{ project.name }}
               </p>
+              <p class="text-zinc-400 text-sm leading-6">
+                {{ new VersionController(project.version).export() }}
+              </p>
               <p
                 :class="[
                   `text-${project.projectSource.color()}-300`,
@@ -146,6 +149,7 @@ import { PromiseLoader } from "~/scripts/promiseLoader";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { PlusIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
 import { TrashIcon } from "@heroicons/vue/24/outline";
+import { VersionController } from "~/scripts/versionController";
 const loader = new PromiseLoader<PartiallyLoadedProject>(
   () => fetchProjects(),
   (e) => {},
