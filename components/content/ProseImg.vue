@@ -1,7 +1,7 @@
 <template>
   <div
     @click="open = true"
-    class="not-prose mb-2 transition-all duration-300 hover:scale-[1.02] cursor-pointer text-center bg-zinc-800 rounded-xl"
+    class="not-prose mb-2 transition-all duration-300 hover:scale-[1.02] cursor-pointer text-center rounded-xl"
   >
     <img class="rounded-xl" :src="refinedSrc" :width="width" :height="height" />
     <span class="text-zinc-400 text-sm">{{ alt }}</span>

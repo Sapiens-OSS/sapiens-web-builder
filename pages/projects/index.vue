@@ -45,7 +45,7 @@
                   `text-${project.projectSource.color()}-300`,
                   `bg-${project.projectSource.color()}-500/20`,
                   `ring-${project.projectSource.color()}-500/20`,
-                  'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
+                  'ml-0.5 rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
                 ]"
               >
                 {{ project.projectSource.name() }}

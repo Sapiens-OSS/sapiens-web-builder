@@ -347,17 +347,18 @@ import { type Schema } from "~/scripts/schemas";
 import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
 import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
 import { Autosaver } from "~/scripts/autosaver";
+import { VersionController } from "~/scripts/versionController";
 
 // Globals
 const route = useRoute();
 const router = useRouter();
 const notifications = useNotifications();
 const partialProject: Ref<PartiallyLoadedProject> = useState("partialproject");
-console.log(route.meta);
 const projectLoader = partialProject.value.projectSource.loadProject(
   partialProject.value.id
 );
 const project = useState<FullyLoadedProject | null>("project", () => null);
+const versionController = useState<VersionController | null>("vc", () => null);
 const assets = useState<Asset[] | undefined>("assets", () => undefined);
 
 projectLoader.catch((e) => {
@@ -372,6 +373,9 @@ projectLoader.catch((e) => {
 
 projectLoader.then((e) => {
   project.value = e;
+
+  // Version controller setup
+  versionController.value = new VersionController(project.value.version);
 
   // Setup title
   useHead({
@@ -490,7 +494,8 @@ function generateNavigation() {
   ];
 
   if (project.value) {
-    if (project.value.projectSource.assetsSupported()) {
+    // Disable assets
+    if (false && project.value?.projectSource.assetsSupported()) {
       base.push({
         name: "Assets",
         path: "/assets",

@@ -12,11 +12,13 @@
 import { type WritableComputedRef } from "vue";
 import { type FullyLoadedProject, type File } from "~/scripts/project";
 import { type Schema } from "~/scripts/schemas";
+import type { VersionController } from "~/scripts/versionController";
 
 const project: Ref<FullyLoadedProject> = useState("project");
 const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");
 const notifications = useNotifications();
 const route = useRoute();
+const versionController = useState<VersionController>("vc");
 
 // Hook this config up
 const config: WritableComputedRef<File | null> = computed({
@@ -37,6 +39,7 @@ const config: WritableComputedRef<File | null> = computed({
   },
   set(v) {
     // Skip checks because we shouldn't be here if we need them
+
     const configIndex =
       project.value.files[route.params.schemaid.toString()].findIndex(
         (e) => e.id == route.params.configid.toString()
@@ -47,8 +50,10 @@ const config: WritableComputedRef<File | null> = computed({
         configIndex,
         1
       );
+      versionController.value.CDConfig();
     } else {
       project.value.files[route.params.schemaid.toString()][configIndex] = v;
+      versionController.value.UConfig();
     }
   },
 });

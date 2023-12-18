@@ -21,7 +21,6 @@ export class Autosaver {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
-    console.log(this.autosavingRef);
     // These refs are unwrapped for some reason so we have to assign them directly and ignore TS
     //@ts-ignore
     this.autosavingRef = true;

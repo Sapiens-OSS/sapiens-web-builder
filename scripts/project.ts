@@ -14,6 +14,8 @@ export interface PartiallyLoadedProject {
   name: string;
   // Version
   version: Version;
+  // Icon asset ID
+  icon?: string;
   // Project source to save/load from
   projectSource: ProjectSource;
 }

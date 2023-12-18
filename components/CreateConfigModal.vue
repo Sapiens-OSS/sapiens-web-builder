@@ -103,13 +103,10 @@ import {
   DialogTitle,
   TransitionChild,
   TransitionRoot,
-  RadioGroup,
-  RadioGroupDescription,
-  RadioGroupLabel,
-  RadioGroupOption,
 } from "@headlessui/vue";
 import { FolderPlusIcon } from "@heroicons/vue/24/outline";
 import { type File, type FullyLoadedProject } from "~/scripts/project";
+import { VersionController } from "~/scripts/versionController";
 
 const props = defineProps(["modelValue", "schemaid"]);
 const emits = defineEmits(["update:modelValue"]);
@@ -118,6 +115,7 @@ const router = useRouter();
 const route = useRoute();
 
 const project: Ref<FullyLoadedProject> = useState("project");
+const versionController = useState<VersionController>("vc");
 
 const open = computed({
   get() {
@@ -138,6 +136,7 @@ function createConfig() {
   };
   project.value.files[props.schemaid] ??= [];
   project.value.files[props.schemaid].push(newFile);
+  versionController.value.CDConfig();
   open.value = false;
   router.push({
     name: "projects-projectid-editor-schemaid-configid",

@@ -209,7 +209,7 @@
 
     <div class="lg:pl-72">
       <div
-        class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-zinc-700 bg-zinc-800/10 backdrop-blur-xl px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
+        class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-zinc-700 bg-zinc-800/70 backdrop-blur-xl px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
       >
         <button
           type="button"
@@ -253,7 +253,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, type FunctionalComponent, type HTMLAttributes, type VNodeProps } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -263,10 +263,17 @@ import {
 import {
   AcademicCapIcon,
   Bars3Icon,
+  HomeIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import type { NavItem } from "@nuxt/content/dist/runtime/types";
+
+const iconMap: {
+  [key: string]: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
+} = {
+  Home: HomeIcon,
+};
 
 const sidebarOpen = ref(false);
 
@@ -292,7 +299,7 @@ const navigation = computed(() =>
       return {
         name: e.title,
         href: e._path,
-        icon: AcademicCapIcon,
+        icon: iconMap[e.title] ?? AcademicCapIcon,
         current: route.path == e._path,
       };
     })

@@ -1,11 +1,19 @@
 import {
   AcademicCapIcon,
+  ArchiveBoxIcon,
+  BeakerIcon,
+  BoltIcon,
+  CloudIcon,
   CubeIcon,
-  InboxIcon,
+  EyeDropperIcon,
+  LightBulbIcon,
   RectangleGroupIcon,
+  SparklesIcon,
+  SpeakerWaveIcon,
 } from "@heroicons/vue/24/outline";
 import { type FunctionalComponent, type HTMLAttributes, type VNodeProps } from "vue";
 
+// Some default-ish icons that hopefully match to common schema names
 const iconMap: {
   [key: string]: FunctionalComponent<HTMLAttributes & VNodeProps, {}, any>;
 } = {
@@ -13,7 +21,16 @@ const iconMap: {
   learn: AcademicCapIcon,
   shared: CubeIcon,
   object: RectangleGroupIcon,
-  storage: InboxIcon,
+  storage: ArchiveBoxIcon,
+  fluid: BeakerIcon,
+  liquid: BeakerIcon,
+  electric: BoltIcon,
+  magic: SparklesIcon,
+  spell: SparklesIcon,
+  sound: SpeakerWaveIcon,
+  weather: CloudIcon,
+  color: EyeDropperIcon,
+  light: LightBulbIcon,
 };
 
 export function mapSchemaIcon(
