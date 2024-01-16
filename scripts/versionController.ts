@@ -24,7 +24,6 @@ export class VersionController {
 
   private bumpTo(v: VersionRequiredBump) {
     if (this.vrb > v) {
-      console.log(`bumping to ${v}`);
       this.vrb = v;
     }
   }

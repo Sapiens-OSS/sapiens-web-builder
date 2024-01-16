@@ -8,6 +8,7 @@ import {
   EyeDropperIcon,
   LightBulbIcon,
   RectangleGroupIcon,
+  RectangleStackIcon,
   SparklesIcon,
   SpeakerWaveIcon,
 } from "@heroicons/vue/24/outline";
@@ -31,6 +32,7 @@ const iconMap: {
   weather: CloudIcon,
   color: EyeDropperIcon,
   light: LightBulbIcon,
+  recipe: RectangleStackIcon
 };
 
 export function mapSchemaIcon(

@@ -11,4 +11,5 @@ export interface Schema {
   description: string;
   properties: any;
   type: string;
+  exportDir?: string;
 }

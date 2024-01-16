@@ -92,11 +92,13 @@ import { Exporter } from "~/scripts/exporter/exporter";
 import type { VersionController } from "~/scripts/versionController";
 import JSZip from "jszip";
 import FileSaver from "file-saver";
+import type { Schema } from "~/scripts/schemas";
 
 const project: Ref<FullyLoadedProject> = useState("project");
 const versionController = useState<VersionController>("vc");
+const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");
 
-const exporter: Exporter = new Exporter(project, versionController);
+const exporter: Exporter = new Exporter(project, versionController, schemas);
 
 const preExport = computed(() => exporter.preExport() as [string, File[]]);
 

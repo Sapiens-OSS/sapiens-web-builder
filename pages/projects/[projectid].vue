@@ -391,7 +391,6 @@ projectLoader.then((e) => {
       project.value.files,
       () => {
         autosaver.value?.change();
-        console.log("change");
       },
       { deep: true }
     );
