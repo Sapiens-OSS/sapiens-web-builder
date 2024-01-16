@@ -49,6 +49,7 @@ export class LocalStorageSource implements ProjectSource {
       files: {},
       version: { major: 1, minor: 0, patch: 0 },
       projectSource: this,
+      modinfo: {},
     };
     this.saveProject(project);
     return project.id;

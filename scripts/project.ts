@@ -27,6 +27,14 @@ export interface FullyLoadedProject extends PartiallyLoadedProject {
   // Dictionary of JSON objects that are the actual project files
   // Stored by schemaID
   files: { [key: string]: Array<File> };
+  // Project modinfo
+  modinfo: ProjectModInfo;
+}
+
+export interface ProjectModInfo {
+  description?: string;
+  developer?: string;
+  website?: string;
 }
 
 export enum ProjectSourceColour {

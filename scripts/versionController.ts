@@ -24,6 +24,7 @@ export class VersionController {
 
   private bumpTo(v: VersionRequiredBump) {
     if (this.vrb > v) {
+      console.log(`bumping to ${v}`);
       this.vrb = v;
     }
   }
@@ -51,12 +52,34 @@ export class VersionController {
         this.version.patch++;
         break;
     }
+    this.vrb = VersionRequiredBump.None;
   }
 
   public export() {
-    if (this.version.override) {
-      return this.version.override;
+    return VersionController.export(this.version);
+  }
+
+  public static export(version: Version) {
+    if (version.override) {
+      return version.override;
     }
-    return `${this.version.major}.${this.version.minor}.${this.version.patch}`;
+    return `${version.major}.${version.minor}.${version.patch}`;
+  }
+
+  public ephemeralApply(): Version {
+    return {
+      major:
+        this.vrb == VersionRequiredBump.Major
+          ? this.version.major + 1
+          : this.version.major,
+      minor:
+        this.vrb == VersionRequiredBump.Minor
+          ? this.version.minor + 1
+          : this.version.minor,
+      patch:
+        this.vrb == VersionRequiredBump.Patch
+          ? this.version.patch + 1
+          : this.version.patch,
+    };
   }
 }

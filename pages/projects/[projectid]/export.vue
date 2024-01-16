@@ -19,11 +19,12 @@
               your new mod with the world!
             </p>
             <div class="mt-10 flex items-center gap-x-6">
-              <a
-                href="#"
+              <button
+                @click="zip"
                 class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                >Export project
-              </a>
+              >
+                Export project
+              </button>
               <NuxtLink
                 href="#"
                 class="text-sm font-semibold leading-6 text-zinc-100"
@@ -61,14 +62,15 @@
                         modinfo.lua
                       </div>
                       <div
+                        v-for="file in preExport[1]"
                         class="border-r border-gray-600/10 px-4 py-2"
                       >
-                        an_object.json
+                        {{ file.id }}.json
                       </div>
                     </div>
                   </div>
-                  <div class="px-6 pb-14 pt-6 text-zinc-100">
-                    <!-- generate modinfo -->
+                  <div class="pr-6 pb-14 text-zinc-100">
+                    <highlightjs autodetect :code="preExport[0]" />
                   </div>
                 </div>
               </div>
@@ -85,9 +87,36 @@
 </template>
 
 <script setup lang="ts">
-import type { FullyLoadedProject } from "~/scripts/project";
+import type { File, FullyLoadedProject } from "~/scripts/project";
+import { Exporter } from "~/scripts/exporter/exporter";
+import type { VersionController } from "~/scripts/versionController";
+import JSZip from "jszip";
+import FileSaver from "file-saver";
 
 const project: Ref<FullyLoadedProject> = useState("project");
+const versionController = useState<VersionController>("vc");
 
+const exporter: Exporter = new Exporter(project, versionController);
 
+const preExport = computed(() => exporter.preExport() as [string, File[]]);
+
+function zip() {
+  const zip = new JSZip();
+  const files = exporter.export();
+  files.forEach((file) => {
+    zip.file(file.filename, file.data);
+  });
+  zip.generateAsync({ type: "blob" }).then((data) => {
+    FileSaver.saveAs(
+      data,
+      `${project.value.name.replace(" ", "-").toLowerCase()}.zip`
+    );
+  });
+}
 </script>
+
+<style>
+.hljs {
+  background-color: transparent !important;
+}
+</style>

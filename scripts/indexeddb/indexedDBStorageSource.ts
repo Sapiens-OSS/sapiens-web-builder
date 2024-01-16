@@ -134,6 +134,7 @@ export class IndexedDBStorageSource implements ProjectSource {
         files: {},
         version: { major: 1, minor: 0, patch: 0 },
         projectSource: this.id(),
+        modinfo: {},
       };
       projectStore.add(project).onerror = (e) => reject(e);
       resolve(projectID.toString());
