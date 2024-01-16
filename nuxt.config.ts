@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["nuxt-content-assets", "@nuxt/content"],
+  modules: ["@nuxt/content"],
 
   content: {},
 
