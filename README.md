@@ -1,13 +1,20 @@
-![](./assets/img/logo.png)
-# Hammerstone Web Builder
-[![](https://dcbadge.vercel.app/api/server/WnN8hj2Fyg?style=flat)](https://discord.gg/WnN8hj2Fyg)
+![](./assets/logo.png)
+# Sapiens Web Builder 2
+SWB 2 is a complete rebuild of the web app, from the ground up. It now supports the concept of 'projects', and a variety of ways to load them. It uses local storage/indexed DB by default, but can be connected to external file servers (coming) and GitHub (coming).
 
-The Hammerstone Web Builder (HWB) is a client-side web app to generate the JSON files that make up DDAPI mods. It uses a SSR-disabled Nuxt 3 frontend, and loads schemas from [Sapiens-OSS / hammerstone-schemas](https://github.com/Sapiens-OSS/hammerstone-schemas). 
+## Usage
+The Sapiens Web Builder is hosted, for free, by GitHub on GitHub pages. It's automatically deployed from the `main` branch of this repository. 
 
-## Use the app
-Head over to [https://sapiens-oss.github.io/sapiens-web-builder/](https://sapiens-oss.github.io/sapiens-web-builder/) to get started!
-## Local build
-Install the node packages with your tool of choice, and then run the 'dev' script.
+[<img src="./open-github-pages-badge.png" width="240px">](https://sapiens-oss.github.io/sapiens-web-builder/)
 
-## Contribute
-Contributions welcome! If you're designing stuff, try make it fit in. 
+Alternatively, you can run a development server by install NPM packages (e.g. `yarn`), then running the `dev` script (e.g. `yarn dev`)
+
+## Development
+Feel free to contribute! Issues, PRs and everything in between are welcomed! For this project we use:
+ - Nuxt 3
+ - TailwindCSS
+ - TailwindUI components
+ - Headless UI
+ - Hero Icons
+
+Please remain within this sort of ecosystem when contributing!

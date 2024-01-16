@@ -1,110 +1,72 @@
 <template>
-  <div class="py-4">
-    <div class="sm:flex sm:items-center">
-      <div class="sm:flex-auto">
-        <h1 class="text-base font-semibold leading-6 text-white">
-          {{
-            props.schema.title || props.schema._key || "Unable to load schema"
-          }}
-          <span
-            v-if="props.schema._required"
-            class="text-xs bg-orange-600 p-1 rounded-md text-white select-none"
-            >Required</span
+  <div v-if="props.schema?.enum">
+  </div>
+  <div v-else>
+    <div class="border-b border-zinc-700 pb-1">
+      <div
+        class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap"
+      >
+        <div class="ml-4 mt-4">
+          <h3 class="text-base font-semibold leading-6 text-zinc-100">
+            {{ calculateSchemaTitle(props.schema) }}
+          </h3>
+          <p v-if="schema.description" class="mt-1 text-sm text-zinc-400">
+            {{ schema.description }}
+          </p>
+        </div>
+        <div class="ml-4 mt-4 flex-shrink-0">
+          <button
+            @click="() => model.push(null)"
+            type="button"
+            class="relative inline-flex items-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
           >
-        </h1>
-        <p class="mt-2 text-sm text-zinc-400">
-          {{ props.schema.description || "No description provided." }}
-        </p>
-      </div>
-      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <button
-          @click="add"
-          type="button"
-          class="block rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
-        >
-          Add Item
-        </button>
+            Add item
+          </button>
+        </div>
       </div>
     </div>
-    <div class="space-y-3 py-4">
-      <div
-        class="flex flex-col lg:flex-row"
-        v-for="(entry, entryIndex) in arr.map((_, i) => {
-          return {
-            ...(Array.isArray(props.schema.items)
-              ? props.schema.items[0]
-              : props.schema.items),
-            _target: `${props.target}[${i}]`,
-            title: `${props.schema._key} #${i + 1}`,
-          };
-        })"
-      >
-        <div
-          class="grow flex flex-col bg-zinc-800/30 lg:ml-2 shadow-xl rounded-lg space-y-2"
-        >
-          <!-- Handle edge cases -->
-          <SchemaGroup
-            v-if="
-              props.schema.items?.properties ||
-              props.schema.items?.[0]?.properties
-            "
-            :schema="entry"
-            :target="entry._target"
-            :level="1"
-          />
-          <SchemaGeneric class="p-4" v-else :element="entry" />
-          <div class="w-full flex flex-row justify-end">
-            <button
-              type="button"
-              @click="() => remove(entryIndex)"
-              class="inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-            >
-              Delete
-              <TrashIcon class="-mr-0.5 h-5 w-5" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
+    <div class="space-y-2 mt-1 pl-2 lg:pl-4" v-if="model?.length > 0">
+      <div v-for="(item, itemIdx) in model">
+        <SchemaSelector
+          :key="itemIdx"
+          :schema="
+            Object.assign({ title: `Entry #${itemIdx + 1}` }, properties)
+          "
+          v-model="model[itemIdx]"
+          :element-config="{
+            deleteAction: () => {
+              model.splice(itemIdx, 1);
+            },
+          }"
+        />
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { useMod } from "~/composables/mod";
-import { computed } from "vue";
-import dot from "dot-object";
-import { TrashIcon } from "@heroicons/vue/24/outline";
+<script setup lang="ts">
+import { TrashIcon } from "@heroicons/vue/20/solid";
+import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 
-const mod = useMod();
-const props = defineProps(["schema", "target"]);
+const props = defineProps<{
+  schema: any;
+  modelValue: any;
+}>();
+const emit = defineEmits(["update:modelValue"]);
 
-const minLength =
-  props.schema?.minimum ??
-  props.schema?.minLength ??
-  props.schema?.items?.minimum;
-const maxLength =
-  props.schema?.maximum ??
-  props.schema?.maxLength ??
-  props.schema?.items?.maximum;
-
-if (!dot.pick(props.target, mod.value)) {
-  dot.str(props.target, Array(minLength || 0).fill(null), mod.value);
-}
-// TODO: Watch only target prop
-watch(props, (n) => {
-  if (!dot.pick(n.target, mod.value)) {
-    dot.str(n.target, Array(minLength || 0), mod.value);
-  }
+const model = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value) {
+    emit("update:modelValue", value);
+  },
 });
-const arr = computed(() => dot.pick(props.target, mod.value));
 
-function add(e) {
-  if (maxLength && arr.value.length + 1 > maxLength) return;
-  arr.value.push(null);
-}
+// This is NOT instantaneous, so everything that depends on this value in the setup needs to work with this being null
+model.value ??= [];
 
-function remove(i) {
-  if (minLength && arr.value.length - 1 < minLength) return;
-  dot.delete(`${props.target}[${i}]`, mod.value);
-}
+const properties = computed(
+  () => props.schema.properties ?? props.schema.items
+);
 </script>
