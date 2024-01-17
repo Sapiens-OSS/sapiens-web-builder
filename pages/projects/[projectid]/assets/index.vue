@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row grow">
     <aside
-      class="hidden lg:block h-screen overflow-y-scroll border-r border-zinc-700 w-96"
+      class="hidden lg:block min-h-screen overflow-y-scroll border-r border-zinc-700 w-96"
     >
       <AssetDirectory
         :directory="directory"

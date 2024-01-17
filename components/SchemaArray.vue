@@ -28,6 +28,7 @@
       <div v-for="(item, itemIdx) in model">
         <SchemaSelector
           :key="itemIdx"
+          :required="true"
           :schema="
             Object.assign({ title: `Entry #${itemIdx + 1}` }, properties)
           "
