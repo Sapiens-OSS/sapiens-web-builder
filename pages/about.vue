@@ -124,4 +124,8 @@ const faqs: Array<{ question: string; answer: string }> = [
       "You can always extend the functionality of your mods with actual code, but the Sapiens Web Builder doesn't have a convenient way of doing that. To learn more about modding Sapiens in general, you can join our Discord and look at our wiki.",
   },
 ];
+
+useHead({
+  title: "About"
+})
 </script>

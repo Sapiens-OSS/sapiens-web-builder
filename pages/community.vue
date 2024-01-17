@@ -16,7 +16,7 @@
           </p>
           <p class="mt-6 text-base leading-7 text-zinc-400">
             Come hang out in our Discord, contribute to some of our projects,
-            provide feedback or spread the word - however you decide to join us,
+            provide feedback or spread the word - however you decide to interact,
             we'd love to have you.
           </p>
           <div class="mt-10 flex">
@@ -74,3 +74,9 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+useHead({
+  title: "Community"
+})
+</script>
