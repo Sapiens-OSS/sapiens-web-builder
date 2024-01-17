@@ -8,7 +8,7 @@
         <p
           class="mt-2 text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl"
         >
-          The simpliest way to build your very own Sapiens mod
+          The simplest way to build your very own Sapiens mod
         </p>
         <p class="mt-6 text-lg leading-8 text-zinc-400">
           The Sapiens Web Builder uses Hammerstone's unique functionality to
@@ -81,31 +81,27 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import {
-  MinusSmallIcon,
-  PlusSmallIcon,
-  CheckIcon,
-} from "@heroicons/vue/24/outline";
+import { CheckIcon } from "@heroicons/vue/24/outline";
 const features = [
   {
-    name: "Completely inside your browser",
+    name: "Completely browser-based",
     description:
-      "Sapiens Web Builder runs completely within your browser - no server, no accounts, no nothing needed - so you can feel safe while building your mod.",
+      "Sapiens Web Builder runs completely within your browser - no server or accounts needed - so you can mod your ideas quickly and hassle free!",
   },
   {
     name: "Well supported",
     description:
-      "The mods created using Sapiens Web Builder use Sapiens' most popular modding framework: Hammerstone. More stability and more compatiablity than anything else.",
+      "The mods created using Sapiens Web Builder use Sapiens' most popular modding framework: Hammerstone. That means more stability and more compatiablity than anything else.",
   },
   {
     name: "Extendable",
     description:
-      "Any other mod that implements the DDAPI and provides schema is fully compatiable with the web builder.",
+      "Any other mod that implements the DDAPI and provides schema is fully compatible with the web builder.",
   },
   {
     name: "No branding",
     description:
-      "We don't externally brand your mods when you export them. They're yours to keep.",
+      "We don't externally brand your mods when you export them, nor require you to credit us. They're yours to keep and do what you please with them.",
   },
 ];
 
@@ -119,13 +115,13 @@ const faqs: Array<{ question: string; answer: string }> = [
     question:
       "Do I have to credit Sapiens Web Builder or Sapiens Modding Community?",
     answer:
-      "No! Whatever mods you create using this tool don't require attribution (but we would appreciate it :]). However, any mod developer that looks into your mod's files could probably tell.",
+      "No! Whatever mods you create using this tool don't require attribution (but we would appreciate it). However, any mod developer that looks into your mod's files could probably tell. Additionally, your mod depends on the Hammerstone Framework.",
   },
   {
     question:
-      "How do I add extra functionality to my mods (something SWB doesn't support)?",
+      "How do I add extra functionality to my mods (something Sapiens Web Builder doesn't support)?",
     answer:
-      "You can always extend the functionality of your mods with actual code, but the SWB doesn't have a convient way of doing that. To learn more about modding Sapiens, you can join our Discord and look at our wiki.",
+      "You can always extend the functionality of your mods with actual code, but the Sapiens Web Builder doesn't have a convenient way of doing that. To learn more about modding Sapiens in general, you can join our Discord and look at our wiki.",
   },
 ];
 </script>
