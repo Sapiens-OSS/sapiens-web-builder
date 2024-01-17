@@ -13,6 +13,7 @@ export class PromiseLoader<T> {
     success: (t: T) => void,
     failure: (e: any) => void
   ) {
+    this.completedValues.value = [];
     this.promises = promises;
     this.success = success;
     this.failure = failure;
