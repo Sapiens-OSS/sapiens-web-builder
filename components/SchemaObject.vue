@@ -75,8 +75,8 @@
           </Switch>
 
           <span class="ml-6 flex h-7 items-center">
-            <PlusSmallIcon v-if="!open" class="h-6 w-6" aria-hidden="true" />
-            <MinusSmallIcon v-else class="h-6 w-6" aria-hidden="true" />
+            <PlusIcon v-if="!open" class="h-6 w-6" aria-hidden="true" />
+            <MinusIcon v-else class="h-6 w-6" aria-hidden="true" />
           </span>
         </div>
       </DisclosureButton>
@@ -111,8 +111,11 @@ import {
   DisclosurePanel,
   Switch,
 } from "@headlessui/vue";
-import { TrashIcon } from "@heroicons/vue/20/solid";
-import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/vue/24/outline";
+import {
+  PlusIcon,
+  MinusIcon,
+  TrashIcon,
+} from "@heroicons/vue/24/solid";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 
 const props = defineProps([
@@ -154,8 +157,6 @@ const model = computed({
     emit("update:modelValue", value);
   },
 });
-
-console.log(model.value);
 
 if (model.value) {
   enabled.value = true;

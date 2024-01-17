@@ -8,7 +8,7 @@
         :directory="directory"
         :selected-id="route.params.configid"
         @createConfig="() => (createConfigOpen = true)"
-        @deleteConfig="(id) => (deleteConfigID = id)"
+        @deleteConfig="(id) => onDelete(id)"
         @select="onDirectorySelect"
       />
     </aside>
@@ -58,7 +58,7 @@
                 :selected-id="route.params.configid"
                 :directory-nav-id="'mobile-directory-id'"
                 @createConfig="() => (createConfigOpen = true)"
-                @deleteConfig="(id) => (deleteConfigID = id)"
+                @deleteConfig="(id) => onDelete(id)"
                 @select="onDirectorySelect"
               />
             </div>
@@ -96,13 +96,25 @@ const project: Ref<FullyLoadedProject> = useState("project");
 
 const drawerOpen = ref(false);
 const createConfigOpen = ref(false);
-const deleteConfigID = ref(null);
+const deleteConfigID = ref<string | null>(null);
 
-const onDirectorySelect = (id: string) =>
+const onDirectorySelect = (id: string) => {
   router.push({
     name: "projects-projectid-editor-schemaid-configid",
     params: Object.assign({}, route.params, { configid: id }),
+    // Forces the page to reload, in case there are issues
+    force: true,
   });
+  drawerOpen.value = false;
+};
+
+const onDelete = (id: string) => {
+  router.push({
+    name: "projects-projectid-editor-schemaid",
+    params: route.params,
+  });
+  deleteConfigID.value = id;
+};
 
 const directory = computed(() => {
   if (!project.value) return [];
