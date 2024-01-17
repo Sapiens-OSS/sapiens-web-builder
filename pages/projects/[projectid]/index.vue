@@ -1,4 +1,6 @@
 <template></template>
 <script setup>
-navigateTo("././home");
+const router = useRouter();
+
+router.replace("././home");
 </script>
