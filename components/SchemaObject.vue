@@ -13,7 +13,10 @@
         </span>
       </DisclosureButton>
       <button
-        v-if="props.elementConfig?.deleteAction"
+        v-if="
+          props.elementConfig?.deleteAction &&
+          props.elementConfig?.allowedDelete()
+        "
         @click="props.elementConfig.deleteAction"
         type="button"
         class="bg-red-600 p-2 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"

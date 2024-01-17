@@ -22,7 +22,10 @@
 
           <span>
             <TrashIcon
-              v-if="props.elementConfig?.deleteAction"
+              v-if="
+                props.elementConfig?.deleteAction &&
+                props.elementConfig?.allowedDelete()
+              "
               @click="props.elementConfig?.deleteAction"
               class="aspect-square cursor-pointer h-9 p-2 bg-red-600"
             />

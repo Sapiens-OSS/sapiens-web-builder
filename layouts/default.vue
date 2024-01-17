@@ -159,7 +159,8 @@
           </a>
         </div>
         <p class="mt-4 text-center text-xs leading-5 text-gray-500">
-          &copy; 2023 Sapiens Modding Community. All rights reserved.
+          &copy; {{ new Date().getFullYear() }} Sapiens Modding Community. All
+          rights reserved.
         </p>
       </div>
     </footer>
@@ -179,7 +180,6 @@ import { ArrowRightIcon } from "@heroicons/vue/20/solid";
 
 const navigation = [
   { name: "About", href: "/about" },
-  { name: "Docs", href: "/docs" },
   { name: "Community", href: "/community" },
 ];
 

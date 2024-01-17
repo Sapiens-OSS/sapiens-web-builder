@@ -9,16 +9,8 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["@nuxt/content"],
-
-  content: {},
-
-  app: {
-    head: {
-      link: [{ rel: "icon", href: "/favicon.ico" }],
-    },
-  },
-
+  modules: [],
+  
   // Run as a client-only app
   ssr: false,
 });
