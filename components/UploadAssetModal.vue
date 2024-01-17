@@ -129,6 +129,7 @@ import {
 } from "@headlessui/vue";
 import { CheckIcon, FolderPlusIcon } from "@heroicons/vue/24/outline";
 import { type Asset, type FullyLoadedProject } from "~/scripts/project";
+import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps(["modelValue"]);
 
@@ -171,7 +172,7 @@ async function upload() {
     fr.readAsArrayBuffer(file);
   });
   const asset: Asset = {
-    id: crypto.randomUUID(),
+    id: randomUUID(),
     name: filename.value,
     filename: selectedFile.value.split("\\").at(-1),
     data: new Blob([ab], { type: file.type }),

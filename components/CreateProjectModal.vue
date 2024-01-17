@@ -190,6 +190,7 @@ import {
 } from "@headlessui/vue";
 import { FolderPlusIcon } from "@heroicons/vue/24/outline";
 import { PROJECT_SOURCES } from "~/scripts/project";
+import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps(["modelValue"]);
 const emits = defineEmits(["update:modelValue"]);
@@ -225,7 +226,7 @@ async function createProject() {
     router.push(`/projects/${id}/`);
   } catch (e) {
     notifications.value.push({
-      uuid: crypto.randomUUID(),
+      uuid: randomUUID(),
       type: NotificationType.TEXT,
       title: "An error occurred while creating project",
       description: e.toString(),

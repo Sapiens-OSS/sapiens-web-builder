@@ -107,6 +107,7 @@ import {
 import { FolderPlusIcon } from "@heroicons/vue/24/outline";
 import { type File, type FullyLoadedProject } from "~/scripts/project";
 import { VersionController } from "~/scripts/versionController";
+import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps(["modelValue", "schemaid"]);
 const emits = defineEmits(["update:modelValue"]);
@@ -130,7 +131,7 @@ const configName = ref("");
 function createConfig() {
   if (!project.value) return;
   const newFile: File = {
-    id: crypto.randomUUID().split("-").join("").substring(0, 12),
+    id: randomUUID().split("-").join("").substring(0, 12),
     name: configName.value,
     value: {},
   };

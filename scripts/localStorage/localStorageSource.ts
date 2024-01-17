@@ -6,6 +6,7 @@ import {
   ProjectSourceColour,
 } from "../project";
 import { DEFAULT_SCHEMAS } from "../schemas";
+import { randomUUID } from "../utils/randomNumber";
 import {
   createOrSetDocument,
   deleteDocument,
@@ -41,7 +42,7 @@ export class LocalStorageSource implements ProjectSource {
       .map((e) => e.value);
   }
   async newProject(name: string) {
-    const projectID = crypto.randomUUID();
+    const projectID = randomUUID();
     const project: FullyLoadedProject = {
       id: projectID.toString(),
       name: name,

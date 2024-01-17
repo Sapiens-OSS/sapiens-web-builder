@@ -6,6 +6,7 @@ import {
   ProjectSourceColour,
 } from "../project";
 import { DEFAULT_SCHEMAS } from "../schemas";
+import { randomUUID } from "../utils/randomNumber";
 
 const db = window.indexedDB.open("swb", 1);
 const waitDB = new Promise<void>((r, j) => {
@@ -19,7 +20,7 @@ const waitDB = new Promise<void>((r, j) => {
 waitDB.catch(() => {
   const notifications = useNotifications();
   notifications.value.push({
-    uuid: crypto.randomUUID(),
+    uuid: randomUUID(),
     type: NotificationType.TEXT,
     title: "Error opening IndexedDB database",
     description: "An error occurred opening the IndexedDB.",
@@ -126,7 +127,7 @@ export class IndexedDBStorageSource implements ProjectSource {
   newProject(name: string) {
     return new Promise<string>(async (resolve, reject) => {
       const projectStore = await useProjectObjectStore("readwrite");
-      const projectID = crypto.randomUUID();
+      const projectID = randomUUID();
       const project: FullyLoadedProject | { projectSource: string } = {
         id: projectID.toString(),
         name: name,

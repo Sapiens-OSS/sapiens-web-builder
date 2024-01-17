@@ -52,6 +52,7 @@ import {
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import { TrashIcon } from "@heroicons/vue/24/outline";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
+import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps<{
   schema: any;
@@ -81,5 +82,5 @@ const bump = computed(() => {
   return 1;
 });
 
-const componentID = crypto.randomUUID();
+const componentID = randomUUID();
 </script>
