@@ -1,6 +1,5 @@
 <template>
-  <div v-if="props.schema?.enum"></div>
-  <div v-else>
+  <div>
     <div class="border-b border-zinc-700 pb-1">
       <div
         class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap"

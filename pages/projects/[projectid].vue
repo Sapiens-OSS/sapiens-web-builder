@@ -348,6 +348,7 @@ import { cleanSchemaName } from "~/scripts/utils/cleanSchemaName";
 import { mapSchemaIcon } from "~/scripts/utils/mapSchemaIcon";
 import { Autosaver } from "~/scripts/autosaver";
 import { VersionController } from "~/scripts/versionController";
+import { randomUUID } from "~/scripts/utils/randomNumber";
 
 // Globals
 const route = useRoute();
@@ -364,7 +365,7 @@ const assets = useState<Asset[] | undefined>("assets", () => undefined);
 projectLoader.catch((e) => {
   notifications.value.push({
     type: NotificationType.TEXT,
-    uuid: crypto.randomUUID(),
+    uuid: randomUUID(),
     title: "An error occurred while loading the project",
     description: e,
   });
@@ -410,7 +411,7 @@ const constructProjectPath = (path: string) =>
 async function loadSchemas() {
   if (project.value == null) return;
   navigation.value = generateNavigation();
-  const notificationID = crypto.randomUUID().toString();
+  const notificationID = randomUUID().toString();
   const notifications = useNotifications();
   notifications.value.push({
     uuid: notificationID,
@@ -432,7 +433,7 @@ async function loadSchemas() {
     );
   const pushErrorNotification = () =>
     notifications.value.push({
-      uuid: crypto.randomUUID().toString(),
+      uuid: randomUUID().toString(),
       type: NotificationType.TEXT,
       title: "Failed to download & import schemas",
       description:
@@ -462,7 +463,7 @@ async function loadSchemas() {
 
   navigation.value = generateNavigation();
 
-  const successNotificationID = crypto.randomUUID().toString();
+  const successNotificationID = randomUUID().toString();
   notifications.value.push({
     uuid: successNotificationID,
     type: NotificationType.TEXT,
@@ -569,7 +570,7 @@ function saveProject() {
     .saveProject(project.value)
     .catch((e) => {
       notifications.value.push({
-        uuid: crypto.randomUUID(),
+        uuid: randomUUID(),
         type: NotificationType.TEXT,
         title: "Error saving project",
         description: e,

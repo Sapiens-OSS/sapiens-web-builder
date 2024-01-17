@@ -15,6 +15,7 @@ import SchemaArray from "./SchemaArray.vue";
 import SchemaString from "./SchemaString.vue";
 import SchemaNumber from "./SchemaNumber.vue";
 import SchemaBoolean from "./SchemaBoolean.vue";
+import SchemaTable from "./SchemaTable.vue";
 
 const props = defineProps<{
   schema: Schema;
@@ -29,7 +30,8 @@ type SchemaEditor =
   | typeof SchemaArray
   | typeof SchemaString
   | typeof SchemaNumber
-  | typeof SchemaBoolean;
+  | typeof SchemaBoolean
+  | typeof SchemaTable;
 
 const model = computed({
   get() {
@@ -40,15 +42,15 @@ const model = computed({
   },
 });
 
-// Not sure for what type to use, so we disable type checking with 'any'
-const objects: { [key: string]: any } = {
+const objects: { [key: string]: SchemaEditor } = {
   object: SchemaObject,
   array: SchemaArray,
   string: SchemaString,
   number: SchemaNumber,
   integer: SchemaNumber,
   boolean: SchemaBoolean,
-
+  remap: SchemaTable,
+  table: SchemaTable,
 };
 
 const figureOutComponentType: (schema: any) => SchemaEditor | null = (
