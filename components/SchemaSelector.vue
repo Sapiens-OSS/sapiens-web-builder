@@ -2,6 +2,7 @@
   <component
     :is="component"
     :schema="props.schema"
+    :required="props.required"
     v-model="model"
     :element-config="props.elementConfig"
   />
@@ -21,6 +22,7 @@ const props = defineProps<{
   schema: Schema;
   modelValue: any;
   elementConfig?: any;
+  required: boolean;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);

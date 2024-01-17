@@ -3,6 +3,7 @@
     <SchemaSelector
       v-if="schema && config"
       :schema="schema"
+      :required="true"
       v-model="config.value"
     />
   </div>
