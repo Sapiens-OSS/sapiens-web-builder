@@ -9,7 +9,10 @@
       >{{ calculateSchemaTitle(props.schema) }}
 
       <button
-        v-if="props.elementConfig?.deleteAction"
+        v-if="
+          props.elementConfig?.deleteAction &&
+          props.elementConfig?.allowedDelete()
+        "
         @click="props.elementConfig?.deleteAction"
         type="button"
         class="inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
@@ -26,6 +29,9 @@
         class="block w-full rounded-md bg-zinc-800/40 border-0 py-1.5 text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
         :placeholder="'0'"
         :aria-describedby="`${componentID}-desc`"
+        :max="maximum"
+        :min="minimum"
+        :step="bump"
         v-model="model"
       />
     </div>
@@ -65,6 +71,15 @@ const model = computed({
 });
 
 model.value ??= props.schema.default ?? 0;
+
+const minimum = computed(() => props.schema.min ?? props.schema.minimum);
+const maximum = computed(() => props.schema.max ?? props.schema.maximum);
+const bump = computed(() => {
+  if (minimum.value != null && maximum.value != null) {
+    return (maximum.value - minimum.value) / 100;
+  }
+  return 1;
+});
 
 const componentID = crypto.randomUUID();
 </script>

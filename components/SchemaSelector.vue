@@ -14,6 +14,7 @@ import SchemaNotFound from "./SchemaNotFound.vue";
 import SchemaArray from "./SchemaArray.vue";
 import SchemaString from "./SchemaString.vue";
 import SchemaNumber from "./SchemaNumber.vue";
+import SchemaBoolean from "./SchemaBoolean.vue";
 
 const props = defineProps<{
   schema: Schema;
@@ -26,7 +27,9 @@ const emit = defineEmits(["update:modelValue"]);
 type SchemaEditor =
   | typeof SchemaObject
   | typeof SchemaArray
-  | typeof SchemaString;
+  | typeof SchemaString
+  | typeof SchemaNumber
+  | typeof SchemaBoolean;
 
 const model = computed({
   get() {
@@ -42,7 +45,10 @@ const objects: { [key: string]: any } = {
   object: SchemaObject,
   array: SchemaArray,
   string: SchemaString,
-  integer: SchemaNumber
+  number: SchemaNumber,
+  integer: SchemaNumber,
+  boolean: SchemaBoolean,
+
 };
 
 const figureOutComponentType: (schema: any) => SchemaEditor | null = (

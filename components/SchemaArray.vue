@@ -1,6 +1,5 @@
 <template>
-  <div v-if="props.schema?.enum">
-  </div>
+  <div v-if="props.schema?.enum"></div>
   <div v-else>
     <div class="border-b border-zinc-700 pb-1">
       <div
@@ -17,6 +16,7 @@
         <div class="ml-4 mt-4 flex-shrink-0">
           <button
             @click="() => model.push(null)"
+            v-if="allowedAdd"
             type="button"
             class="relative inline-flex items-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
           >
@@ -37,6 +37,7 @@
             deleteAction: () => {
               model.splice(itemIdx, 1);
             },
+            allowedDelete: () => allowedRemove,
           }"
         />
       </div>
@@ -45,7 +46,6 @@
 </template>
 
 <script setup lang="ts">
-import { TrashIcon } from "@heroicons/vue/20/solid";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 
 const props = defineProps<{
@@ -63,10 +63,22 @@ const model = computed({
   },
 });
 
-// This is NOT instantaneous, so everything that depends on this value in the setup needs to work with this being null
-model.value ??= [];
-
 const properties = computed(
   () => props.schema.properties ?? props.schema.items
+);
+
+const minimum = computed(() => props.schema.min ?? props.schema.minimum);
+const maximum = computed(() => props.schema.max ?? props.schema.maximum);
+
+// This is NOT instantaneous, so everything that depends on this value in the setup needs to work with this being null
+model.value ??= Array.apply(null, Array(minimum.value ?? 0)).map(
+  function () {}
+);
+
+const allowedRemove = computed(() =>
+  minimum.value != null ? model.value?.length > minimum.value : true
+);
+const allowedAdd = computed(() =>
+  maximum.value != null ? model.value?.length < minimum.value : true
 );
 </script>

@@ -1,7 +1,5 @@
 <template>
   <div class="grow relative isolate overflow-hidden">
-    <UnderConstruction />
-
     <div
       class="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40"
     >
