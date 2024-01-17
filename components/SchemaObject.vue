@@ -140,7 +140,7 @@ const enabled = computed({
     if (value) {
       model.value ??= {};
     } else {
-      delete model.value;
+      model.value = undefined;
     }
     _enabled.value = value;
   },
