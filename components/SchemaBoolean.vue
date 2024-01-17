@@ -7,9 +7,9 @@
         passive
         >{{ calculateSchemaTitle(props.schema) }}</SwitchLabel
       >
-      <SwitchDescription as="span" class="text-sm text-zinc-400"
-        >{{ props.schema.description ?? "No description provided." }}</SwitchDescription
-      >
+      <SwitchDescription as="span" class="text-sm text-zinc-400">{{
+        props.schema.description ?? "No description provided."
+      }}</SwitchDescription>
     </span>
     <Switch
       v-model="model"

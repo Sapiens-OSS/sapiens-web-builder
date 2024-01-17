@@ -67,20 +67,30 @@ const model = computed({
     return props.modelValue;
   },
   set(value) {
-    emit("update:modelValue", value);
+    if (value == null) {
+      emit("update:modelValue", undefined);
+    } else {
+      emit("update:modelValue", value);
+    }
   },
 });
 
-model.value ??= props.schema.default ?? 0;
-
 const minimum = computed(() => props.schema.min ?? props.schema.minimum);
 const maximum = computed(() => props.schema.max ?? props.schema.maximum);
+
+// '?? undefined' is for readable clarity
+model.value ??= props.schema.default ?? minimum.value ?? undefined;
+
 const bump = computed(() => {
   if (minimum.value != null && maximum.value != null) {
     return (maximum.value - minimum.value) / 100;
   }
   return 1;
 });
+
+if (!model.value && minimum.value) {
+  model.value = minimum.value;
+}
 
 const componentID = randomUUID();
 </script>

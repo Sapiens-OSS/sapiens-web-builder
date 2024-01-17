@@ -142,7 +142,7 @@ const model = computed({
   },
 });
 
-model.value ??= props.schema.default ?? "";
+model.value ??= props.schema.default ?? undefined;
 
 const componentID = randomUUID();
 </script>
