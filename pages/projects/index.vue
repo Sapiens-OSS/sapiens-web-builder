@@ -33,23 +33,25 @@
           class="flex items-center justify-between gap-x-6 py-5"
         >
           <div class="min-w-0">
-            <div class="flex items-start gap-x-3">
+            <div class="flex flex-col sm:flex-row items-start justify-center gap-x-3">
               <p class="text-sm font-semibold leading-6 text-zinc-100">
                 {{ project.name }}
               </p>
-              <p class="text-zinc-400 text-sm leading-6">
-                {{ new VersionController(project.version).export() }}
-              </p>
-              <p
-                :class="[
-                  `text-${project.projectSource.color()}-300`,
-                  `bg-${project.projectSource.color()}-500/20`,
-                  `ring-${project.projectSource.color()}-500/20`,
-                  'ml-0.5 rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
-                ]"
-              >
-                {{ project.projectSource.name() }}
-              </p>
+              <div class="flex flex-row gap-x-3 items-center">
+                <p class="text-zinc-400 text-sm leading-6">
+                  {{ new VersionController(project.version).export() }}
+                </p>
+                <p
+                  :class="[
+                    `text-${project.projectSource.color()}-300`,
+                    `bg-${project.projectSource.color()}-500/20`,
+                    `ring-${project.projectSource.color()}-500/20`,
+                    'rounded-md whitespace-nowrap px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
+                  ]"
+                >
+                  {{ project.projectSource.name() }}
+                </p>
+              </div>
             </div>
             <div
               class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500"

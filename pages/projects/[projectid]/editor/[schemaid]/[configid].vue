@@ -67,9 +67,8 @@ if (config.value == null) {
 }
 
 const schemaID = route.params.schemaid.toString();
-// Doesn't have to be computed
-const schema = Object.entries(schemas.value)
+const schema = computed(() => Object.entries(schemas.value)
   .filter((e) => e[1].$id == schemaID)
   ?.at(0)
-  ?.at(1) as Schema | null;
+  ?.at(1) as Schema | null);
 </script>
