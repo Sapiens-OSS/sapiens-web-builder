@@ -60,7 +60,7 @@
             </div>
             <div
               @click="() => emit('deleteConfig', config.id)"
-              class="bg-red-600 hover:bg-red-500 px-3 py-5 text-white flex justify-center items-center"
+              class="bg-zinc-900 ring-1 ring-inset ring-red-600 hover:ring-red-700 px-3 py-5 text-red-600 hover:text-red-700 flex justify-center items-center"
             >
               <TrashIcon class="h-5 w-5" aria-hidden="true" />
             </div>

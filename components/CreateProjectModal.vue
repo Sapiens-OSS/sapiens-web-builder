@@ -29,7 +29,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-zinc-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative transform overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left shadow-xl shadow-orange-600/10 transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
               <form @submit.prevent="createProject">
                 <div>
@@ -60,7 +60,7 @@
                             type="text"
                             name="name"
                             id="name"
-                            class="block w-full rounded-md border-0 py-1.5 bg-zinc-700 text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                            class="block w-full rounded-md border-0 py-1.5 bg-zinc-800 text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                             placeholder="My New Project"
                             aria-describedby="name-description"
                           />
@@ -69,7 +69,7 @@
                           class="mt-2 text-sm text-zinc-400"
                           id="name-description"
                         >
-                          This cannot be changed later.
+                          This can be changed later.
                         </p>
                       </div>
                       <h1
@@ -94,7 +94,7 @@
                                 active
                                   ? 'border-orange-500 ring-2 ring-orange-600'
                                   : 'border-zinc-600',
-                                'relative block cursor-pointer rounded-lg border bg-zinc-700 px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between',
+                                'relative block cursor-pointer rounded-lg border bg-zinc-800 px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between',
                               ]"
                             >
                               <span class="flex items-center">
