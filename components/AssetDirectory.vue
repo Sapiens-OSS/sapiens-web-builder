@@ -12,12 +12,13 @@
         <button
           @click="() => emit('openCreateModal')"
           type="button"
-          class="group relative block w-full rounded-lg border-2 border-dashed border-zinc-600 px-12 py-4 text-center hover:border-zinc-400"
+          class="transition group relative block w-full rounded-lg border-2 border-dashed border-zinc-500 px-12 py-4 text-center hover:border-zinc-400"
         >
           <FolderPlusIcon
-            class="mx-auto h-12 w-12 text-zinc-600 group-hover:text-zinc-400"
+            class="transition mx-auto h-12 w-12 text-zinc-500 group-hover:text-zinc-400"
           />
-          <span class="mt-2 block text-sm font-semibold text-zinc-200"
+          <span
+            class="transition mt-2 block text-sm font-semibold text-zinc-200 group-hover:text-zinc-100"
             >Upload asset</span
           >
         </button>
@@ -59,8 +60,8 @@
               </p>
             </div>
             <div
-              @click="() => deleteAsset(asset.id)"
-              class="bg-red-600 hover:bg-red-500 px-3 py-5 text-white flex justify-center items-center"
+              @click="() => emit('deleteAsset', asset.id)"
+              class="bg-zinc-900 ring-1 ring-inset ring-red-600 hover:ring-red-700 px-3 py-5 text-red-600 hover:text-red-700 flex justify-center items-center"
             >
               <TrashIcon class="h-5 w-5" aria-hidden="true" />
             </div>
@@ -76,17 +77,21 @@
 
 <script setup lang="ts">
 import { FolderPlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import { type FullyLoadedProject } from "~/scripts/project";
+import { type Asset, type FullyLoadedProject } from "~/scripts/project";
 
-const props = defineProps(["directory", "directoryNavId", "selectedID"]);
-const emit = defineEmits(["generateDirectory", "openCreateModal", "select"]);
+const props = defineProps<{
+  directory: { [key: string]: Asset[] };
+  directoryNavId: string | undefined;
+  selectedID: string;
+}>();
+const emit = defineEmits([
+  "generateDirectory",
+  "openCreateModal",
+  "select",
+  "deleteAsset",
+]);
 
 const project: Ref<FullyLoadedProject> = useState("project");
-
-async function deleteAsset(id: string) {
-  await project.value.projectSource.deleteAsset(id);
-  emit("generateDirectory");
-}
 
 async function assetSelect(id: string) {
   emit("select", id);

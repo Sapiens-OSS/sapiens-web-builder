@@ -192,7 +192,6 @@ export class IndexedDBStorageSource implements ProjectSource {
     });
   }
   async loadAsset(id: string): Promise<Asset & { data: Blob }> {
-    console.log(id);
     const assetStore = await useAssetObjectStore("readonly");
     const asset: AssetMetadata = await new Promise<AssetMetadata>(
       async (resolve, reject) => {
@@ -203,7 +202,10 @@ export class IndexedDBStorageSource implements ProjectSource {
         request.onerror = () => reject();
       }
     );
-    console.log(asset);
+
+    if (!asset) {
+      throw new Error("Asset not found");
+    }
 
     const assetDataStore = await useAssetDataObjectStore("readonly");
     const blob: Blob = await new Promise<Blob>((resolve, reject) => {

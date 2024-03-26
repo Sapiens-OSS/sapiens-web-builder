@@ -1,6 +1,6 @@
 <template>
-  <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="relative z-50" @close="open = false">
+  <TransitionRoot as="template" :show="id != null">
+    <Dialog as="div" class="relative z-50" @close="id = null">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -31,11 +31,11 @@
             <DialogPanel
               class="relative w-full transform overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
-              <form @submit.prevent="createConfig">
+              <form @submit.prevent="() => emits('delete')">
                 <div
                   class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/5"
                 >
-                  <FolderPlusIcon
+                  <TrashIcon
                     class="h-6 w-6 text-orange-500"
                     aria-hidden="true"
                   />
@@ -44,44 +44,25 @@
                   <DialogTitle
                     as="h3"
                     class="text-base text-center font-semibold leading-6 text-zinc-100"
-                    >New Config</DialogTitle
+                    >Delete Asset</DialogTitle
                   >
-                  <p class="text-center text-zinc-400 text-sm mt-1">
-                    {{ props.schemaid }}
+                  <p class="text-zinc-200 mt-4 text-center">
+                    Delete asset {{ id }}?
                   </p>
-                  <div class="mt-2">
-                    <div>
-                      <label
-                        for="name"
-                        class="block text-sm font-medium leading-6 text-zinc-100"
-                        >Config Name</label
-                      >
-                      <div class="mt-2">
-                        <input
-                          v-model="configName"
-                          type="text"
-                          name="name"
-                          id="name"
-                          class="block w-full rounded-md border-0 py-1.5 bg-zinc-800 text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
-                          placeholder="A Brand New Config"
-                        />
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <div
                   class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
                 >
                   <button
                     type="submit"
-                    class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 sm:col-start-2"
+                    class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 sm:col-start-2"
                   >
-                    Confirm
+                    Delete
                   </button>
                   <button
                     type="button"
                     class="mt-3 inline-flex w-full justify-center rounded-md bg-zinc-800 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-zinc-600 hover:bg-zinc-600 sm:col-start-1 sm:mt-0"
-                    @click="open = false"
+                    @click="id = null"
                   >
                     Cancel
                   </button>
@@ -104,21 +85,17 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { FolderPlusIcon } from "@heroicons/vue/24/outline";
-import { type File, type FullyLoadedProject } from "~/scripts/project";
-import { VersionController } from "~/scripts/versionController";
-import { randomUUID } from "~/scripts/utils/randomNumber";
+import { FolderPlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import { type FullyLoadedProject } from "~/scripts/project";
 
-const props = defineProps(["modelValue", "schemaid"]);
-const emits = defineEmits(["update:modelValue"]);
+const props = defineProps(["modelValue"]);
+const emits = defineEmits(["update:modelValue", "delete"]);
 
-const router = useRouter();
 const route = useRoute();
 
 const project: Ref<FullyLoadedProject> = useState("project");
-const versionController = useState<VersionController>("vc");
 
-const open = computed({
+const id = computed({
   get() {
     return props.modelValue;
   },
@@ -126,31 +103,4 @@ const open = computed({
     emits("update:modelValue", v);
   },
 });
-const configName = ref("");
-
-function createConfig() {
-  if (!project.value) return;
-  const newFile: File = {
-    id: randomUUID().split("-").join("").substring(0, 12),
-    name: configName.value,
-    value: {},
-  };
-  project.value.files[props.schemaid] ??= [];
-  project.value.files[props.schemaid].push(newFile);
-  versionController.value.CDConfig();
-  open.value = false;
-  router.push({
-    name: "projects-projectid-editor-schemaid-configid",
-    params: Object.assign({}, route.params, { configid: newFile.id }),
-  });
-}
-
-watch(
-  () => props.modelValue,
-  (v, o) => {
-    if (v) {
-      configName.value = "";
-    }
-  }
-);
 </script>

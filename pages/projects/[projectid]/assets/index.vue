@@ -6,9 +6,11 @@
       <AssetDirectory
         :directory="directory"
         :selected-i-d="selectedID"
+        :directory-nav-id="undefined"
         @generateDirectory="() => generateDirectory()"
         @openCreateModal="() => (assetModal = true)"
         @select="(id) => selectAsset(id)"
+        @delete-asset="(id) => (deleteAssetId = id)"
       />
     </aside>
     <ClientOnly>
@@ -21,9 +23,6 @@
     </ClientOnly>
     <main class="w-full grow max-w-screen overflow-x-hidden">
       <NuxtErrorBoundary>
-        <template #default>
-          <NuxtPage />
-        </template>
         <template #error="{ error }">
           <main
             class="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8"
@@ -52,6 +51,7 @@
             </div>
           </main>
         </template>
+        <NuxtPage />
       </NuxtErrorBoundary>
     </main>
   </div>
@@ -90,6 +90,7 @@
                 @generateDirectory="() => generateDirectory()"
                 @openCreateModal="() => (assetModal = true)"
                 @select="(id) => selectAsset(id)"
+                @delete-asset="(id) => (deleteAssetId = id)"
               />
             </div>
           </DialogPanel>
@@ -97,7 +98,12 @@
       </div>
     </Dialog>
   </TransitionRoot>
-  <UploadAssetModal v-model="assetModal" @create="(id) => onCreateAsset(id)" />
+  <AssetUploadModal v-model="assetModal" @create="(id) => onCreateAsset(id)" />
+  <DeleteAssetModal
+    v-if="deleteAssetId"
+    v-model="deleteAssetId"
+    @delete="() => (deleteAssetId ? deleteAsset(deleteAssetId) : '')"
+  />
 </template>
 
 <script setup lang="ts">
@@ -128,6 +134,14 @@ const router = useRouter();
 
 const assets: Ref<Asset[] | undefined> = useState("assets");
 const directory: Ref<{ [key: string]: Asset[] }> = ref({});
+
+const deleteAssetId = ref<string>();
+
+async function deleteAsset(id: string) {
+  await project.value.projectSource.deleteAsset(id);
+  deleteAssetId.value = undefined;
+  generateDirectory();
+}
 
 async function onCreateAsset(id: string) {
   await generateDirectory();

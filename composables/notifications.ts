@@ -14,7 +14,8 @@ export const useNotifications = () =>
       actions?: Array<{
         name: string;
         style: "accent" | "default";
-        link: string;
+        link?: string;
+        action?: () => void
       }>;
       progress?: number;
     }>

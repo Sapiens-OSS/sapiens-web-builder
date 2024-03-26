@@ -494,8 +494,7 @@ function generateNavigation() {
   ];
 
   if (project.value) {
-    // Disable assets
-    if (false && project.value?.projectSource.assetsSupported()) {
+    if (project.value?.projectSource.assetsSupported()) {
       base.push({
         name: "Assets",
         path: "/assets",
