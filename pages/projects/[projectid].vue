@@ -361,7 +361,9 @@ const projectLoader = partialProject.value.projectSource.loadProject(
   partialProject.value.id
 );
 const project = useState<FullyLoadedProject | null>("project", () => null);
+project.value = null;
 const versionController = useState<VersionController | null>("vc", () => null);
+versionController.value = null;
 const assets = useState<Asset[] | undefined>("assets", () => undefined);
 
 projectLoader.catch((e) => {
@@ -391,7 +393,7 @@ projectLoader.then((e) => {
   if (project.value.projectSource.autosaveSupported()) {
     autosaver.value = new Autosaver(project.value);
     watch(
-      project.value.files,
+      project.value,
       () => {
         autosaver.value?.change();
       },
@@ -510,7 +512,7 @@ function generateNavigation() {
 
   if (project.value) {
     // Disable assets
-    if (project.value?.projectSource.assetsSupported()) {
+    if (false && project.value?.projectSource.assetsSupported()) {
       base.push({
         name: "Assets",
         path: "/assets",
@@ -540,12 +542,14 @@ function generateNavigation() {
         });
       }
     });
-    base.push({
-      name: "Debug",
-      path: `/editor/debug`,
-      icon: CubeTransparentIcon,
-      loading: false,
-    });
+    if (false) {
+      base.push({
+        name: "Debug",
+        path: `/editor/debug`,
+        icon: CubeTransparentIcon,
+        loading: false,
+      });
+    }
   } else {
     base.push({
       name: "Schema loading...",
