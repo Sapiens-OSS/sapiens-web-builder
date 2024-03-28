@@ -21,9 +21,9 @@ export class Exporter {
 -- Made with the Sapiens Web Builder
 local modInfo = {
     name = "${this.project.value.name}",
-    description = "${
+    description = [[${
       this.project.value.modinfo.description?.replace('"', '\\"') ?? ""
-    }",
+    }]],
     version = "${VersionController.export(v)}",
     type = "world",
     developer = "${this.project.value.modinfo.developer ?? ""}",
