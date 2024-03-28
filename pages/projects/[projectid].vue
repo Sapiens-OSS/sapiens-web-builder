@@ -286,6 +286,8 @@
     <main class="lg:pl-20 bg-zinc-900 flex min-h-screen">
       <NuxtPage :navigation="navigation[selectedPage]" />
     </main>
+
+    <AssetSelector />
   </div>
   <div
     class="flex min-h-screen w-full bg-zinc-900 justify-center items-center"
@@ -359,7 +361,9 @@ const projectLoader = partialProject.value.projectSource.loadProject(
   partialProject.value.id
 );
 const project = useState<FullyLoadedProject | null>("project", () => null);
+project.value = null;
 const versionController = useState<VersionController | null>("vc", () => null);
+versionController.value = null;
 const assets = useState<Asset[] | undefined>("assets", () => undefined);
 
 projectLoader.catch((e) => {
@@ -389,7 +393,7 @@ projectLoader.then((e) => {
   if (project.value.projectSource.autosaveSupported()) {
     autosaver.value = new Autosaver(project.value);
     watch(
-      project.value.files,
+      project.value,
       () => {
         autosaver.value?.change();
       },
@@ -459,6 +463,19 @@ async function loadSchemas() {
     }
   }
 
+  schemas.value["debug"] = {
+    __url: "debug",
+    $id: "debug",
+    title: "Debug",
+    description: "Debug",
+    type: "object",
+    properties: {
+      asset: {
+        type: "asset",
+      },
+    },
+  };
+
   destroyNotification();
 
   navigation.value = generateNavigation();
@@ -525,6 +542,14 @@ function generateNavigation() {
         });
       }
     });
+    if (false) {
+      base.push({
+        name: "Debug",
+        path: `/editor/debug`,
+        icon: CubeTransparentIcon,
+        loading: false,
+      });
+    }
   } else {
     base.push({
       name: "Schema loading...",

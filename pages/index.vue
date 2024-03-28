@@ -71,14 +71,15 @@
               class="rounded-full inline-flex bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20"
               >Open Source!
               <span class="block md:hidden ml-1" aria-hidden="true"
-                >→</span
-              ></span
-            >
+                ><ArrowRightIcon class="w-3 h-3" /></span
+            ></span>
             <span
               class="hidden md:flex items-center space-x-2 text-sm font-medium leading-6 text-zinc-400"
             >
               Check out the source code
-              <span aria-hidden="true" class="ml-1">→</span>
+              <span aria-hidden="true" class="ml-1"
+                ><ArrowRightIcon class="w-3 h-3"
+              /></span>
             </span>
           </a>
         </div>
@@ -88,7 +89,7 @@
           Build your Sapiens mod, easily.
         </h1>
         <p class="mt-6 text-lg leading-8 text-zinc-400">
-          The Hammerstone Web Builder is an easy-to-use web app to create
+          The Sapiens Web Builder is an easy-to-use web app to create
           Sapiens mods that use the Hammerstone Framework. Created and supported
           by the Sapiens Modding Community.
         </p>
@@ -118,6 +119,9 @@
 </template>
 
 <script setup>
+import { ArrowRightIcon } from "@heroicons/vue/24/outline";
+
 useHead({
-  title: "Home"
-})</script>
+  title: "Home",
+});
+</script>

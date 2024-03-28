@@ -33,7 +33,9 @@
           class="flex items-center justify-between gap-x-6 py-5"
         >
           <div class="min-w-0">
-            <div class="flex flex-col sm:flex-row items-start justify-start  gap-x-3">
+            <div
+              class="flex flex-col sm:flex-row items-start justify-start gap-x-3"
+            >
               <p class="text-sm font-semibold leading-6 text-zinc-100">
                 {{ project.name }}
               </p>
@@ -60,13 +62,12 @@
             </div>
           </div>
           <div class="flex flex-none items-center gap-x-4">
-            <NuxtLink
-              :href="`/projects/${project.id}/`"
+            <button
+              @click="() => loadProject(project.id)"
               class="rounded-md bg-zinc-800 px-2.5 py-1.5 text-sm font-semibold text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 hover:bg-zinc-700"
-              >Open project<span class="sr-only"
-                >, {{ project.name }}</span
-              ></NuxtLink
             >
+              Open project<span class="sr-only">, {{ project.name }}</span>
+            </button>
             <Menu as="div" class="relative flex-none">
               <MenuButton
                 class="-m-2.5 block p-2.5 text-zinc-400 hover:text-zinc-100"
@@ -157,6 +158,10 @@ const loader = new PromiseLoader<PartiallyLoadedProject>(
   (e) => {},
   (e) => {}
 );
+const router = useRouter();
+const partialProject: Ref<PartiallyLoadedProject | undefined> =
+  useState("partialproject");
+partialProject.value = undefined;
 
 // Typescript shenanigans
 const completedValues: Ref<PartiallyLoadedProject[]> = loader.completedValues;
@@ -166,4 +171,13 @@ const createProjectModalOpen = ref(false);
 useHead({
   title: "Projects",
 });
+
+function loadProject(id: string) {
+  const project = completedValues.value.find((e) => e.id == id);
+  if (!project) {
+    return;
+  }
+  partialProject.value = project;
+  router.push(`/projects/${project.id}/`);
+}
 </script>
