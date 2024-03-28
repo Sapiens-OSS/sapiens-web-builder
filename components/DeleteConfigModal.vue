@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="id != null">
-    <Dialog as="div" class="relative z-10" @close="id = null">
+    <Dialog as="div" class="relative z-50" @close="id = null">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -11,7 +11,7 @@
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+          class="fixed inset-0 bg-zinc-950 bg-opacity-75 transition-opacity"
         />
       </TransitionChild>
 
@@ -29,7 +29,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative w-full transform overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left shadow-xl shadow-orange-600/10 transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative w-full transform overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
               <form @submit.prevent="deleteConfig">
                 <div

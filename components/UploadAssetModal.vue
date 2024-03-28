@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="relative z-10" @close="open = false">
+    <Dialog as="div" class="relative z-50" @close="open = false">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -11,7 +11,7 @@
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+          class="fixed inset-0 bg-zinc-950 bg-opacity-75 transition-opacity"
         />
       </TransitionChild>
 
@@ -37,11 +37,13 @@
                     <button
                       type="button"
                       @click="() => fileOpener.click()"
-                      class="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400"
+                      class="relative transition group block w-full rounded-lg border-2 border-dashed border-gray-500 p-12 text-center hover:border-gray-400"
                     >
-                      <FolderPlusIcon class="mx-auto h-12 w-12 text-gray-400" />
+                      <FolderPlusIcon
+                        class="transition mx-auto h-12 w-12 text-gray-500 group-hover:text-gray-400"
+                      />
                       <span
-                        class="mt-2 block text-sm font-semibold text-zinc-200"
+                        class="transition mt-2 block text-sm font-semibold text-zinc-200 group-hover:text-zinc-100"
                         >Click here to upload file...</span
                       >
                       <span

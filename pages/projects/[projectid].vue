@@ -286,6 +286,8 @@
     <main class="lg:pl-20 bg-zinc-900 flex min-h-screen">
       <NuxtPage :navigation="navigation[selectedPage]" />
     </main>
+
+    <AssetSelector />
   </div>
   <div
     class="flex min-h-screen w-full bg-zinc-900 justify-center items-center"
@@ -314,6 +316,7 @@
       <h1 class="mt-4 font-semibold text-zinc-200">Importing project...</h1>
     </div>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -459,6 +462,20 @@ async function loadSchemas() {
     }
   }
 
+  schemas.value["debug"] = {
+    __url: "debug",
+    $id: "debug",
+    title: "Debug Schemas",
+    description: "Debug",
+    type: "object",
+    properties: {
+      asset: {
+        type: 'asset',
+        
+      }
+    },
+  };
+
   destroyNotification();
 
   navigation.value = generateNavigation();
@@ -495,7 +512,7 @@ function generateNavigation() {
 
   if (project.value) {
     // Disable assets
-    if (false && project.value?.projectSource.assetsSupported()) {
+    if (project.value?.projectSource.assetsSupported()) {
       base.push({
         name: "Assets",
         path: "/assets",
@@ -525,6 +542,12 @@ function generateNavigation() {
         });
       }
     });
+    base.push({
+          name: "Debug",
+          path: `/editor/debug`,
+          icon: CubeTransparentIcon,
+          loading: false,
+        });
   } else {
     base.push({
       name: "Schema loading...",

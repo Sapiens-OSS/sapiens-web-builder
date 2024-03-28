@@ -1,9 +1,14 @@
 <template>
-  <UnderConstruction />
+  <button @click="() => printAsset()">Select Asset</button>
 </template>
 
 <script setup lang="ts">
+import selectAsset from "~/scripts/assetSelector";
 import { type FullyLoadedProject } from "~/scripts/project";
 
 const project = useState<FullyLoadedProject>("project");
+
+async function printAsset() {
+  console.log(await selectAsset());
+}
 </script>

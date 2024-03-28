@@ -12,12 +12,12 @@
         <button
           @click="() => emit('openCreateModal')"
           type="button"
-          class="group relative block w-full rounded-lg border-2 border-dashed border-zinc-600 px-12 py-4 text-center hover:border-zinc-400"
+          class="group transition relative block w-full rounded-lg border-2 border-dashed border-zinc-600 px-12 py-4 text-center hover:border-zinc-500"
         >
           <FolderPlusIcon
-            class="mx-auto h-12 w-12 text-zinc-600 group-hover:text-zinc-400"
+            class="transition mx-auto h-12 w-12 text-zinc-600 group-hover:text-zinc-500"
           />
-          <span class="mt-2 block text-sm font-semibold text-zinc-200"
+          <span class="transition mt-2 block text-sm font-semibold text-zinc-200 group-hover:text-zinc-100"
             >Upload asset</span
           >
         </button>
