@@ -9,8 +9,11 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: [],
-  
+  modules: [
+    // PWA (work in progress)
+    //"@vite-pwa/nuxt"
+  ],
+
   // Run as a client-only app
   ssr: false,
 });

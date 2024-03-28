@@ -1,6 +1,5 @@
 <template>
-
-    <img :src="urlCreator.createObjectURL(asset.data)" />
+  <img :src="urlCreator.createObjectURL(asset.data)" />
 </template>
 
 <script setup lang="ts">
@@ -15,11 +14,11 @@ const project: Ref<FullyLoadedProject> = useState("project");
 const urlCreator = window.URL || window.webkitURL;
 
 if (assets.value == undefined) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: "Could not load assets global",
-  });
+  console.log("lol");
+  throw "Could not load assets global";
 }
 
-const asset = await project.value.projectSource.loadAsset(assetID.value.toString());
+const asset = ref<(Asset & { data: Blob })>(
+  await project.value.projectSource.loadAsset(assetID.value.toString())
+);
 </script>

@@ -75,6 +75,7 @@
                       v-for="action in ntc.actions"
                       type="button"
                       :to="action.link"
+                      @click="action.action"
                       :class="[
                         action.style == 'accent'
                           ? 'text-orange-400 hover:text-orange-500'
