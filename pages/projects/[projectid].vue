@@ -316,7 +316,6 @@
       <h1 class="mt-4 font-semibold text-zinc-200">Importing project...</h1>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -467,13 +466,13 @@ async function loadSchemas() {
     $id: "debug",
     title: "Debug",
     description: "Debug",
-    type: 'object',
+    type: "object",
     properties: {
       asset: {
-        type: 'asset'
-      }
-    }
-  }
+        type: "asset",
+      },
+    },
+  };
 
   destroyNotification();
 
@@ -542,11 +541,11 @@ function generateNavigation() {
       }
     });
     base.push({
-          name: "Debug",
-          path: `/editor/debug`,
-          icon: CubeTransparentIcon,
-          loading: false,
-        });
+      name: "Debug",
+      path: `/editor/debug`,
+      icon: CubeTransparentIcon,
+      loading: false,
+    });
   } else {
     base.push({
       name: "Schema loading...",

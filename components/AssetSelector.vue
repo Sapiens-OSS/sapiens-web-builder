@@ -1,6 +1,6 @@
 <template>
-  <TransitionRoot as="template" :show="assetPromises != undefined">
-    <Dialog as="div" class="relative z-50" @close="assetPromises?.reject()">
+  <TransitionRoot as="template" :show="assetSelectData != undefined">
+    <Dialog as="div" class="relative z-50" @close="assetSelectData?.reject()">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -65,7 +65,7 @@
                     <button
                       type="button"
                       class="inline-flex w-full justify-center rounded-md bg-zinc-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600"
-                      @click="assetPromises?.reject()"
+                      @click="assetSelectData?.reject()"
                     >
                       Cancel
                     </button>
@@ -89,7 +89,7 @@
                     <button
                       type="button"
                       class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                      @click="assetPromises?.resolve(currentAsset)"
+                      @click="assetSelectData?.resolve(currentAsset)"
                     >
                       Select
                     </button>
@@ -119,7 +119,8 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { type Asset, type FullyLoadedProject } from "~/scripts/project";
-import { assetPromises } from "~/scripts/assetSelector";
+
+const assetSelectData = useAssetSelectorData();
 
 const project = useState<FullyLoadedProject>("project");
 const assets = ref<Asset[]>([]);
@@ -133,9 +134,10 @@ async function generateAssetLists() {
 
 await generateAssetLists();
 
-watch(assetPromises, (v) => {
+watch(assetSelectData, (v) => {
   if (v != undefined) {
     generateAssetLists();
+    currentAsset.value = undefined;
   }
 });
 </script>

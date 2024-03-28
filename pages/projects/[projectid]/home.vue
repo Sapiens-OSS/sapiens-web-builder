@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import selectAsset from "~/scripts/assetSelector";
 import { type FullyLoadedProject } from "~/scripts/project";
 
 const project = useState<FullyLoadedProject>("project");

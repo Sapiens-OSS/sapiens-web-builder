@@ -37,7 +37,6 @@
                     <button
                       type="button"
                       @click="() => fileOpener.click()"
-<<<<<<< HEAD:components/UploadAssetModal.vue
                       class="relative transition group block w-full rounded-lg border-2 border-dashed border-gray-500 p-12 text-center hover:border-gray-400"
                     >
                       <FolderPlusIcon
@@ -45,13 +44,6 @@
                       />
                       <span
                         class="transition mt-2 block text-sm font-semibold text-zinc-200 group-hover:text-zinc-100"
-=======
-                      class="transition group relative block w-full rounded-lg border-2 border-dashed border-gray-500 p-12 text-center hover:border-gray-400"
-                    >
-                      <FolderPlusIcon class="transition mx-auto h-12 w-12 text-gray-500 group-hover:text-gray-400" />
-                      <span
-                        class="transition mt-2 block text-sm font-semibold text-zinc-400 group-hover:text-zinc-300"
->>>>>>> 353f6b02dc418f957d3660e1817a07acebc03459:components/AssetUploadModal.vue
                         >Click here to upload file...</span
                       >
                       <span

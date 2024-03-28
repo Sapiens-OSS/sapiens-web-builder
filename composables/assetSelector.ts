@@ -2,8 +2,8 @@ import type { Asset } from "~/scripts/project";
 
 export const useAssetSelectorData = () => useState<{ resolve: (value: Asset) => void, reject: () => void, } | undefined>("assetSelector");
 
-export const selectAsset: () => Promise<Asset> = () => {
-    return new Promise<Asset>((resolve, reject) => {
+export const selectAsset: () => Promise<Asset | null> = () => {
+    return new Promise<Asset | null>((resolve) => {
         const assetData = useAssetSelectorData();
         assetData.value = {
             resolve: (asset: Asset) => {
@@ -12,7 +12,7 @@ export const selectAsset: () => Promise<Asset> = () => {
             },
             reject: () => {
                 assetData.value = undefined;
-                reject();
+                resolve(null);
             }
         };
     });

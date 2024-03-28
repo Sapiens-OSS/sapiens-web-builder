@@ -1,9 +1,11 @@
 <template>
-  <img :src="urlCreator.createObjectURL(asset.data)" />
+  <img :src="objectUrl" />
+  {{ objectUrl }}
 </template>
 
 <script setup lang="ts">
 import { type Asset, type FullyLoadedProject } from "~/scripts/project";
+import { fetchObjectUrl } from "~/scripts/objectUrlManager";
 
 const route = useRoute();
 
@@ -18,7 +20,11 @@ if (assets.value == undefined) {
   throw "Could not load assets global";
 }
 
-const asset = ref<(Asset & { data: Blob })>(
+const asset = ref<Asset & { data: Blob }>(
   await project.value.projectSource.loadAsset(assetID.value.toString())
+);
+
+const objectUrl = computed(() =>
+  fetchObjectUrl(asset.value.id, asset.value.data)
 );
 </script>
