@@ -61,7 +61,7 @@
                       </div>
                     </li>
                   </ul>
-                  <div class="mt-5 sm:mt-6">
+                  <div class="mt-2">
                     <button
                       type="button"
                       class="inline-flex w-full justify-center rounded-md bg-zinc-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600"
