@@ -105,14 +105,19 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from "vue";
+import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
+import { ChevronRightIcon, UsersIcon } from "@heroicons/vue/24/outline";
 import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOptions,
+  ComboboxOption,
   Dialog,
   DialogPanel,
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-
-import { ChevronRightIcon } from "@heroicons/vue/20/solid";
 import { type Asset, type FullyLoadedProject } from "~/scripts/project";
 import { assetPromises } from "~/scripts/assetSelector";
 

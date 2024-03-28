@@ -465,16 +465,15 @@ async function loadSchemas() {
   schemas.value["debug"] = {
     __url: "debug",
     $id: "debug",
-    title: "Debug Schemas",
+    title: "Debug",
     description: "Debug",
-    type: "object",
+    type: 'object',
     properties: {
       asset: {
-        type: 'asset',
-        
+        type: 'asset'
       }
-    },
-  };
+    }
+  }
 
   destroyNotification();
 
