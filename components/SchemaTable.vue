@@ -15,11 +15,13 @@
       </div>
     </div>
     <div class="space-y-2 mt-1 pl-2 lg:pl-4">
+      {{ model }}
       <div
         v-for="entry in entries"
         :key="persistentKeyTable[entry[0]]"
         class="flex flex-row gap-x-2 items-center text-zinc-200"
       >
+        {{ persistentKeyTable[entry[0]] }}
         <input
           @input="onKeyUpdate"
           :value="entry[0]"
@@ -58,7 +60,6 @@
 import { ArrowRightIcon } from "@heroicons/vue/24/outline";
 import type { RemapSchema } from "~/scripts/schemas";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
-import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps<{
   schema: RemapSchema;
@@ -71,6 +72,7 @@ const model = computed({
     return props.modelValue;
   },
   set(value) {
+    console.log(value);
     emit("update:modelValue", value);
   },
 });
@@ -88,14 +90,17 @@ const newEntry = computed({
   },
   set(key) {
     if (!key) return;
-    const persistenceID = persistentKeyTable.value[key] ?? generatePersistenceUUID();
+    const persistenceID =
+      persistentKeyTable.value[key] ?? generatePersistenceUUID();
     if (!model.value[key]) {
-      model.value[key] = undefined;
+      model.value[key] = "";
       persistentKeyTable.value[key] = persistenceID;
     }
     nextTick(() => {
       const nodes = inputRefs.value.filter(
-        (e) => e?.getAttribute("data-persistence-key") == persistenceID
+        (e) =>
+          parseInt(e?.getAttribute("data-persistence-key") ?? "-1") ==
+          persistenceID
       );
       if (nodes.length > 0) {
         nodes[0].focus();
@@ -108,11 +113,14 @@ model.value ??= {};
 
 const entries = computed(() =>
   model.value
-    ? Object.entries(model.value).sort((a, b) => b[0].localeCompare(a[0]))
+    ? Object.entries(model.value).sort(
+        (a, b) =>
+          persistentKeyTable.value[a[0]] - persistentKeyTable.value[b[0]]
+      )
     : []
 );
 
-const persistentKeyTable = ref<{ [key: string]: string }>({});
+const persistentKeyTable = ref<{ [key: string]: number }>({});
 const inputRefs = ref<Array<HTMLInputElement>>([]);
 const rootInput = ref<HTMLInputElement>();
 
@@ -128,6 +136,10 @@ function onKeyUpdate(input: Event) {
     delete Object.assign(persistentKeyTable.value, {
       [key]: persistentKeyTable.value[oldKey],
     })[oldKey];
+    nextTick(() => {
+      const element: HTMLInputElement = input.target as HTMLInputElement;
+      element.focus();
+    });
   } else {
     delete model.value[oldKey];
     delete persistentKeyTable.value[oldKey];
