@@ -15,13 +15,11 @@
       </div>
     </div>
     <div class="space-y-2 mt-1 pl-2 lg:pl-4">
-      {{ model }}
       <div
         v-for="entry in entries"
         :key="persistentKeyTable[entry[0]]"
         class="flex flex-row gap-x-2 items-center text-zinc-200"
       >
-        {{ persistentKeyTable[entry[0]] }}
         <input
           @input="onKeyUpdate"
           :value="entry[0]"
