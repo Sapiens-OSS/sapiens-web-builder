@@ -51,7 +51,10 @@
             </div>
           </main>
         </template>
-        <NuxtPage />
+        <NuxtPage
+          @create="() => (assetModal = true)"
+          @regenerate="() => generateDirectory()"
+        />
       </NuxtErrorBoundary>
     </main>
   </div>

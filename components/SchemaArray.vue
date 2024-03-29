@@ -30,7 +30,7 @@
           :key="itemIdx"
           :required="true"
           :schema="
-            Object.assign({ title: `Entry #${itemIdx + 1}` }, properties)
+            Object.assign({ title: `Entry #${itemIdx + 1}`, }, properties)
           "
           v-model="model[itemIdx]"
           :element-config="{
@@ -46,10 +46,11 @@
 </template>
 
 <script setup lang="ts">
+import type { ArraySchema } from "~/scripts/schemas";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 
 const props = defineProps<{
-  schema: any;
+  schema: ArraySchema;
   modelValue: any;
 }>();
 const emit = defineEmits(["update:modelValue"]);
@@ -76,9 +77,9 @@ model.value ??= Array.apply(null, Array(minimum.value ?? 0)).map(
 );
 
 const allowedRemove = computed(() =>
-  minimum.value != null ? model.value?.length > minimum.value : true
+  minimum.value != undefined ? model.value?.length > minimum.value : true
 );
 const allowedAdd = computed(() =>
-  maximum.value != null ? model.value?.length < minimum.value : true
+  maximum.value != undefined ? model.value?.length < maximum.value : true
 );
 </script>

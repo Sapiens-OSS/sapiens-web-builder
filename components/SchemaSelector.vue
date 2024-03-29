@@ -9,31 +9,22 @@
 </template>
 
 <script setup lang="ts">
-import { type Schema } from "~/scripts/schemas";
-import SchemaObject from "./SchemaObject.vue";
+import {
+  type ObjectSchema,
+  type Schema,
+  type UniversalSchemaType,
+} from "~/scripts/schemas";
 import SchemaNotFound from "./SchemaNotFound.vue";
-import SchemaArray from "./SchemaArray.vue";
-import SchemaString from "./SchemaString.vue";
-import SchemaNumber from "./SchemaNumber.vue";
-import SchemaBoolean from "./SchemaBoolean.vue";
-import SchemaTable from "./SchemaTable.vue";
+import { type SchemaEditor, validSchemaEditors } from "~/scripts/schemaEditor";
 
 const props = defineProps<{
-  schema: Schema;
+  schema: UniversalSchemaType;
   modelValue: any;
   elementConfig?: any;
-  required: boolean;
+  required: boolean | undefined;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
-
-type SchemaEditor =
-  | typeof SchemaObject
-  | typeof SchemaArray
-  | typeof SchemaString
-  | typeof SchemaNumber
-  | typeof SchemaBoolean
-  | typeof SchemaTable;
 
 const model = computed({
   get() {
@@ -44,22 +35,10 @@ const model = computed({
   },
 });
 
-const objects: { [key: string]: SchemaEditor } = {
-  object: SchemaObject,
-  array: SchemaArray,
-  string: SchemaString,
-  number: SchemaNumber,
-  integer: SchemaNumber,
-  boolean: SchemaBoolean,
-  remap: SchemaTable,
-  table: SchemaTable,
-};
-
 const figureOutComponentType: (schema: any) => SchemaEditor | null = (
   schema: any
 ) => {
-  if (objects[props.schema.type]) return objects[props.schema.type];
-  if (props.schema.properties) return objects.object;
+  if (validSchemaEditors[props.schema.type]) return validSchemaEditors[props.schema.type];
   return null;
 };
 

@@ -122,11 +122,12 @@ import {
 } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import { TrashIcon } from "@heroicons/vue/24/outline";
+import type { StringSchema } from "~/scripts/schemas";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps<{
-  schema: any;
+  schema: StringSchema;
   modelValue: any;
   elementConfig?: any;
 }>();

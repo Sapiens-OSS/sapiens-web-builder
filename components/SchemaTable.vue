@@ -56,11 +56,12 @@
 
 <script setup lang="ts">
 import { ArrowRightIcon } from "@heroicons/vue/24/outline";
+import type { RemapSchema } from "~/scripts/schemas";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps<{
-  schema: any;
+  schema: RemapSchema;
   modelValue: any;
 }>();
 const emit = defineEmits(["update:modelValue"]);
@@ -74,13 +75,20 @@ const model = computed({
   },
 });
 
+// Persistence UUIDs are sequential so they're sorted properly
+const prevPersistenceUUID = ref(0);
+
+function generatePersistenceUUID() {
+  return prevPersistenceUUID.value++;
+}
+
 const newEntry = computed({
   get() {
     return "";
   },
   set(key) {
     if (!key) return;
-    const persistenceID = persistentKeyTable.value[key] ?? randomUUID();
+    const persistenceID = persistentKeyTable.value[key] ?? generatePersistenceUUID();
     if (!model.value[key]) {
       model.value[key] = undefined;
       persistentKeyTable.value[key] = persistenceID;
@@ -99,7 +107,9 @@ const newEntry = computed({
 model.value ??= {};
 
 const entries = computed(() =>
-  model.value ? Object.entries(model.value) : []
+  model.value
+    ? Object.entries(model.value).sort((a, b) => b[0].localeCompare(a[0]))
+    : []
 );
 
 const persistentKeyTable = ref<{ [key: string]: string }>({});
@@ -122,8 +132,8 @@ function onKeyUpdate(input: Event) {
     delete model.value[oldKey];
     delete persistentKeyTable.value[oldKey];
     nextTick(() => {
-        rootInput.value?.focus();
-    })
+      rootInput.value?.focus();
+    });
   }
 }
 </script>

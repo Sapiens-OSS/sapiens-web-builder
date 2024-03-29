@@ -36,10 +36,11 @@ import {
   SwitchGroup,
   SwitchLabel,
 } from "@headlessui/vue";
+import type { BooleanSchema } from "~/scripts/schemas";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 
 const props = defineProps<{
-  schema: any;
+  schema: BooleanSchema;
   modelValue: any;
 }>();
 const emit = defineEmits(["update:modelValue"]);

@@ -219,7 +219,13 @@ export class IndexedDBStorageSource implements ProjectSource {
     return { ...asset, data: blob };
   }
   updateAsset(id: string, data: Asset): Promise<boolean> {
-    throw new Error("Method not implemented.");
+    return new Promise<boolean>(async (resolve, reject) => {
+      const clonedAsset = JSON.parse(JSON.stringify(data));
+      console.log(id, clonedAsset);
+      const assetStore = await useAssetObjectStore("readwrite");
+      assetStore.put(clonedAsset).onerror = () => reject(false);
+      resolve(true);
+    });
   }
   deleteAsset(id: string): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {

@@ -111,19 +111,16 @@ import {
   DisclosurePanel,
   Switch,
 } from "@headlessui/vue";
-import {
-  PlusIcon,
-  MinusIcon,
-  TrashIcon,
-} from "@heroicons/vue/24/solid";
+import { PlusIcon, MinusIcon, TrashIcon } from "@heroicons/vue/24/solid";
+import type { ObjectSchema } from "~/scripts/schemas";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 
-const props = defineProps([
-  "schema",
-  "modelValue",
-  "elementConfig",
-  "required",
-]);
+const props = defineProps<{
+  schema: ObjectSchema;
+  modelValue: any;
+  elementConfig: any;
+  required: boolean | undefined;
+}>();
 const emit = defineEmits(["update:modelValue"]);
 const properties = computed(() =>
   Object.entries(props.schema.properties).map((e: [string, any]) =>
