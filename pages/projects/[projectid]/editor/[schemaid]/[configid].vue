@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div class="p-4 pb-16">
     <SchemaSelector
       v-if="schema && config"
       :schema="schema"

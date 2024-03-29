@@ -179,9 +179,7 @@
                 class="h-6 w-6 shrink-0"
                 aria-hidden="true"
               />
-              <span class="text-xs truncate">{{
-                item.name.split(" ")[0]
-              }}</span>
+              <span class="text-xs truncate">{{ item.name }}</span>
             </NuxtLink>
             <div v-else class="p-3 bg-zinc-800 rounded-md">
               <svg
@@ -349,6 +347,7 @@ import {
   CubeTransparentIcon,
   FolderOpenIcon,
   HomeIcon,
+  TrashIcon,
   WrenchScrewdriverIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
@@ -537,7 +536,7 @@ function generateNavigation() {
 
   if (project.value) {
     // Disable assets
-    if (false && project.value?.projectSource.assetsSupported()) {
+    if (true && project.value?.projectSource.assetsSupported()) {
       base.push({
         name: "Assets",
         path: "/assets",
@@ -546,12 +545,15 @@ function generateNavigation() {
       });
     }
 
+    const schemaIDs: string[] = [];
+
     project.value.schemas.forEach((url) => {
       if (schemas.value[url] !== undefined) {
         const schema = schemas.value[url];
         if (schema == null) {
           return;
         }
+        schemaIDs.push(schema.$id);
         base.push({
           name: schema.title,
           path: `/editor/${schema.$id}`,
@@ -567,6 +569,13 @@ function generateNavigation() {
         });
       }
     });
+
+    const lostAndFound = Object.entries(project.value.files).filter(
+      ([id, files]) => !schemaIDs.includes(id)
+    );
+
+    // TODO: do something with the lost & found files
+
     if (false) {
       base.push({
         name: "Debug",

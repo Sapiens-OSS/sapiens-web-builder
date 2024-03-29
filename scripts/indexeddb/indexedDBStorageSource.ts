@@ -183,6 +183,7 @@ export class IndexedDBStorageSource implements ProjectSource {
         id: asset.id,
         name: asset.name,
         filename: asset.filename,
+        type: asset.type,
         dataID: assetDataID,
       };
 

@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 sm:p-12 w-full">
     <div class="flex flex-col xl:flex-row justify-stretch sm:gap-16">
-      <form class="max-w-lg grow w-full">
+      <form @submit.prevent="() => saveAsset()" class="max-w-lg grow w-full">
         <div class="border-b border-gray-900/10 pb-12">
           <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-full">
@@ -25,10 +25,20 @@
                 </div>
               </div>
             </div>
+            <div class="sm:col-span-full">
+              <SchemaString
+                :schema="{
+                  type: 'string',
+                  name: 'Asset type',
+                  description: 'Control what your asset can be used for.',
+                  enum: AssetTypeOptions,
+                }"
+                v-model="asset.type"
+              />
+            </div>
 
-            <div class="mt-6">
+            <div class="mt-6 inline-flex gap-x-4">
               <button
-                @click="() => saveAsset()"
                 type="button"
                 class="h-9 inline-flex items-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
@@ -96,10 +106,15 @@
 </template>
 
 <script setup lang="ts">
-import { type Asset, type FullyLoadedProject } from "~/scripts/project";
+import {
+  AssetTypeOptions,
+  type Asset,
+  type FullyLoadedProject,
+} from "~/scripts/project";
 import { fetchObjectUrl } from "~/scripts/objectUrlManager";
 import { saveAs } from "file-saver";
-import { ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
+import { ArrowDownTrayIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import type { AssetType } from "@nuxt/devtools/dist/types";
 
 const emit = defineEmits(["regenerate"]);
 

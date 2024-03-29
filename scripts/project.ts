@@ -44,10 +44,21 @@ export enum ProjectSourceColour {
   BLUE = "blue",
 }
 
+export enum AssetType {
+  Model,
+  Texture,
+  Shader,
+  Image,
+  Other,
+}
+
+export const AssetTypeOptions = Object.values(AssetType).slice(0, Object.values(AssetType).length / 2) as string[];
+
 export interface Asset {
   id: string;
   name: string;
   filename: string;
+  type: AssetType;
   data?: Blob;
 }
 

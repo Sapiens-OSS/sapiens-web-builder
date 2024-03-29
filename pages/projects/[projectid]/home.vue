@@ -1,6 +1,6 @@
 <template>
   <div class="p-6 sm:p-12 w-full">
-    <div class="flex flex-col xl:flex-row justify-stretch gap-16">
+    <div class="flex flex-col xl:flex-row justify-stretch sm:gap-16">
       <form>
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
@@ -109,7 +109,7 @@
           </div>
         </div>
       </form>
-      <div class="grow">
+      <div class="grow pb-16">
         <h2 class="text-xl font-semibold leading-7 text-zinc-200">Schemas</h2>
         <p class="mt-1 text-sm leading-6 text-zinc-400">
           Add external schemas to create content for mods that support it.

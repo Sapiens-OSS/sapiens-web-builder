@@ -12,6 +12,8 @@ export interface Schema extends ObjectSchema {
   exportDir?: string;
 }
 
+type RequireField<T, K extends keyof T> = T & Required<Pick<T, K>>
+
 export type SchemaProperties = { [key: string]: UniversalSchemaType };
 export type UniversalSchemaType = ObjectSchema | ArraySchema | NumberSchema | StringSchema | RemapSchema;
 
@@ -28,7 +30,9 @@ export interface ObjectSchema extends BaseSchemaProperties {
   required?: string[],
 }
 
-export interface ArraySchema extends BaseSchemaProperties {
+export type ArraySchema = RequireField<ArraySchemaNoRequire, "properties" | "items">;
+
+export interface ArraySchemaNoRequire extends BaseSchemaProperties {
   type: "array",
   items?: UniversalSchemaType,
   properties?: UniversalSchemaType,

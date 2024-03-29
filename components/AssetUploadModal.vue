@@ -29,7 +29,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform w-full overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative transform w-full rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
               <form @submit.prevent="upload">
                 <div class="flex flex-col gap-y-4">
@@ -81,6 +81,17 @@
                       </div>
                     </div>
                   </div>
+                  <div class="mt-2">
+                    <SchemaString
+                      :schema="{
+                        type: 'string',
+                        name: 'Asset type',
+                        description: 'Control what your asset can be used for.',
+                        enum: AssetTypeOptions,
+                      }"
+                      v-model="type"
+                    />
+                  </div>
                 </div>
                 <div
                   class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
@@ -130,7 +141,12 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { CheckIcon, FolderPlusIcon } from "@heroicons/vue/24/outline";
-import { type Asset, type FullyLoadedProject } from "~/scripts/project";
+import {
+  AssetType,
+  AssetTypeOptions,
+  type Asset,
+  type FullyLoadedProject,
+} from "~/scripts/project";
 import { randomUUID } from "~/scripts/utils/randomNumber";
 
 const props = defineProps(["modelValue"]);
@@ -151,6 +167,7 @@ const project = useState<FullyLoadedProject>("project");
 const fileOpener = ref();
 const selectedFile = ref();
 const filename = ref("");
+const type = ref<string>(AssetType[AssetType.Other]);
 
 const loadingProgress: Ref<number | undefined> = ref(undefined);
 
@@ -177,6 +194,7 @@ async function upload() {
     id: randomUUID(),
     name: filename.value,
     filename: selectedFile.value.split("\\").at(-1),
+    type: type.value as unknown as AssetType,
     data: new Blob([ab], { type: file.type }),
   };
   await project.value.projectSource.createAsset(asset);

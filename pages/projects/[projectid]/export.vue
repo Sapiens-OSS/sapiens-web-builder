@@ -18,7 +18,7 @@
             </p>
             <div class="mt-10 flex items-center gap-x-6">
               <button
-                @click="zip"
+                @click="() => exportMod()"
                 class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 Export project
@@ -88,9 +88,8 @@
 import type { File, FullyLoadedProject } from "~/scripts/project";
 import { Exporter } from "~/scripts/exporter/exporter";
 import type { VersionController } from "~/scripts/versionController";
-import JSZip from "jszip";
-import FileSaver from "file-saver";
 import type { Schema } from "~/scripts/schemas";
+import FileSaver from "file-saver";
 
 const project: Ref<FullyLoadedProject> = useState("project");
 const versionController = useState<VersionController>("vc");
@@ -98,20 +97,13 @@ const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");
 
 const exporter: Exporter = new Exporter(project, versionController, schemas);
 
-const preExport = computed(() => exporter.preExport() as [string, File[]]);
+const preExport = computed(() => exporter.exportGraphics() as [string, File[]]);
 
-function zip() {
-  const zip = new JSZip();
-  const files = exporter.export();
-  files.forEach((file) => {
-    zip.file(file.filename, file.data);
-  });
-  zip.generateAsync({ type: "blob" }).then((data) => {
-    FileSaver.saveAs(
-      data,
-      `${project.value.name.replace(" ", "-").toLowerCase()}.zip`
-    );
-  });
+async function exportMod() {
+  FileSaver.saveAs(
+    await exporter.generateExportZip(),
+    `${project.value.name.replace(" ", "-").toLowerCase()}.zip`
+  );
 }
 </script>
 
