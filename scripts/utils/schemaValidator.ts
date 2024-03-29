@@ -11,6 +11,9 @@ function isValid(schema: Partial<NotObjectSchema>): boolean {
     if (!validSchemaTypes.includes(schema.type)) {
         return false;
     }
+    if (schema.type === 'array' && (schema.items === undefined || schema.items.type === undefined)) {
+        return false;
+    }
     return true;
 }
 
@@ -25,8 +28,9 @@ export function validateSchema(schema: Partial<ObjectSchema>, path?: string): [n
 
     const entries = Object.entries(schema.properties);
     entries.forEach((entry) => {
+        const newPath = path ? `${path}.${entry[0]}` : entry[0]
         if (entry[1].type == 'object') {
-            const [s, m] = validateSchema(entry[1], path ? `${path}.${entry[0]}` : entry[0]);
+            const [s, m] = validateSchema(entry[1], newPath);
             successful += s;
             max += m;
             return;
@@ -35,7 +39,7 @@ export function validateSchema(schema: Partial<ObjectSchema>, path?: string): [n
         if (isValid(entry[1])) {
             successful++;
         } else {
-            console.log(`${path ?? '.'} is invalid`);
+            console.log(`${newPath} is invalid`);
         }
     })
 

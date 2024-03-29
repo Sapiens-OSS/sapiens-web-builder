@@ -267,6 +267,10 @@ const schemaValidation = computed(() =>
 const importSchemaUrl = ref();
 
 function importSchema() {
+  if (project.value.schemas.includes(importSchemaUrl.value)) {
+    importSchemaUrl.value = "";
+    return;
+  }
   project.value.schemas.push(importSchemaUrl.value);
   importSchemaUrl.value = "";
 }
