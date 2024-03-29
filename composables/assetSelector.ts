@@ -1,8 +1,8 @@
-import type { Asset } from "~/scripts/project";
+import type { Asset, AssetType } from "~/scripts/project";
 
-export const useAssetSelectorData = () => useState<{ resolve: (value: Asset) => void, reject: () => void, } | undefined>("assetSelector");
+export const useAssetSelectorData = () => useState<{ resolve: (value: Asset) => void, reject: () => void, assetType: AssetType } | undefined>("assetSelector");
 
-export const selectAsset: () => Promise<Asset | null> = () => {
+export const selectAsset: (assetType: AssetType) => Promise<Asset | null> = (assetType: AssetType) => {
     return new Promise<Asset | null>((resolve) => {
         const assetData = useAssetSelectorData();
         assetData.value = {
@@ -13,7 +13,8 @@ export const selectAsset: () => Promise<Asset | null> = () => {
             reject: () => {
                 assetData.value = undefined;
                 resolve(null);
-            }
+            },
+            assetType,
         };
     });
 };

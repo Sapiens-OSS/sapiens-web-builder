@@ -45,14 +45,16 @@ export enum ProjectSourceColour {
 }
 
 export enum AssetType {
-  Model,
-  Texture,
-  Shader,
-  Image,
-  Other,
+  Model = "model",
+  Texture = "texture",
+  VertexShader = "vertex",
+  FragmentShader = "fragment",
+  Image = "image",
+  Other = "other",
 }
 
-export const AssetTypeOptions = Object.values(AssetType).slice(0, Object.values(AssetType).length / 2) as string[];
+export const AssetTypePrettyToID = Object.fromEntries(Object.entries(AssetType));
+export const AssetTypeIDToPretty = Object.fromEntries(Object.entries(AssetType).map((e) => e.reverse()));
 
 export interface Asset {
   id: string;

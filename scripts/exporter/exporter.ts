@@ -3,12 +3,13 @@ import type { Schema, UniversalSchemaType } from "../schemas";
 import { VersionController, type Version } from "../versionController";
 import JSZip from "jszip";
 import { type ExportTransformer } from "./transformers";
+import { AssetTransformer } from "./assetTransformer";
 
 export class Exporter {
   project: Ref<FullyLoadedProject>;
   vc: Ref<VersionController>;
   schemas: Ref<{ [key: string]: Schema }>;
-  transformers: ExportTransformer[] = [];
+  transformers: ExportTransformer[] = [new AssetTransformer()];
 
   constructor(
     project: Ref<FullyLoadedProject>,
@@ -45,6 +46,9 @@ return modInfo`.trim();
 
   private recursiveTransformData<T>(rootSchema: Schema, schema: UniversalSchemaType, data?: T): T | undefined {
     if (schema.type === 'object') {
+      if (!data) {
+        return data;
+      }
       const typedData = data as { [key: string]: any };
       Object.entries(schema.properties).forEach((([key, localSchema]) => {
         typedData[key] = this.recursiveTransformData(rootSchema, localSchema, typedData[key]);
@@ -68,7 +72,8 @@ return modInfo`.trim();
   private exportSchemas(): Array<{ filename: string; data: string }> {
     const output = [];
     const schemaIDLookupCache: { [key: string]: Schema } = {};
-    const schemas = Object.entries(this.project.value.files)
+    const filesCopy = JSON.parse(JSON.stringify(this.project.value.files)) as typeof this.project.value.files;
+    const schemas = Object.entries(filesCopy)
       .map((m) => {
         return m[1].map((file) => {
           // Get schema
@@ -90,8 +95,6 @@ return modInfo`.trim();
             data = this.recursiveTransformData(schema, schema, data);
           }
 
-          console.log(data);
-
           return {
             filename: `hammerstone/${outputDir}/${file.id}.json`,
             data: JSON.stringify(data),
@@ -104,6 +107,10 @@ return modInfo`.trim();
   }
 
   async generateExportZip() {
+    const zip = new JSZip();
+
+    await Promise.all(this.transformers.map((e) => e.preHook(zip)));
+
     const files: { [key: string]: Blob } = {};
     this.project.value.projectSource.saveProject(this.project.value);
     files["modinfo.lua"] = new Blob([this.modinfo(this.project.value.version)]);
@@ -111,15 +118,13 @@ return modInfo`.trim();
       files[file.filename] = new Blob([file.data]);
     });
 
-    const zip = new JSZip();
     Object.entries(files).forEach((([filename, blob]) => {
       zip.file(filename, blob);
     }))
 
-    this.transformers.forEach((transformer) => {
-      transformer.postHook(zip);
-    })
+    await Promise.all(this.transformers.map((e) => e.postHook(zip)));
 
+    console.log('generating zip...');
 
     return await zip.generateAsync({ type: "blob" });
   }

@@ -109,16 +109,16 @@ import { computed, ref } from "vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { ChevronRightIcon, UsersIcon } from "@heroicons/vue/24/outline";
 import {
-  Combobox,
-  ComboboxInput,
-  ComboboxOptions,
-  ComboboxOption,
   Dialog,
   DialogPanel,
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { type Asset, type FullyLoadedProject } from "~/scripts/project";
+import {
+  AssetTypePrettyToID,
+  type Asset,
+  type FullyLoadedProject,
+} from "~/scripts/project";
 
 const assetSelectData = useAssetSelectorData();
 
@@ -127,9 +127,13 @@ const assets = ref<Asset[]>([]);
 const currentAsset = ref<Asset | undefined>();
 
 async function generateAssetLists() {
+  if (!assetSelectData.value) {
+    return;
+  }
   assets.value = [];
   const rawAssets = await project.value.projectSource.fetchAssets();
-  assets.value = rawAssets;
+  const assetTypeID = AssetTypePrettyToID[assetSelectData.value.assetType];
+  assets.value = rawAssets.filter((e) => e.type === assetTypeID);
 }
 
 await generateAssetLists();

@@ -32,23 +32,25 @@
               class="relative w-full transform overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
               <form @submit.prevent="() => emits('delete')">
-                <div
-                  class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/5"
-                >
-                  <TrashIcon
-                    class="h-6 w-6 text-orange-500"
-                    aria-hidden="true"
-                  />
-                </div>
-                <div class="mt-3 sm:mt-5">
-                  <DialogTitle
-                    as="h3"
-                    class="text-base text-center font-semibold leading-6 text-zinc-100"
-                    >Delete Asset</DialogTitle
+                <div class="flex flex-row justify-between items-center">
+                  <div>
+                    <DialogTitle
+                      as="h3"
+                      class="text-base text-left font-semibold leading-6 text-zinc-100"
+                      >Delete Asset</DialogTitle
+                    >
+                    <p class="text-zinc-400 text-left">
+                      Delete asset {{ id }}?
+                    </p>
+                  </div>
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/5"
                   >
-                  <p class="text-zinc-200 mt-4 text-center">
-                    Delete asset {{ id }}?
-                  </p>
+                    <TrashIcon
+                      class="h-5 w-5 text-orange-500"
+                      aria-hidden="true"
+                    />
+                  </div>
                 </div>
                 <div
                   class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"

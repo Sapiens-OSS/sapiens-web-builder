@@ -1,3 +1,5 @@
+import type { AssetType } from "@nuxt/devtools/dist/types";
+
 export const DEFAULT_SCHEMAS = [
   "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/main/schemas/shared.schema.json",
   "https://raw.githubusercontent.com/Sapiens-OSS/hammerstone-schemas/main/schemas/object.schema.json",
@@ -55,6 +57,7 @@ export interface StringSchema extends BaseSchemaProperties {
   type: "string",
   enum?: string[],
   default?: string,
+  _swb_asset_type?: string;
 }
 
 export interface RemapSchema extends BaseSchemaProperties {

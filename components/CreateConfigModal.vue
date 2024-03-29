@@ -32,23 +32,27 @@
               class="relative w-full transform overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
               <form @submit.prevent="createConfig">
-                <div
-                  class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/5"
-                >
-                  <FolderPlusIcon
-                    class="h-6 w-6 text-orange-500"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-row justify-between">
+                  <div>
+                    <DialogTitle
+                      as="h3"
+                      class="text-base text-left font-semibold leading-6 text-zinc-100"
+                      >New Config</DialogTitle
+                    >
+                    <p class="text-left text-zinc-400 text-sm mt-1">
+                      {{ props.schemaid }}
+                    </p>
+                  </div>
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/5"
+                  >
+                    <FolderPlusIcon
+                      class="h-5 w-5 text-orange-500"
+                      aria-hidden="true"
+                    />
+                  </div>
                 </div>
                 <div class="mt-3 sm:mt-5">
-                  <DialogTitle
-                    as="h3"
-                    class="text-base text-center font-semibold leading-6 text-zinc-100"
-                    >New Config</DialogTitle
-                  >
-                  <p class="text-center text-zinc-400 text-sm mt-1">
-                    {{ props.schemaid }}
-                  </p>
                   <div class="mt-2">
                     <div>
                       <label

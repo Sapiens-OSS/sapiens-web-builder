@@ -75,22 +75,14 @@
                           type="text"
                           name="name"
                           id="name"
-                          class="block w-full rounded-md border-0 py-1.5 bg-zinc-700 text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                          class="block w-full rounded-md border-0 py-1.5 bg-zinc-800/40 text-zinc-100 shadow-sm ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                           placeholder="my-asset.png"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="mt-2">
-                    <SchemaString
-                      :schema="{
-                        type: 'string',
-                        name: 'Asset type',
-                        description: 'Control what your asset can be used for.',
-                        enum: AssetTypeOptions,
-                      }"
-                      v-model="type"
-                    />
+                    <AssetDropdownMenu v-model="type" />
                   </div>
                 </div>
                 <div
@@ -104,9 +96,8 @@
                   </button>
                   <button
                     type="button"
-                    class="mt-3 inline-flex w-full justify-center rounded-md bg-zinc-700 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-zinc-600 hover:bg-zinc-600 sm:col-start-1 sm:mt-0"
+                    class="mt-3 inline-flex w-full justify-center rounded-md bg-zinc-800 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-zinc-600 hover:bg-zinc-600 sm:col-start-1 sm:mt-0"
                     @click="open = false"
-                    ref="cancelButtonRef"
                   >
                     Cancel
                   </button>
@@ -143,7 +134,6 @@ import {
 import { CheckIcon, FolderPlusIcon } from "@heroicons/vue/24/outline";
 import {
   AssetType,
-  AssetTypeOptions,
   type Asset,
   type FullyLoadedProject,
 } from "~/scripts/project";
@@ -167,7 +157,7 @@ const project = useState<FullyLoadedProject>("project");
 const fileOpener = ref();
 const selectedFile = ref();
 const filename = ref("");
-const type = ref<string>(AssetType[AssetType.Other]);
+const type = ref(AssetType.Other);
 
 const loadingProgress: Ref<number | undefined> = ref(undefined);
 
@@ -194,7 +184,7 @@ async function upload() {
     id: randomUUID(),
     name: filename.value,
     filename: selectedFile.value.split("\\").at(-1),
-    type: type.value as unknown as AssetType,
+    type: type.value,
     data: new Blob([ab], { type: file.type }),
   };
   await project.value.projectSource.createAsset(asset);

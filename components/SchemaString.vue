@@ -79,6 +79,48 @@
       </p>
     </Listbox>
   </div>
+  <div v-else-if="assetType !== undefined">
+    <label
+      :for="componentID"
+      class="inline-flex items-center gap-x-2 text-sm font-medium leading-6 text-zinc-100"
+      >{{ calculateSchemaTitle(props.schema) }}
+
+      <button
+        v-if="props.elementConfig?.deleteAction"
+        @click="props.elementConfig?.deleteAction"
+        type="button"
+        class="inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+      >
+        Delete
+        <TrashIcon class="-mr-0.5 h-5 w-5" aria-hidden="true" />
+      </button>
+    </label>
+    <div class="mt-2 flex items-center gap-x-3">
+      <PhotoIcon class="w-6 h-6 text-zinc-500" />
+      <div
+        class="relative inline-flex overflow-hidden w-full cursor-default rounded-md bg-zinc-800/40 text-left text-zinc-200 shadow-sm ring-1 ring-inset ring-zinc-700 focus:outline-none focus:ring-2 focus:ring-orange-600 sm:text-sm sm:leading-6"
+      >
+        <button
+          @click="() => assetPick()"
+          class="py-1.5 pl-3 inline-flex justify-between grow"
+        >
+          <span
+            :class="[assetHookup ? '' : 'text-zinc-400', 'block truncate']"
+            >{{ assetHookup?.name || "No asset selected." }}</span
+          >
+          <span class="pointer-events-none flex items-center pr-2">
+            <ChevronUpDownIcon
+              class="h-5 w-5 text-gray-400"
+              aria-hidden="true"
+            />
+          </span>
+        </button>
+      </div>
+    </div>
+    <p class="mt-2 text-sm text-zinc-400" :id="`${componentID}-desc`">
+      {{ props.schema.description ?? "No description provided." }}
+    </p>
+  </div>
   <div v-else>
     <label
       :for="componentID"
@@ -121,16 +163,28 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
-import { TrashIcon } from "@heroicons/vue/24/outline";
+import { PhotoIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import {
+  AssetType,
+  AssetTypeIDToPretty,
+  type Asset,
+  type FullyLoadedProject,
+} from "~/scripts/project";
 import type { StringSchema } from "~/scripts/schemas";
 import calculateSchemaTitle from "~/scripts/utils/calculateSchemaTitle";
 import { randomUUID } from "~/scripts/utils/randomNumber";
+import {
+  fetchAssetFromURL,
+  createAssetURL,
+} from "~/scripts/exporter/assetTransformer";
 
 const props = defineProps<{
   schema: StringSchema;
-  modelValue: any;
+  modelValue: string | undefined;
   elementConfig?: any;
 }>();
+
+const project = useState<FullyLoadedProject>("project");
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -143,7 +197,57 @@ const model = computed({
   },
 });
 
-model.value ??= props.schema.default ?? undefined;
+model.value ??= props.schema.default;
 
 const componentID = randomUUID();
+
+const assetType = computed(() => {
+  if (!project.value.projectSource.assetsSupported()) {
+    return undefined;
+  }
+  if (!props.schema._swb_asset_type) {
+    return undefined;
+  }
+  return AssetTypeIDToPretty[props.schema._swb_asset_type];
+});
+
+const _cachedAsset = ref<Asset | undefined>();
+const assetHookup = computed({
+  get() {
+    if (!_cachedAsset.value) {
+      return undefined;
+    }
+    return _cachedAsset.value;
+  },
+  set(v) {
+    if (assetType.value == undefined) {
+      return;
+    }
+    if (!v) {
+      model.value = undefined;
+      _cachedAsset.value = undefined;
+      return;
+    }
+    model.value = createAssetURL(v);
+    _cachedAsset.value = v;
+  },
+});
+
+if (assetType.value !== undefined && model.value) {
+  _cachedAsset.value = fetchAssetFromURL(model.value);
+  // Asset no longer exists
+  if (!_cachedAsset.value) {
+    model.value = undefined;
+  }
+}
+
+async function assetPick() {
+  if (!assetType.value) {
+    return;
+  }
+  const asset = await selectAsset(assetType.value);
+  if (asset) {
+    assetHookup.value = asset;
+  }
+}
 </script>

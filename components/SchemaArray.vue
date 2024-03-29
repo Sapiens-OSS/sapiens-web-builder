@@ -30,7 +30,13 @@
           :key="itemIdx"
           :required="true"
           :schema="
-            Object.assign({ title: `Entry #${itemIdx + 1}`, }, properties)
+            Object.assign(
+              {},
+              {
+                title: indexSubname[itemIdx] ?? `Entry #${itemIdx + 1}`,
+              },
+              properties
+            )
           "
           v-model="model[itemIdx]"
           :element-config="{
@@ -64,6 +70,10 @@ const model = computed({
   },
 });
 
+const indexSubname = computed(() =>
+  model.value.map((e: any) => calculateSubmodelName(e))
+);
+
 const properties = computed(
   () => props.schema.properties ?? props.schema.items
 );
@@ -82,4 +92,21 @@ const allowedRemove = computed(() =>
 const allowedAdd = computed(() =>
   maximum.value != undefined ? model.value?.length < maximum.value : true
 );
+
+const calculateSubmodelName = (data: any) => {
+  if (properties.value.type !== "object") {
+    return;
+  }
+  if (!data) {
+    return;
+  }
+  const firstKey = Object.entries(properties.value.properties).filter(
+    (e) => e[1].type === "string" && !e[1]._swb_asset_type
+  )[0][0];
+  const name = data[firstKey];
+  if (!name) {
+    return;
+  }
+  return name;
+};
 </script>

@@ -26,15 +26,7 @@
               </div>
             </div>
             <div class="sm:col-span-full">
-              <SchemaString
-                :schema="{
-                  type: 'string',
-                  name: 'Asset type',
-                  description: 'Control what your asset can be used for.',
-                  enum: AssetTypeOptions,
-                }"
-                v-model="asset.type"
-              />
+              <AssetDropdownMenu v-model="asset.type" />
             </div>
 
             <div class="mt-6 inline-flex gap-x-4">
@@ -107,14 +99,13 @@
 
 <script setup lang="ts">
 import {
-  AssetTypeOptions,
+  AssetType,
   type Asset,
   type FullyLoadedProject,
 } from "~/scripts/project";
 import { fetchObjectUrl } from "~/scripts/objectUrlManager";
 import { saveAs } from "file-saver";
 import { ArrowDownTrayIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import type { AssetType } from "@nuxt/devtools/dist/types";
 
 const emit = defineEmits(["regenerate"]);
 

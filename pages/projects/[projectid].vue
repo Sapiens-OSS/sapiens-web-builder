@@ -390,8 +390,9 @@ projectLoader.catch((e) => {
   router.push("/projects");
 });
 
-projectLoader.then((e) => {
+projectLoader.then(async (e) => {
   project.value = e;
+  assets.value = await project.value.projectSource.fetchAssets();
 
   // Version controller setup
   versionController.value = new VersionController(project.value.version);
@@ -419,8 +420,8 @@ projectLoader.then((e) => {
     loadSchemas();
   });
 
-  // Lazy loading
-  loadSchemas();
+  // Load schemas
+  await loadSchemas();
 });
 
 const schemas: Ref<{ [key: string]: Schema | null }> = useState(
