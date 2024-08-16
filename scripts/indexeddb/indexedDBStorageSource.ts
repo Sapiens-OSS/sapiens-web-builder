@@ -133,6 +133,7 @@ export class IndexedDBStorageSource implements ProjectSource {
         name: name,
         schemas: DEFAULT_SCHEMAS,
         files: {},
+        plugins: {},
         version: { major: 1, minor: 0, patch: 0 },
         projectSource: this.id(),
         modinfo: {},

@@ -20,6 +20,19 @@ export interface PartiallyLoadedProject {
   projectSource: ProjectSource;
 }
 
+export enum PluginType {
+  Generator = "generator",
+  Script = "script",
+}
+
+export interface Plugin {
+  id: string;
+  type: PluginType;
+  name: string;
+  filename: string;
+  code: string;
+}
+
 // Interface describing a project
 export interface FullyLoadedProject extends PartiallyLoadedProject {
   // Loaded schemas (for modded schemas)
@@ -27,6 +40,9 @@ export interface FullyLoadedProject extends PartiallyLoadedProject {
   // Dictionary of JSON objects that are the actual project files
   // Stored by schemaID
   files: { [key: string]: Array<File> };
+  // Dictionary of plugins
+  // Stored by shadow filename
+  plugins: { [key: string]: Plugin };
   // Project modinfo
   modinfo: ProjectModInfo;
 }
@@ -53,8 +69,12 @@ export enum AssetType {
   Other = "other",
 }
 
-export const AssetTypePrettyToID = Object.fromEntries(Object.entries(AssetType));
-export const AssetTypeIDToPretty = Object.fromEntries(Object.entries(AssetType).map((e) => e.reverse()));
+export const AssetTypePrettyToID = Object.fromEntries(
+  Object.entries(AssetType)
+);
+export const AssetTypeIDToPretty = Object.fromEntries(
+  Object.entries(AssetType).map((e) => e.reverse())
+);
 
 export interface Asset {
   id: string;

@@ -347,6 +347,7 @@ import {
   CubeTransparentIcon,
   FolderOpenIcon,
   HomeIcon,
+  PuzzlePieceIcon,
   TrashIcon,
   WrenchScrewdriverIcon,
   XMarkIcon,
@@ -563,12 +564,19 @@ function generateNavigation() {
         });
       } else {
         base.push({
-          name: "Schema loading...",
+          name: url,
           path: "",
           // Dummy icon (isn't used)
           loading: true,
         });
       }
+    });
+
+    base.push({
+      name: "Plugins",
+      path: "/plugins",
+      icon: PuzzlePieceIcon,
+      loading: false,
     });
 
     const lostAndFound = Object.entries(project.value.files).filter(

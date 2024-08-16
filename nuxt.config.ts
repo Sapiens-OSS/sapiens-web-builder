@@ -9,10 +9,13 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: [
-    // PWA (work in progress)
-    //"@vite-pwa/nuxt"
-  ],
+  app: {
+    head: {
+      script: ["https://unpkg.com/@babel/standalone/babel.min.js"],
+    },
+  },
+
+  modules: ["nuxt-monaco-editor"],
 
   // Run as a client-only app
   ssr: false,
