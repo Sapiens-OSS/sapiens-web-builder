@@ -409,3 +409,8 @@ const myModule: SapiensModule = {};
 // Add your code here
 
 export default myModule;`;
+
+export const pluginPrettyNames = {
+  generator: "DDAPI Generator",
+  script: "Vanilla Script",
+};

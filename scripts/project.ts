@@ -41,7 +41,7 @@ export interface FullyLoadedProject extends PartiallyLoadedProject {
   // Stored by schemaID
   files: { [key: string]: Array<File> };
   // Dictionary of plugins
-  // Stored by shadow filename
+  // Stored by id
   plugins: { [key: string]: Plugin };
   // Project modinfo
   modinfo: ProjectModInfo;

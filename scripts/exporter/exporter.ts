@@ -1,10 +1,10 @@
 import { PluginType, type File, type FullyLoadedProject } from "../project";
 import type { Schema, UniversalSchemaType } from "../schemas";
 import { VersionController, type Version } from "../versionController";
-import JSZip from "jszip";
+import JSZip, { file } from "jszip";
 import { type ExportTransformer } from "./transformers";
 import { AssetTransformer } from "./assetTransformer";
-import { compileJavascript } from "../plugin/compile";
+import { compileJavascript } from "../plugins/compile";
 
 export class Exporter {
   project: Ref<FullyLoadedProject>;
@@ -126,22 +126,22 @@ return modInfo`.trim();
     const output: Array<{ filename: string; data: string }> = [];
 
     const plugins = Object.entries(this.project.value.plugins);
-    plugins.forEach(([filename, plugin]) => {
+    plugins.forEach(([id, plugin]) => {
       switch (plugin.type) {
         case PluginType.Script:
-          let scriptFilename = filename;
+          let scriptFilename = plugin.filename;
           if (!scriptFilename.endsWith(".lua")) {
             scriptFilename =
               scriptFilename.slice(0, scriptFilename.lastIndexOf(".")) + ".lua";
           }
           output.push({
             filename: `scripts/${scriptFilename}`,
-            data: compileJavascript(plugin.code, filename + ".ts"),
+            data: compileJavascript(plugin.code, id + ".ts"),
           });
           return;
         case PluginType.Generator:
           let generatorFilename = `hammerstone/${plugin.filename}/${plugin.id}.lua`;
-          const compiled = compileJavascript(plugin.code, filename + ".ts");
+          const compiled = compileJavascript(plugin.code, id + ".ts");
           output.push({
             filename: generatorFilename,
             data: compiled,

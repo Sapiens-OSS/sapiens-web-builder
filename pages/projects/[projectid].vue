@@ -368,7 +368,6 @@ import { VersionController } from "~/scripts/versionController";
 import { randomUUID } from "~/scripts/utils/randomNumber";
 
 // Globals
-const route = useRoute();
 const router = useRouter();
 const notifications = useNotifications();
 const partialProject: Ref<PartiallyLoadedProject> = useState("partialproject");
@@ -489,18 +488,7 @@ async function loadSchemas() {
     }
   }
 
-  schemas.value["debug"] = {
-    __url: "debug",
-    $id: "debug",
-    title: "Debug",
-    description: "Debug",
-    type: "object",
-    properties: {
-      asset: {
-        type: "string",
-      },
-    },
-  };
+  delete schemas.value["debug"];
 
   destroyNotification();
 
@@ -537,8 +525,7 @@ function generateNavigation() {
   ];
 
   if (project.value) {
-    // Disable assets
-    if (true && project.value?.projectSource.assetsSupported()) {
+    if (project.value?.projectSource.assetsSupported()) {
       base.push({
         name: "Assets",
         path: "/assets",

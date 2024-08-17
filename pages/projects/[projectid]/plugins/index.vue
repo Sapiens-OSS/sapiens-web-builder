@@ -41,13 +41,50 @@
                       @click="() => select(plugin.id)"
                     >
                       <span class="absolute inset-x-0 -top-px bottom-0" />
-                      <PuzzlePieceIcon class="w-4 h-4" />
                       {{ plugin.name }}
                     </button>
                   </p>
-                  <p class="mt-1 flex text-xs leading-5 text-zinc-400">
-                    {{ plugin.type }} / {{ plugin.filename }}
-                  </p>
+                  <nav class="flex mt-1" aria-label="Breadcrumb">
+                    <ol role="list" class="flex items-center">
+                      <li>
+                        <div>
+                          <NuxtLink
+                            href="../."
+                            class="text-gray-400 hover:text-gray-500"
+                          >
+                            <PuzzlePieceIcon
+                              class="h-5 w-5 flex-shrink-0"
+                              aria-hidden="true"
+                            />
+                            <span class="sr-only">Home</span>
+                          </NuxtLink>
+                        </div>
+                      </li>
+                      <li
+                        v-for="page in [
+                          pluginPrettyNames[plugin.type],
+                          plugin.filename,
+                        ]"
+                        :key="page"
+                      >
+                        <div class="flex items-center">
+                          <svg
+                            class="h-4 w-4 flex-shrink-0 text-zinc-600"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z"
+                            />
+                          </svg>
+                          <p class="text-sm font-medium text-zinc-400">
+                            {{ page }}
+                          </p>
+                        </div>
+                      </li>
+                    </ol>
+                  </nav>
                 </div>
               </div>
               <div class="flex shrink-0 items-center gap-x-4">
@@ -67,6 +104,7 @@
 
 <script setup lang="ts">
 import { ChevronRightIcon, PuzzlePieceIcon } from "@heroicons/vue/24/outline";
+import { pluginPrettyNames } from "~/scripts/plugins/strings";
 import type { FullyLoadedProject } from "~/scripts/project";
 
 const router = useRouter();

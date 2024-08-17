@@ -29,7 +29,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative w-full transform overflow-hidden rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative w-full transform rounded-lg bg-zinc-900 px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
             >
               <form @submit.prevent="createPlugin">
                 <div class="flex flex-row items-center justify-between">
@@ -70,16 +70,87 @@
                     </div>
                   </div>
 
-                  <SchemaString
-                    class="mt-2"
-                    :schema="{
-                      title: 'Plugin Type',
-                      type: 'string',
-                      enum: ['generator', 'script'],
-                    }"
-                    v-model="pluginType"
-                  />
-                  <div class="mt-2">
+                  <Listbox class="mt-2" as="div" v-model="pluginType">
+                    <ListboxLabel
+                      class="block text-sm font-medium leading-6 text-zinc-100"
+                      >Script Type</ListboxLabel
+                    >
+                    <div class="relative mt-2">
+                      <div
+                        class="relative inline-flex overflow-hidden w-full cursor-default rounded-md bg-zinc-800/40 text-left text-zinc-200 shadow-sm ring-1 ring-inset ring-zinc-700 focus:outline-none focus:ring-2 focus:ring-orange-600 sm:text-sm sm:leading-6"
+                      >
+                        <ListboxButton
+                          class="py-1.5 pl-3 inline-flex justify-between grow"
+                        >
+                          <span
+                            :class="[
+                              pluginType ? '' : 'text-zinc-400',
+                              'block truncate',
+                            ]"
+                            >{{
+                              pluginPrettyNames[pluginType] ||
+                              "No value selected."
+                            }}</span
+                          >
+                          <span
+                            class="pointer-events-none flex items-center pr-2"
+                          >
+                            <ChevronUpDownIcon
+                              class="h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </ListboxButton>
+                      </div>
+
+                      <transition
+                        leave-active-class="transition ease-in duration-100"
+                        leave-from-class="opacity-100"
+                        leave-to-class="opacity-0"
+                      >
+                        <ListboxOptions
+                          class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-zinc-800/80 backdrop-blur py-1 text-base shadow-lg ring-1 ring-zinc-700 ring-opacity-5 focus:outline-none sm:text-sm"
+                        >
+                          <ListboxOption
+                            as="template"
+                            v-for="[id, name] in Object.entries(
+                              pluginPrettyNames
+                            )"
+                            :value="id"
+                            v-slot="{ active, selected }"
+                          >
+                            <li
+                              :class="[
+                                active
+                                  ? 'bg-orange-600 text-white'
+                                  : 'text-zinc-200',
+                                'relative cursor-default select-none py-2 pl-3 pr-9',
+                              ]"
+                            >
+                              <span
+                                :class="[
+                                  selected ? 'font-bold' : 'font-normal',
+                                  'block truncate',
+                                ]"
+                                >{{ name }}</span
+                              >
+
+                              <span
+                                v-if="selected"
+                                :class="[
+                                  active ? 'text-white' : 'text-orange-600',
+                                  'absolute inset-y-0 right-0 flex items-center pr-4',
+                                ]"
+                              >
+                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                              </span>
+                            </li>
+                          </ListboxOption>
+                        </ListboxOptions>
+                      </transition>
+                    </div>
+                  </Listbox>
+                  <div v-if="pluginType === 'script'" class="mt-2">
                     <div>
                       <label
                         for="name"
@@ -88,7 +159,7 @@
                       >
                       <div class="mt-2">
                         <input
-                          v-model="shadowFilename"
+                          v-model="pluginFilename"
                           type="text"
                           name="name"
                           id="name"
@@ -96,26 +167,106 @@
                         />
                       </div>
                     </div>
-                  </div>
-                  <div
-                    v-if="existingKeys.includes(shadowFilename)"
-                    class="rounded-md bg-red-600/20 p-4 mt-4"
-                  >
-                    <div class="flex">
-                      <div class="flex-shrink-0">
-                        <XCircleIcon
-                          class="h-5 w-5 text-red-500"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div class="ml-3">
-                        <h3 class="text-sm font-medium text-red-500">
-                          Creating this plugin will overwrite the plugin for
-                          this shadow file.
-                        </h3>
+                    <div
+                      v-if="existingKeys.includes(pluginFilename)"
+                      class="rounded-md bg-red-600/20 p-4 mt-4"
+                    >
+                      <div class="flex">
+                        <div class="flex-shrink-0">
+                          <XCircleIcon
+                            class="h-5 w-5 text-red-500"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <div class="ml-3">
+                          <h3 class="text-sm font-medium text-red-500">
+                            Creating this plugin will overwrite the existing
+                            plugin with the same name.
+                          </h3>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <Listbox
+                    v-else-if="pluginType === 'generator'"
+                    class="mt-2"
+                    as="div"
+                    v-model="pluginFilename"
+                  >
+                    <ListboxLabel
+                      class="block text-sm font-medium leading-6 text-zinc-100"
+                      >Generator Type</ListboxLabel
+                    >
+                    <div class="relative mt-2">
+                      <div
+                        class="relative inline-flex overflow-hidden w-full cursor-default rounded-md bg-zinc-800/40 text-left text-zinc-200 shadow-sm ring-1 ring-inset ring-zinc-700 focus:outline-none focus:ring-2 focus:ring-orange-600 sm:text-sm sm:leading-6"
+                      >
+                        <ListboxButton
+                          class="py-1.5 pl-3 inline-flex justify-between grow"
+                        >
+                          <span
+                            :class="[
+                              pluginType ? '' : 'text-zinc-400',
+                              'block truncate',
+                            ]"
+                            >{{ pluginFilename || "No value selected." }}</span
+                          >
+                          <span
+                            class="pointer-events-none flex items-center pr-2"
+                          >
+                            <ChevronUpDownIcon
+                              class="h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </ListboxButton>
+                      </div>
+
+                      <transition
+                        leave-active-class="transition ease-in duration-100"
+                        leave-from-class="opacity-100"
+                        leave-to-class="opacity-0"
+                      >
+                        <ListboxOptions
+                          class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-zinc-800/80 backdrop-blur py-1 text-base shadow-lg ring-1 ring-zinc-700 ring-opacity-5 focus:outline-none sm:text-sm"
+                        >
+                          <ListboxOption
+                            as="template"
+                            v-for="[url, schema] in validSchemas"
+                            :value="schema?.exportDir"
+                            v-slot="{ active, selected }"
+                          >
+                            <li
+                              :class="[
+                                active
+                                  ? 'bg-orange-600 text-white'
+                                  : 'text-zinc-200',
+                                'relative cursor-default select-none py-2 pl-3 pr-9',
+                              ]"
+                            >
+                              <span
+                                :class="[
+                                  selected ? 'font-bold' : 'font-normal',
+                                  'block truncate',
+                                ]"
+                                >{{ schema?.title }}</span
+                              >
+
+                              <span
+                                v-if="selected"
+                                :class="[
+                                  active ? 'text-white' : 'text-orange-600',
+                                  'absolute inset-y-0 right-0 flex items-center pr-4',
+                                ]"
+                              >
+                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                              </span>
+                            </li>
+                          </ListboxOption>
+                        </ListboxOptions>
+                      </transition>
+                    </div>
+                  </Listbox>
                 </div>
                 <div
                   class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
@@ -152,7 +303,18 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { FolderPlusIcon, PuzzlePieceIcon } from "@heroicons/vue/24/outline";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxLabel,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/vue";
+import {
+  ChevronUpDownIcon,
+  FolderPlusIcon,
+  PuzzlePieceIcon,
+} from "@heroicons/vue/24/outline";
 import {
   PluginType,
   type FullyLoadedProject,
@@ -160,8 +322,10 @@ import {
 } from "~/scripts/project";
 import { VersionController } from "~/scripts/versionController";
 import { randomUUID } from "~/scripts/utils/randomNumber";
-import { startingCode } from "~/scripts/plugin/strings";
+import { pluginPrettyNames, startingCode } from "~/scripts/plugins/strings";
 import { XCircleIcon } from "@heroicons/vue/20/solid";
+import type { Schema } from "~/scripts/schemas";
+import plugin from "@tailwindcss/forms";
 
 const props = defineProps(["modelValue"]);
 const emits = defineEmits(["update:modelValue"]);
@@ -170,6 +334,8 @@ const router = useRouter();
 const route = useRoute();
 
 const project: Ref<FullyLoadedProject> = useState("project");
+const schemas: Ref<{ [key: string]: Schema | null }> = useState("schemas");
+const validSchemas = Object.entries(schemas.value).filter((e) => e[1] != null);
 
 const open = computed({
   get() {
@@ -180,7 +346,7 @@ const open = computed({
   },
 });
 const pluginName = ref("");
-const shadowFilename = ref("");
+const pluginFilename = ref("");
 const pluginType = ref<PluginType>(PluginType.Script);
 
 const nameMap: { [key: string]: string } = {
@@ -188,7 +354,9 @@ const nameMap: { [key: string]: string } = {
   [PluginType.Generator]: "Generator Type",
 };
 
-const existingKeys = Object.keys(project.value.plugins);
+const existingKeys = Object.entries(project.value.plugins)
+  .filter((e) => e[1].type === "script")
+  .map((e) => e[1].filename);
 
 function createPlugin() {
   if (!project.value) return;
@@ -196,10 +364,19 @@ function createPlugin() {
     id: randomUUID(),
     type: pluginType.value,
     name: pluginName.value,
-    filename: shadowFilename.value,
+    filename: pluginFilename.value,
     code: startingCode,
   };
-  project.value.plugins[plugin.filename] = plugin;
+  if (plugin.type === "script") {
+    // THERE CAN ONLY BE ONE
+    const existing = Object.entries(project.value.plugins).find(
+      (e) => e[1].filename === plugin.filename
+    );
+    if (existing) {
+      delete project.value.plugins[existing[0]];
+    }
+  }
+  project.value.plugins[plugin.id] = plugin;
   router.push({
     name: "projects-projectid-plugins-editor-id",
     params: Object.assign({}, route.params, { id: plugin.id }),

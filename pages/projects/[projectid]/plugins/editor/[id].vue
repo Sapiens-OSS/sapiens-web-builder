@@ -1,26 +1,56 @@
 <template>
   <div class="flex flex-col w-full">
-    <div class="w-full flex flex-row items-center px-2 py-1">
-      <NuxtLink
-        href="../."
-        class="transition text-gray-400 p-2 rounded-lg hover:bg-gray-600 hover:text-gray-100"
-        ><ArrowLeftIcon class="w-5 h-5"
-      /></NuxtLink>
-
-      <div class="ml-4 flex items-center gap-x-2">
-        <PuzzlePieceIcon class="text-zinc-300 w-5 h-5" />
-        <div class="flex flex-col">
-          <p class="text-zinc-300 font-mono">{{ plugin.name }}</p>
-          <p class="text-xs text-zinc-400 -mt-2">{{ plugin.type }}</p>
-        </div>
-        <p class="text-sm text-zinc-400 mt-1">({{ plugin.filename }})</p>
-      </div>
+    <div class="w-full flex flex-row items-center justify-between px-4 py-3">
+      <nav class="flex" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-1">
+          <li>
+            <div>
+              <NuxtLink href="../." class="text-gray-400 hover:text-gray-500">
+                <PuzzlePieceIcon
+                  class="h-5 w-5 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span class="sr-only">Home</span>
+              </NuxtLink>
+            </div>
+          </li>
+          <li
+            v-for="page in [
+              pluginPrettyNames[plugin.type],
+              plugin.filename,
+              plugin.name,
+            ]"
+            :key="page"
+          >
+            <div class="flex items-center">
+              <svg
+                class="h-5 w-5 flex-shrink-0 text-zinc-600"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+              </svg>
+              <p class="ml-1 text-sm font-medium text-zinc-400">
+                {{ page }}
+              </p>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <button
+        @click="() => deleteMe()"
+        type="button"
+        class="transition inline-flex items-center gap-x-1.5 rounded-md ring-1 ring-red-600 text-red-600 px-1.5 py-1.5 text-sm font-semibold shadow-sm hover:bg-red-600/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
+        <TrashIcon class="h-5 w-5" aria-hidden="true" />
+      </button>
     </div>
     <MonacoEditor
-      class="hidden sm:flex bg-transparent grow h-screen z-[0] py-2"
+      class="code-editor hidden sm:flex bg-transparent grow h-screen z-[0] py-2"
       lang="typescript"
       v-model="value"
-      :options="{ theme: 'vs-dark' }"
+      :options="{ theme: 'swb' }"
     />
     <div class="block sm:hidden my-12 lg:place-self-center mx-auto w-11/12">
       <h1
@@ -36,20 +66,33 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowLeftIcon, PuzzlePieceIcon } from "@heroicons/vue/24/outline";
+import {
+  ArrowLeftIcon,
+  PuzzlePieceIcon,
+  TrashIcon,
+} from "@heroicons/vue/24/outline";
 import * as monaco from "monaco-editor";
-import { compileJavascript } from "~/scripts/plugin/compile";
+import { compileJavascript } from "~/scripts/plugins/compile";
 
-import { imports } from "~/scripts/plugin/strings";
+import { imports, pluginPrettyNames } from "~/scripts/plugins/strings";
 monaco.languages.typescript.typescriptDefaults.addExtraLib(
   imports,
   "index.d.ts"
 );
+monaco.editor.defineTheme("swb", {
+  base: "vs-dark",
+  inherit: true,
+  colors: {
+    "editor.background": "#18181b",
+  },
+  rules: [],
+});
 
 import type { FullyLoadedProject } from "~/scripts/project";
 const value = ref("");
 
 const route = useRoute();
+const router = useRouter();
 const pluginId = route.params.id.toString();
 
 const project = useState<FullyLoadedProject>("project");
@@ -78,4 +121,9 @@ document.addEventListener("keydown", function (event) {
     project.value.projectSource.saveProject(project.value);
   }
 });
+
+function deleteMe() {
+  delete project.value.plugins[plugin.value.id];
+  router.push("../.");
+}
 </script>
