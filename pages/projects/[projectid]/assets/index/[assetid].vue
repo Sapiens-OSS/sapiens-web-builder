@@ -67,26 +67,19 @@
       </form>
       <div class="grow">
         <div
-          class="w-full flex flex-col border border-zinc-800 rounded-xl overflow-hidden"
-          v-if="asset.data.type.startsWith('image')"
+          class="p-4 w-full flex flex-col border border-zinc-800 rounded-xl overflow-hidden"
         >
-          <img class="w-full rounded-xl" :src="objectUrl" />
+          <img
+            v-if="asset.data.type.startsWith('image')"
+            class="w-full rounded-xl"
+            :src="objectUrl"
+          />
+          <p v-else class="text-zinc-300 text-center">
+            No preview available for {{ asset.data.type }}.
+          </p>
           <button
             @click="() => saveAs(asset.data, asset.filename)"
             class="my-1 mx-auto inline-flex items-center text-sm text-zinc-400 flex flex-row gap-x-1 w-min"
-          >
-            <ArrowDownTrayIcon class="w-4 h-4" />
-            Download
-          </button>
-        </div>
-        <div
-          v-else
-          class="w-full flex flex-col justify-center text-center border border-zinc-800 p-8 rounded-xl flex justify-center"
-        >
-          <p class="text-zinc-300">No preview available.</p>
-          <button
-            @click="() => saveAs(asset.data, asset.filename)"
-            class="my-2 mx-auto inline-flex items-center text-sm text-zinc-400 flex flex-row gap-x-1 w-min"
           >
             <ArrowDownTrayIcon class="w-4 h-4" />
             Download

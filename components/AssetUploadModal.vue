@@ -56,7 +56,9 @@
                     <input
                       v-on:change="onSelect"
                       ref="fileOpener"
-                      accept="image/*,audio/*,.glb"
+                      :accept="
+                        type === AssetType.Model ? 'image/*,audio/*,.glb' : ''
+                      "
                       class="absolute -top-full"
                       type="file"
                       id="file-input"
