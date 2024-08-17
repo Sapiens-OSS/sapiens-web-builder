@@ -23,12 +23,25 @@
               >
                 Export project
               </button>
-              <NuxtLink
-                href="#"
-                class="text-sm font-semibold leading-6 text-zinc-100"
-                >Documentation <span aria-hidden="true">→</span></NuxtLink
-              >
             </div>
+            <dl
+              class="mt-10 max-w-xl text-base leading-7 text-zinc-400 lg:max-w-none"
+            >
+              <h1>Your mod requires:</h1>
+              <div
+                v-for="requirement in requirements"
+                :key="requirement"
+                class="relative pl-9 mt-4"
+              >
+                <dt class="inline font-semibold text-zinc-200">
+                  <MinusIcon
+                    class="absolute left-1 top-1 h-5 w-5 text-orange-600"
+                    aria-hidden="true"
+                  />
+                  {{ requirement }}
+                </dt>
+              </div>
+            </dl>
           </div>
         </div>
       </div>
@@ -63,7 +76,7 @@
                         v-for="file in preExport[1]"
                         class="border-r border-gray-600/10 px-4 py-2"
                       >
-                        {{ file.id }}.json
+                        {{ file }}
                       </div>
                     </div>
                   </div>
@@ -90,14 +103,16 @@ import { Exporter } from "~/scripts/exporter/exporter";
 import type { VersionController } from "~/scripts/versionController";
 import type { Schema } from "~/scripts/schemas";
 import FileSaver from "file-saver";
+import { MinusIcon } from "@heroicons/vue/24/outline";
 
 const project: Ref<FullyLoadedProject> = useState("project");
-const versionController = useState<VersionController>("vc");
+const versionController = await waitFor(useState<VersionController>("vc"));
 const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");
 
 const exporter: Exporter = new Exporter(project, versionController, schemas);
 
 const preExport = computed(() => exporter.exportGraphics() as [string, File[]]);
+const requirements = computed(() => exporter.requirements());
 
 async function exportMod() {
   FileSaver.saveAs(

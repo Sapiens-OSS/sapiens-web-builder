@@ -61,12 +61,8 @@
                 faq.question
               }}</span>
               <span class="ml-6 flex h-7 items-center">
-                <PlusSmallIcon
-                  v-if="!open"
-                  class="h-6 w-6"
-                  aria-hidden="true"
-                />
-                <MinusSmallIcon v-else class="h-6 w-6" aria-hidden="true" />
+                <PlusIcon v-if="!open" class="h-6 w-6" aria-hidden="true" />
+                <MinusIcon v-else class="h-6 w-6" aria-hidden="true" />
               </span>
             </DisclosureButton>
           </dt>
@@ -81,7 +77,7 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import { CheckIcon } from "@heroicons/vue/24/outline";
+import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/vue/24/outline";
 const features = [
   {
     name: "Completely browser-based",
@@ -115,17 +111,11 @@ const faqs: Array<{ question: string; answer: string }> = [
     question:
       "Do I have to credit Sapiens Web Builder or Sapiens Modding Community?",
     answer:
-      "No! Whatever mods you create using this tool don't require attribution (but we would appreciate it). However, any mod developer that looks into your mod's files could probably tell. Additionally, your mod depends on the Hammerstone Framework.",
-  },
-  {
-    question:
-      "How do I add extra functionality to my mods (something Sapiens Web Builder doesn't support)?",
-    answer:
-      "You can always extend the functionality of your mods with actual code, but the Sapiens Web Builder doesn't have a convenient way of doing that. To learn more about modding Sapiens in general, you can join our Discord and look at our wiki.",
+      "No! Whatever mods you create using this tool don't require attribution (but we would appreciate it). However, any mod developer that looks into your mod's files could probably tell. Additionally, your mod depends on the Hammerstone Framework, and the Sapiens JavaScript Runtime if you chose to use plugins.",
   },
 ];
 
 useHead({
-  title: "About"
-})
+  title: "About",
+});
 </script>

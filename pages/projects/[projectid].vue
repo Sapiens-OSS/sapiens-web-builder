@@ -377,7 +377,6 @@ const projectLoader = partialProject.value.projectSource.loadProject(
 const project = useState<FullyLoadedProject | null>("project", () => null);
 project.value = null;
 const versionController = useState<VersionController | null>("vc", () => null);
-versionController.value = null;
 const assets = useState<Asset[] | undefined>("assets", () => undefined);
 
 projectLoader.catch((e) => {

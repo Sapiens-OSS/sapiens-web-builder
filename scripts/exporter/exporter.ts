@@ -42,8 +42,22 @@ return modInfo`.trim();
   exportGraphics() {
     return [
       this.modinfo(this.vc.value.ephemeralApply()),
-      Object.values(this.project.value.files).flat(),
+      Object.values(this.project.value.files)
+        .flat()
+        .map((e) => `${e.id}.json`),
+      Object.values(this.project.value.plugins).map((e) => e.filename),
     ];
+  }
+
+  requirements() {
+    const hammerstoneRequired =
+      Object.values(this.project.value.files).flat().length > 0;
+    const runtimeRequired = Object.keys(this.project.value.plugins).length > 0;
+
+    const requirements = [];
+    if (hammerstoneRequired) requirements.push("Hammerstone Framework");
+    if (runtimeRequired) requirements.push("Sapiens Javascript Runtime");
+    return requirements;
   }
 
   private recursiveTransformData<T>(
