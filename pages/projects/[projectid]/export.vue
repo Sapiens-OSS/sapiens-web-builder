@@ -111,7 +111,7 @@ const schemas: Ref<{ [key: string]: Schema }> = useState("schemas");
 
 const exporter: Exporter = new Exporter(project, versionController, schemas);
 
-const preExport = computed(() => exporter.exportGraphics() as [string, File[]]);
+const preExport = computed(() => exporter.exportGraphics());
 const requirements = computed(() => exporter.requirements());
 
 async function exportMod() {
