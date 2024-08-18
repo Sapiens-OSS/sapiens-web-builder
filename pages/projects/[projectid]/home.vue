@@ -266,8 +266,22 @@ const schemaValidation = computed(() =>
 
 const importSchemaUrl = ref();
 
-function importSchema() {
+async function importSchema() {
+  if (!importSchemaUrl.value) {
+    importSchemaUrl.value = "";
+    return;
+  }
   if (project.value.schemas.includes(importSchemaUrl.value)) {
+    importSchemaUrl.value = "";
+    return;
+  }
+  const schema = await $fetch(importSchemaUrl.value);
+  if (typeof schema !== "object") {
+    importSchemaUrl.value = "";
+    return;
+  }
+  const schemaResults = validateSchema(schema);
+  if (schemaResults[1] == 0) {
     importSchemaUrl.value = "";
     return;
   }
